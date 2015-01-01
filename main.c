@@ -68,9 +68,8 @@ void print_leaf(NODE *tree, int level)
 char* get_leaf(NODE *tree)
 {
     TOKEN *t = (TOKEN *)tree;
-    if (t->type == CONSTANT) printf("%d\n", t->value);
-    else if (t->type == STRING_LITERAL) printf("\"%s\"\n", t->lexeme);
-    else if (t) puts(t->lexeme);
+    if (t->type == CONSTANT) return t->value;
+    else if (t->type == STRING_LITERAL) return t->lexeme;
 }
 
 int get_int_from_leaf( NODE *tree )
