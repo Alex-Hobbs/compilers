@@ -144,7 +144,7 @@ ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
           break;
 
         case '+':
-          if( tree->left->left != NULL )
+          if( tree->left->left->type == APPLY )
           {
                 process_apply( frame, tree->left->left );
                 right_variable_name = get_leaf( tree->left->right->left );
