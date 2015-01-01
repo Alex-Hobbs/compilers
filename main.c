@@ -165,7 +165,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
 
     // Rewrite our bindings
     frame->bindings = bindings;
-    frame = process_return( frame, body );
+    frame = (ENVIRONMENT_FRAME*)process_return( frame, body );
 }
 
 ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
