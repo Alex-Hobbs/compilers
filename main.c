@@ -142,13 +142,14 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
             case '+':
                 left_variable_name = get_leaf( tree->right->right->left->left );
                 right_variable_name = get_leaf( tree->right->right->right->left );
-                variable_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) );
+                variable_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) +
+                                 get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
                 break;
         }
     }
 
-    TOKEN* value = new_token( INT );
-    value->lexeme = variable_value;
+    TOKEN* value = new_token( CONSTANT );
+    value->value = variable_value;
 
     ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, variable_name, value );
     previous_node = new_variable;
