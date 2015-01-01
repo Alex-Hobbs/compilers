@@ -81,7 +81,7 @@ void print_leaf(NODE *tree, int level)
 {
     TOKEN *t = (TOKEN *)tree;
     int i;
-    for (i=0; i<level; i++) putchar(' ');
+    for (i=0; i<level; i++) putchar('  ');
     if (t->type == CONSTANT) printf("%d\n", t->value);
     else if (t->type == STRING_LITERAL) printf("\"%s\"\n", t->lexeme);
     else if (t) puts(t->lexeme);
@@ -95,7 +95,7 @@ void print_tree0(NODE *tree, int level)
       print_leaf(tree->left, level);
     }
     else {
-      for(i=0; i<level; i++) putchar(' ');
+      for(i=0; i<level; i++) putchar('  ');
       printf("%s\n", named(tree->type));
 /*       if (tree->type=='~') { */
 /*         for(i=0; i<level+2; i++) putchar(' '); */
@@ -117,6 +117,34 @@ ENVIRONMENT_FRAME* setup_new_environment( ENVIRONMENT_FRAME *neighbour )
     ENVIRONMENT_FRAME *base = (ENVIRONMENT_FRAME*)malloc( sizeof( ENVIRONMENT_FRAME ) );
     base->next = neighbour;
     return base;
+}
+
+ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NDOE *tree )
+{
+    int left_variable_name;
+    int right_variable_name;
+    int program_value;
+
+    switch( tree->left->type )
+    {
+        case APPLY:
+          // to do;
+          break;
+
+        case '+':
+                left_variable_name = get_leaf( tree->left->left->left );
+                right_variable_name = get_leaf( tree->left->right->left );
+                program_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) +
+                                 get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
+    }
+
+    if( strcmp( frame->name, "main" ) )
+    {
+        printf( "%d\n", program_value );
+        exit(1);
+    }
+
+    return frame;
 }
 
 void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
@@ -145,6 +173,14 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
                 variable_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) +
                                  get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
                 break;
+            
+            case '-':
+                left_variable_name = get_leaf( tree->right->right->left->left );
+                right_variable_name = get_leaf( tree->right->right->right->left );
+                variable_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) -
+                                 get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
+                break;
+
         }
     }
 
@@ -206,7 +242,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 return current_frame;
             
             case RETURN:
-                //return process_return()
+                return process_return( current_frame, tree );
 
             default:
               printf( "Found nothing, looked for %c\n", tree->type );
