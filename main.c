@@ -124,16 +124,18 @@ ENVIRONMENT_FRAME* process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     if ( tree->right->type != '=' ) return frame;
 
     char *variable_name =  get_leaf( tree->right->left->left );
+    int variable_value = 0;
 
     if ( isdigit( get_leaf( tree->right->right->left ) ) )
     {
-        int variable_value  =  get_int_from_leaf( tree->right->right->left );
+        variable_value  =  get_int_from_leaf( tree->right->right->left );
     }
     else
     {
-        int variable_value = 0;
-
-        switch( tree->right->right )
+        char* left_variable_name;
+        char* right_variable_name;
+        
+        switch( tree->right->right->type )
         {
             case '+':
                 left_variable_name = get_leaf( tree->right->right->left->left );
@@ -141,10 +143,6 @@ ENVIRONMENT_FRAME* process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
                 printf( "%s + %s\n", left_variable_name, right_variable_name );
 
             case '-':
-
-            case '/':
-
-            case '*':
         }
     }
 
