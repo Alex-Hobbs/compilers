@@ -139,6 +139,7 @@ printf( "function name %s\n", function_name );
         else
         {
             printf( "%s\n", get_leaf( parameters ) );
+            parameters = parameters->right;
         }
     }
 }
