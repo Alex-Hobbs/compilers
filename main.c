@@ -3,7 +3,7 @@
 #include "nodes.h"
 #include "C.tab.h"
 #include <string.h>
-#include <environment.h>
+#include "environment.h"
 
 char *named(int t)
 {
