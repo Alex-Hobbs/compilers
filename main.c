@@ -120,6 +120,15 @@ ENVIRONMENT_FRAME* setup_new_environment( ENVIRONMENT_FRAME *neighbour )
     return base;
 }
 
+ENVIRONMENT_FRAME* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree )
+{
+    if ( tree == NULL ) return frame;
+    if ( tree->left->type != LEAF ) return frame;
+
+    int value = get_int_from_leaf( tree->right->right->left );
+    printf( "%d\n", value );
+}
+
 ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
 {
     char *function_name = get_leaf( tree->left->left );
@@ -129,19 +138,7 @@ printf( "function name %s\n", function_name );
 
     // Start of the search/replace at beginning of function variables
     NODE *parameters    = tree->right;
-
-    while ( parameters != NULL )
-    {
-        if ( parameters->type != LEAF )
-        {
-            parameters = parameters->left;
-        }
-        else
-        {
-            printf( "%s\n", get_leaf( parameters->left ) );
-            parameters = parameters->right;
-        }
-    }
+    frame = process_apply_params( frame, parameters );
 }
 
 ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
