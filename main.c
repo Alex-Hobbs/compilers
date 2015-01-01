@@ -181,6 +181,13 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
                 variable_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) -
                                  get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
                 break;
+            
+            case '/':
+                left_variable_name = get_leaf( tree->right->right->left->left );
+                right_variable_name = get_leaf( tree->right->right->right->left );
+                variable_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) /
+                                 get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
+                break;
 
         }
     }
@@ -206,7 +213,7 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
     // Function parameters
     if ( function_parameters->right != NULL )
     {
-
+        process_variables( frame, function_parameters );
     }
 
     return frame;
@@ -233,6 +240,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             // Entered a new function
             case 'D':
                 new_frame = extend_environment( current_frame, NULL );
+                previous_node = NULL;
                 new_frame = parse_environment( new_frame, tree->left );
                 new_frame = parse_environment( new_frame, tree->right );
                 return new_frame;
