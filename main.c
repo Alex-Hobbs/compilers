@@ -199,14 +199,13 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     previous_node = new_variable;
 }
 
-void process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )
+ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )
 {
     if ( parameters == NULL ) return frame;
     
     if ( parameters->left->type == ',' )
     {
-        printf( "comma found" );
-        process_parameters( frame, parameters->left );
+        return process_parameters( frame, parameters->left );
     }
     else if ( parameters->left->type == '~' )
     {
@@ -218,6 +217,10 @@ void process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )
         ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, param_name, value );
         previous_node = new_variable;
     }
+
+    frame = process_parameters( frame, tree->left );
+    frame = process_parameters( frame, tree->right );
+    return frame;
 }
 
 ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type, NODE *function_parameters )
@@ -234,7 +237,7 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
     // Function parameters
     if ( function_parameters->right != NULL )
     {
-        process_parameters( frame, function_parameters->right );
+        frame = process_parameters( frame, function_parameters->right );
     }
 
     return frame;
