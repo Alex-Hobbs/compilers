@@ -147,7 +147,10 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
         }
     }
 
-    ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, variable_name, new_token( variable_value ) );
+    TOKEN* value = new_token( INT );
+    value->lexeme = variable_value;
+
+    ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, variable_name, value );
     previous_node = new_variable;
 }
 

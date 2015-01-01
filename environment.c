@@ -69,7 +69,7 @@ ENVIRONMENT_BINDING* define_variable_with_value(
 	binding->value = value;
 	binding->next  = base_binding;
 
-	printf( "Variable %s added with value %d\n", variable_name, value->value );
+	printf( "Variable %s added with value %d\n", variable_name, value->lexeme );
 
 	return binding;
 }
