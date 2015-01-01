@@ -128,7 +128,19 @@ printf( "function name %s\n", function_name );
     NODE *body          = get_body_of_function( frame, function_name );
 
     // Start of the search/replace at beginning of function variables
-    print_tree0( tree, 2 );
+    NODE *parameters    = tree->right;
+
+    while ( parameters != NULL )
+    {
+        if ( parameters->type != LEAF )
+        {
+            parameters = parameters->left;
+        }
+        else
+        {
+            printf( "%s\n", get_leaf( parameters ) );
+        }
+    }
 }
 
 ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
