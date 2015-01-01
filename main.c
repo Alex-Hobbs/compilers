@@ -198,8 +198,8 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             // Found a list of variables
             case '~':
                 process_variables( current_frame, tree );
-                frame = add_bindings_to_environment( frame, previous_node );
-                return frame;
+                current_frame = add_bindings_to_environment( current_frame, previous_node );
+                return current_frame;
             
             case RETURN:
                 //return process_return()
