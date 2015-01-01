@@ -126,9 +126,9 @@ ENVIRONMENT_FRAME* process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
 
 ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type, NODE *function_parameters )
 {
-    char* return_type_as_char = get_leaf( return_type ); // should return 'int' or 'function'
-    char* function_name = get_leaf( function_parameters->left ); // should return function name e.g. main.
-    printf( "Test %s\n", return_type_as_char );
+    char* return_type_as_char = get_leaf( return_type->left ); // should return 'int' or 'function'
+    char* function_name = get_leaf( function_parameters->left->left ); // should return function name e.g. main.
+
         frame = update_environment_with_metadata( frame, function_name, return_type_as_char );
 
     // Function parameters
