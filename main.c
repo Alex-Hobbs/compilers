@@ -6,6 +6,7 @@
 #include "environment.h"
 
 ENVIRONMENT_BINDING *previous_node = NULL;
+char* main_method = NULL;
 
 char *named(int t)
 {
@@ -138,7 +139,7 @@ ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
                                  get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
     }
 
-    if( strcmp( frame->name, "main" ) == 0 )
+    if( strcmp( frame->name, main_method ) == 0 )
     {
         printf( "%d\n", program_value );
         exit(1);
@@ -195,6 +196,10 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
 {
     char* return_type_as_char = get_leaf( return_type->left ); // should return 'int' or 'function'
     char* function_name = get_leaf( function_parameters->left->left ); // should return function name e.g. main.
+
+    // Main method 'hack'
+    if ( main_method == NULL )
+      main_method = function_name;
 
     frame = update_environment_with_metadata( frame, function_name, return_type_as_char );
 
