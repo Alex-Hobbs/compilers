@@ -207,7 +207,9 @@ ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameter
     
     if ( parameters->left->type == ',' )
     {
-        return process_parameters( frame, parameters->left );
+        frame = process_parameters( frame, parameters->left );
+        frame = process_parameters( frame, parameters->right );
+        return frame;
     }
     else if ( parameters->left->type == '~' )
     {
