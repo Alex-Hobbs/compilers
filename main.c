@@ -160,7 +160,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
     tmpEnv->name        = function_name; 
 
     ENVIRONMENT_BINDING *bindings = frame->bindings;
-    ENVIRONMENT_BINDING *newBindings = (ENVIRONMENT_BINDING*)malloc( sizeof( ENVIRONMENT_BINDING ) );
+    ENVIRONMENT_BINDING *firstBinding = &bindings;
 
     while( values != NULL )
     {
@@ -168,22 +168,14 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
         newValue->value = values->value;
         bindings->value = newValue;
 
-        if( newBindings == NULL )
-        {
-            newBindings = bindings;
-        }
-        else
-        {
-            newBindings->next = bindings;
-            newBindings = newBindings->next;
-        }
-
         bindings = bindings->next;
         values = values->next;
+
+        newBindings 
     }
 
     // Rewrite our bindings
-    tmpEnv->bindings = newBindings;
+    tmpEnv->bindings = firstBindings;
     int returnValue = process_return( tmpEnv, body );
 }
 
