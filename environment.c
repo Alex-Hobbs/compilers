@@ -15,7 +15,7 @@ TOKEN* lookup_variable( ENVIRONMENT_BINDING* node, char* variable_name )
 	if( node == NULL )
 		return NULL;
 
-	if ( node->name != variable_name )
+	if ( strcmp( node->name, variable_name ) != 0 )
 		return lookup_variable( node->next, variable_name );
 
 	return node->value;
