@@ -131,7 +131,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
 
     if (tree->type == LEAF)
     {
-
+        return current_frame;
     }
     else
     {
