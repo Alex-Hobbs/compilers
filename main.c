@@ -172,6 +172,8 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
         values = values->next;
     }
 
+    printf( "%s = %d\n", firstBinding->name, get_int_from_token( firstBinding->value ) );
+
     // Rewrite our bindings
     tmpEnv->bindings = firstBinding;
     int returnValue = process_return( tmpEnv, body );
