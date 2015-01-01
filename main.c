@@ -140,7 +140,7 @@ ENVIRONMENT_FRAME* process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
             case '+':
                 left_variable_name = get_leaf( tree->right->right->left->left );
                 right_variable_name = get_leaf( tree->right->right->right->left );
-                printf( "%s + %s\n", left_variable_name, right_variable_name );
+                variable_value = get_int_from_token( get_value_from_variable( frame->bindings, left_variable_name ) );
                 break;
         }
     }
