@@ -166,12 +166,18 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
     {
         TOKEN *newValue = new_token( CONSTANT );
         newValue->value = values->value;
-
         bindings->value = newValue;
 
-        newBindings->next = bindings;
+        if( newBindings == NULL )
+        {
+            newBindings = bindings;
+        }
+        else
+        {
+            newBindings->next = bindings;
+        }
+
         bindings = bindings->next;
-        
         values = values->next;
     }
 
