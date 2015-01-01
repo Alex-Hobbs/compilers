@@ -17,7 +17,7 @@ typedef struct env_frame
 	struct env_frame			*next;
 } ENVIRONMENT_FRAME;
 
-TOKEN* get_value_from_variable(ENVIRONMENT_BINDING*, char*);
+TOKEN* lookup_variable(ENVIRONMENT_BINDING*, char*);
 ENVIRONMENT_FRAME* extend_environment( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING* );
 ENVIRONMENT_BINDING* define_variable_with_value( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING*, char*, TOKEN* );
 ENVIRONMENT_BINDING* update_variable_with_value( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING*, char*, TOKEN* );

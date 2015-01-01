@@ -15,16 +15,10 @@ TOKEN* lookup_variable( ENVIRONMENT_BINDING* node, char* variable_name )
 		return NULL;
 
 	if ( node->name != variable_name )
-		return get_value_from_variable( node->next, variable_name );
+		return lookup_variable( node->next, variable_name );
 
 	return node->value;
 }
-
-TOKEN* get_value_from_variable( ENVIRONMENT_BINDING* node, char* variable_name )
-{
-	return NULL;
-}
-
 
 /**
  * Extend an environment.
