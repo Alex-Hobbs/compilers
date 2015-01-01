@@ -119,7 +119,7 @@ ENVIRONMENT_FRAME* setup_new_environment( ENVIRONMENT_FRAME *neighbour )
     return base;
 }
 
-ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NDOE *tree )
+ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
 {
     int left_variable_name;
     int right_variable_name;
