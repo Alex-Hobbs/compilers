@@ -201,7 +201,7 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
 
 ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )
 {
-    if ( parameters == NULL ) return frame;
+    if ( parameters->left == NULL ) return frame;
     
     if ( parameters->left->type == ',' )
     {
@@ -282,7 +282,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 return process_return( current_frame, tree );
 
             default:
-              printf( "Found nothing, looked for %c\n", tree->type );
+              //printf( "Found nothing, looked for %c\n", tree->type );
         }
     }
 
