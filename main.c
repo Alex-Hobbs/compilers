@@ -128,12 +128,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
     NODE *body          = get_body_of_function( frame, function_name );
 
     // Start of the search/replace at beginning of function variables
-    NODE *current_node = declaration->right->right;
-
-    while ( current_node != NULL )
-    {
-        print_tree0( current_node, 3 );
-    }
+    print_tree0( tree, 1 );
 }
 
 ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
