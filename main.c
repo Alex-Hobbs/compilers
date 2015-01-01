@@ -205,6 +205,7 @@ void process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )
     
     if ( parameters->left->type == ',' )
     {
+        printf( "comma found" );
         process_parameters( frame, parameters->left );
     }
     else if ( parameters->left->type == '~' )
