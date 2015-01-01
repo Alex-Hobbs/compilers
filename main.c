@@ -136,7 +136,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
     else
     {
         char *function_name = NULL;
-        ENVIRONMENT_FRAME *new_frame = (ENVIRONMENT_FRAME*)malloc(sizeof(ENVIRONMENT_FRAME));
+        ENVIRONMENT_FRAME *new_frame = NULL;
 
         switch( tree->type )
         {
@@ -144,7 +144,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             case 'D':
                 new_frame = extend_environment( current_frame, NULL );
                 new_frame = parse_environment( new_frame, tree->left );
-                new_frame = parse_environment( new_frame, tree->right );
+                //new_frame = parse_environment( new_frame, tree->right );
                 return new_frame;
 
             // Found a list of variables
