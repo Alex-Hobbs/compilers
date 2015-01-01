@@ -119,7 +119,7 @@ ENVIRONMENT_FRAME* process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     char *variable_name =  get_leaf( tree->right->left->left );
     int variable_value  =  get_int_from_leaf( tree->right->right->left );
     
-    ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, variable_name, variable_value );
+    ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, NULL, variable_name, variable_value );
     //previous_node = new_variable;
     frame = add_bindings_to_environment( frame, new_variable );
     return frame;
