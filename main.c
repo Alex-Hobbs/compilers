@@ -124,8 +124,30 @@ ENVIRONMENT_FRAME* process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     if ( tree->right->type != '=' ) return frame;
 
     char *variable_name =  get_leaf( tree->right->left->left );
-    int variable_value  =  get_int_from_leaf( tree->right->right->left );
-    
+
+    if ( isdigit( get_leaf( tree->right->right->left ) ) )
+    {
+        int variable_value  =  get_int_from_leaf( tree->right->right->left );
+    }
+    else
+    {
+        int variable_value = 0;
+
+        switch( tree->right->right )
+        {
+            case '+':
+                left_variable_name = get_leaf( tree->right->right->left->left );
+                right_variable_name = get_leaf( tree->right->right->right->left );
+                printf( "%s + %s\n", left_variable_name, right_variable_name );
+
+            case '-':
+
+            case '/':
+
+            case '*':
+        }
+    }
+
     ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, NULL, variable_name, variable_value );
     //previous_node = new_variable;
     frame = add_bindings_to_environment( frame, new_variable );
@@ -181,7 +203,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 return process_variables( current_frame, tree );
             
             case RETURN:
-
+                //return process_return()
 
             default:
               printf( "Found nothing, looked for %c\n", tree->type );
