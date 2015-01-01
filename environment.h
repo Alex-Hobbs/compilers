@@ -16,5 +16,6 @@ typedef struct env_frame
 } ENVIRONMENT_FRAME;
 
 TOKEN* get_value_from_variable(ENVIRONMENT_BINDING*, char*);
+ENVIRONMENT_FRAME* extend_environment( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING* );
 
 #endif
