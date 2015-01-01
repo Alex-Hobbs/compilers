@@ -132,7 +132,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
 
     while ( current_node != NULL )
     {
-        print_tree( current_node, 3 );
+        print_tree0( current_node, 3 );
     }
 }
 
