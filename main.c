@@ -204,6 +204,7 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
 ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )
 {
     if ( parameters->left == NULL ) return frame;
+    if ( parameters->left->type == NULL ) return frame;
     
     if ( parameters->left->type == '~' )
     {
