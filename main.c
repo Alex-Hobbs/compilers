@@ -5,7 +5,7 @@
 #include <string.h>
 #include "environment.h"
 
-ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME*, NODE* );
+int process_return( ENVIRONMENT_FRAME*, NODE* );
 ENVIRONMENT_BINDING *previous_node = NULL;
 char* main_method = NULL;
 
@@ -160,6 +160,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
     tmpEnv->name        = function_name; 
 
     ENVIRONMENT_BINDING *bindings = frame->bindings;
+    ENVIRONMENT_BINDING *newBindings = (ENVIRONMENT_BINDING*)malloc( sizeof( ENVIRONMENT_BINDING ) );
 
     while( values != NULL )
     {
@@ -167,16 +168,19 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
         newValue->value = values->value;
 
         bindings->value = newValue;
+
+        newBindings->next = bindings;
         bindings = bindings->next;
+        
         values = values->next;
     }
 
     // Rewrite our bindings
-    tmpEnv->bindings = bindings;
-    tmpEnv = process_return( tmpEnv, body );
+    tmpEnv->bindings = newBindings;
+    int returnValue = process_return( tmpEnv, body );
 }
 
-ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
+int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
 {
     int left_variable_name;
     int right_variable_name;
@@ -213,7 +217,7 @@ ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
         exit(1);
     }
 
-    return frame;
+    return program_value;
 }
 
 void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
@@ -350,7 +354,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 return current_frame;
             
             case RETURN:
-                return process_return( current_frame, tree );
+                process_return( current_frame, tree );
 
             //default:
               //printf( "Found nothing, looked for %c\n", tree->type );
