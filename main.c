@@ -132,6 +132,8 @@ ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
           // to do;
           break;
 
+          // can just return variables
+
         case '+':
                 left_variable_name = get_leaf( tree->left->left->left );
                 right_variable_name = get_leaf( tree->left->right->left );
@@ -281,7 +283,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             case RETURN:
                 return process_return( current_frame, tree );
 
-            default:
+            //default:
               //printf( "Found nothing, looked for %c\n", tree->type );
         }
     }
