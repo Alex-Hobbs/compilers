@@ -172,7 +172,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             case '~':
                 return process_variables( current_frame, tree );
             
-            case DEFAULT:
+            case RETURN:
 
 
             default:
