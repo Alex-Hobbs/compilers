@@ -170,12 +170,10 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
 
         bindings = bindings->next;
         values = values->next;
-
-        newBindings 
     }
 
     // Rewrite our bindings
-    tmpEnv->bindings = firstBindings;
+    tmpEnv->bindings = firstBinding;
     int returnValue = process_return( tmpEnv, body );
 }
 
