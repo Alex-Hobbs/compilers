@@ -124,13 +124,13 @@ ENVIRONMENT_FRAME* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree )
 {
     if ( tree == NULL ) return frame;
 
-    if ( tree->left->type != LEAF )
+    if ( tree->type != LEAF )
     {
         frame = process_apply_params( frame, tree->left );
         frame = process_apply_params( frame, tree->right );
     }
 
-    int value = get_int_from_leaf( tree->right->right->left );
+    int value = get_int_from_leaf( tree->left );
     printf( "%d\n", value );
 }
 
