@@ -132,7 +132,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
     if (tree->type == LEAF)
     {
         printf( "Found leaf:\n" );
-        print_leaf( tree );
+        print_leaf( tree, 1 );
         printf( "\n" );
         return current_frame;
     }
