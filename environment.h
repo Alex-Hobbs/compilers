@@ -1,6 +1,7 @@
 #ifndef __ENVIRONMENT_H
 #define __ENVIRONMENT_H
 #include "token.h"
+#include "node.h"
 
 typedef struct env_binding
 {
