@@ -143,13 +143,19 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             // Entered a new function
             case 'D':
                 new_frame = extend_environment( current_frame, NULL );
-                return parse_environment( new_frame, tree->right );
+                new_frame = parse_environment( new_frame, tree->left );
+                new_frame = parse_environment( new_frame, tree->right );
+                return new_frame;
 
             // Found a list of variables
             case '~':
                 return process_variables( current_frame, tree );
         }
     }
+
+    current_frame = parse_environment( current_frame, tree->left );
+    current_frame = parse_environment( current_frame, tree->right );
+    return current_frame;
 }
 
 extern int yydebug;
