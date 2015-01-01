@@ -126,7 +126,7 @@ ENVIRONMENT_FRAME* process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     char *variable_name =  get_leaf( tree->right->left->left );
     int variable_value = 0;
 
-    if ( isdigit( get_leaf( tree->right->right->left ) ) )
+    if ( tree->right->right->left == NULL )
     {
         variable_value  =  get_int_from_leaf( tree->right->right->left );
     }
