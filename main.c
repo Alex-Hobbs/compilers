@@ -129,12 +129,12 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
     else
     {
         char *function_name = NULL;
+        ENVIRONMENT_FRAME *new_frame = (ENVIRONMENT_FRAME*)malloc(sizeof(ENVIRONMENT_FRAME));
 
         switch( tree->type )
         {
             // Entered a new function
             case 'D':
-                ENVIRONMENT_FRAME *new_frame = (ENVIRONMENT_FRAME*)malloc(sizeof(ENVIRONMENT_FRAME));
                 new_frame = extend_environment( current_frame, NULL );
                 return parse_environment( new_frame, tree->left );
 
