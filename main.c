@@ -138,7 +138,7 @@ printf( "function name %s\n", function_name );
         }
         else
         {
-            printf( "%s\n", get_leaf( parameters ) );
+            printf( "%s\n", get_leaf( parameters->left ) );
             parameters = parameters->right;
         }
     }
