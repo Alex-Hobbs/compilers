@@ -152,7 +152,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 return process_variables( current_frame, tree );
 
             default:
-              printf( "Found nothing, looked for %s\n", tree->type );
+              printf( "Found nothing, looked for %c\n", tree->type );
         }
     }
 
