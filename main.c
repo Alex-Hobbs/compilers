@@ -65,6 +65,19 @@ void print_leaf(NODE *tree, int level)
     else if (t) puts(t->lexeme);
 }
 
+char* get_leaf(NODE *tree)
+{
+    TOKEN *t = (TOKEN *)tree;
+    if (t->type == CONSTANT) printf("%d\n", t->value);
+    else if (t->type == STRING_LITERAL) printf("\"%s\"\n", t->lexeme);
+    else if (t) puts(t->lexeme);
+}
+
+int get_int_from_leaf( NODE *tree )
+{
+    return 1;
+}
+
 void print_tree0(NODE *tree, int level)
 {
     int i;
@@ -99,23 +112,17 @@ ENVIRONMENT_FRAME* setup_new_environment( ENVIRONMENT_FRAME *neighbour )
 
 ENVIRONMENT_FRAME* process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
 {
-    /**if ( tree == NULL ) return;
-    if ( tree->left->type != LEAF ) return;
-    if ( tree->right->type != '=' ) return;
+    if ( tree == NULL ) return frame;
+    if ( tree->left->type != LEAF ) return frame;
+    if ( tree->right->type != '=' ) return frame;
 
     char *variable_name =  get_leaf( tree->right->left->left );
     int variable_value  =  get_int_from_leaf( tree->right->right->left );
     
-    ENVIRONMENT_NODE_MAPPING *new_node = (ENVIRONMENT_NODE_MAPPING*)malloc(sizeof(ENVIRONMENT_NODE_MAPPING));
-
-    if ( new_node == NULL )
-      exit(0);
-
-    new_node->value     = new_token( variable_value );
-    new_node->name      = variable_name;
-    new_node->next      = previous_node;
-  
-    previous_node = new_node;*/
+    ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, variable_name, variable_value );
+    //previous_node = new_variable;
+    frame = add_bindings_to_environment( frame, new_variable );
+    return frame;
 }
 
 ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tree )

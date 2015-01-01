@@ -43,6 +43,15 @@ ENVIRONMENT_FRAME* extend_environment( ENVIRONMENT_FRAME* base_environment, ENVI
 	return frame;
 }
 
+ENVIRONMENT_FRAME* add_bindings_to_environment( ENVIRONMENT_FRAME* base_environment, ENVIRONMENT_BINDING* variables )
+{
+	frame->bindings = variables;
+
+	printf( "Environment variables added\n" );
+
+	return frame;
+}
+
 /**
  * Define a variable and a value in a given environment
  */
