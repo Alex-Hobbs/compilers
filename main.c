@@ -150,7 +150,22 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
     // Start of the search/replace at beginning of function variables
     NODE *parameters    = tree->right;
     RUNTIME_VALUES *values = process_apply_params( frame, parameters, NULL );
-    printf( "%d\n", values->value );
+
+    ENVIRONMENT_BINDING *bindings = frame->bindings;
+
+    while( values != NULL )
+    {
+        TOKEN *newValue = new_token( CONSTANT );
+        newValue->value = values->value;
+
+        bindings->value = newValue;
+        bindings = bindings->next;
+        values = values->next;
+    }
+
+    // Rewrite our bindings
+    frame->bindings = bindings;
+    frame = process_return( frame, body );
 }
 
 ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
