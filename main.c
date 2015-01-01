@@ -55,6 +55,26 @@ char *named(int t)
     }
 }
 
+char *get_leaf(NODE *tree)
+{
+    TOKEN *t = (TOKEN *)tree;
+    if (t->type == CONSTANT) return named( t->value );
+    else if (t) return t->lexeme;
+}
+
+int get_int_from_leaf(NODE *tree)
+{
+    TOKEN *t = (TOKEN *)tree;
+    if (t->type == CONSTANT) return t->value;
+    else if (t) return 0;
+}
+
+int get_int_from_token(TOKEN *tree)
+{
+    if (tree->type == CONSTANT) return tree->value;
+    else if (tree) return 0;
+}
+
 void print_leaf(NODE *tree, int level)
 {
     TOKEN *t = (TOKEN *)tree;
@@ -63,18 +83,6 @@ void print_leaf(NODE *tree, int level)
     if (t->type == CONSTANT) printf("%d\n", t->value);
     else if (t->type == STRING_LITERAL) printf("\"%s\"\n", t->lexeme);
     else if (t) puts(t->lexeme);
-}
-
-char* get_leaf(NODE *tree)
-{
-    TOKEN *t = (TOKEN *)tree;
-    if (t->type == CONSTANT) return t->value;
-    else if (t->type == STRING_LITERAL) return t->lexeme;
-}
-
-int get_int_from_leaf( NODE *tree )
-{
-    return 1;
 }
 
 void print_tree0(NODE *tree, int level)
