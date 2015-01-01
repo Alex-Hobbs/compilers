@@ -128,8 +128,8 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
 {
     char* return_type_as_char = get_leaf( return_type ); // should return 'int' or 'function'
     char* function_name = get_leaf( function_parameters->left ); // should return function name e.g. main.
-
-    frame = update_environment_with_metadata( frame, function_name, return_type_as_char );
+    printf( "Test %s\n", return_type_as_char );
+        frame = update_environment_with_metadata( frame, function_name, return_type_as_char );
 
     // Function parameters
     if ( function_parameters->right != NULL )
