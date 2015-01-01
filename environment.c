@@ -10,6 +10,7 @@
 TOKEN* lookup_variable( ENVIRONMENT_BINDING* node, char* variable_name )
 {
 	// Do something about scanning through environments?
+	printf( "Looking for %s, found %s\n", variable_name, node->name );
 
 	if( node == NULL )
 		return NULL;
@@ -17,7 +18,6 @@ TOKEN* lookup_variable( ENVIRONMENT_BINDING* node, char* variable_name )
 	if ( node->name != variable_name )
 		return lookup_variable( node->next, variable_name );
 
-	printf( "We returned a value\n" );
 	return node->value;
 }
 
