@@ -38,6 +38,8 @@ ENVIRONMENT_FRAME* extend_environment( ENVIRONMENT_FRAME* base_environment, ENVI
 	frame->bindings = variables;
 	frame->next = base_environment;
 
+	printf( "Environment extended\n" );
+
 	return frame;
 }
 
