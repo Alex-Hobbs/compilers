@@ -122,7 +122,7 @@ ENVIRONMENT_FRAME* setup_new_environment( ENVIRONMENT_FRAME *neighbour )
 
 ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
 {
-    char *function_name = get_leaf( tree->left );
+    char *function_name = get_leaf( tree->left->left );
 printf( "function name %s\n", function_name );
     NODE *declaration   = get_declaration_of_function( frame, function_name );
     NODE *body          = get_body_of_function( frame, function_name );
