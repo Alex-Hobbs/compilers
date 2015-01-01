@@ -203,12 +203,11 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
 
 ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )
 {
-    if ( parameters->left == NULL ) return frame;
-    if ( parameters->left->type == NULL ) return frame;
-    
-    if ( parameters->left->type == '~' )
+    if ( parameters == NULL ) return frame;
+
+    if ( parameters->type == '~' )
     {
-        char *param_name = get_leaf( parameters->left->right->left );
+        char *param_name = get_leaf( parameters->right->left );
 
         TOKEN* value = new_token( CONSTANT );
         value->value = 0;
