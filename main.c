@@ -210,7 +210,7 @@ void process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )
     }
     else if ( parameters->left->type == '~' )
     {
-        char *param_name = get_leaf( parameters->right->left );
+        char *param_name = get_leaf( parameters->left->right->left );
 
         TOKEN* value = new_token( CONSTANT );
         value->value = 0;
