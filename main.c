@@ -207,7 +207,7 @@ void process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )
     {
         process_parameters( frame, parameters->left );
     }
-    else
+    else if ( parameters->left->type == '~' )
     {
         char *param_name = get_leaf( parameters->right->left );
 
