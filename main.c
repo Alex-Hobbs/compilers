@@ -138,8 +138,8 @@ ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
                 program_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) +
                                  get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
 
-        default:
-            left_variable_name = get_leaf( tree->left->left->left );
+        case CONSTANT:
+            left_variable_name = get_leaf( tree->left->left );
             program_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) );
     }
 
