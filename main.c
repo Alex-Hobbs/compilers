@@ -199,6 +199,26 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     previous_node = new_variable;
 }
 
+void process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )
+{
+    if ( parameters == NULL ) return frame;
+    
+    if ( parameters->left->type == ',' )
+    {
+        process_parameters( frame, parameters->left );
+    }
+    else
+    {
+        char *param_name = get_leaf( parameters->right->left );
+
+        TOKEN* value = new_token( CONSTANT );
+        value->value = 0;
+
+        ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, param_name, value );
+        previous_node = new_variable;
+    }
+}
+
 ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type, NODE *function_parameters )
 {
     char* return_type_as_char = get_leaf( return_type->left ); // should return 'int' or 'function'
@@ -213,7 +233,7 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
     // Function parameters
     if ( function_parameters->right != NULL )
     {
-        process_variables( frame, function_parameters );
+        process_parameters( frame, function_parameters->right );
     }
 
     return frame;
