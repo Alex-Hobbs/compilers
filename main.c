@@ -239,6 +239,7 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
     if ( function_parameters->right != NULL )
     {
         frame = process_parameters( frame, function_parameters->right );
+        frame = add_bindings_to_environment( frame, previous_node );
     }
 
     return frame;
