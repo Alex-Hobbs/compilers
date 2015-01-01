@@ -218,8 +218,8 @@ ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameter
         previous_node = new_variable;
     }
 
-    frame = process_parameters( frame, tree->left );
-    frame = process_parameters( frame, tree->right );
+    frame = process_parameters( frame, parameters->left );
+    frame = process_parameters( frame, parameters->right );
     return frame;
 }
 
