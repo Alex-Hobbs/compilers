@@ -134,7 +134,8 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
         {
             // Entered a new function
             case 'D':
-                ENVIRONMENT_FRAME *new_frame = extend_environment( current_frame, NULL );
+                ENVIRONMENT_FRAME *new_frame = (ENVIRONMENT_FRAME*)malloc(sizeof(ENVIRONMENT_FRAME));
+                new_frame = extend_environment( current_frame, NULL );
                 return parse_environment( new_frame, tree->left );
 
             // Found a list of variables
