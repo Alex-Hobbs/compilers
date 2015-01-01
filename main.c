@@ -99,7 +99,7 @@ ENVIRONMENT_FRAME* setup_new_environment( ENVIRONMENT_FRAME *neighbour )
 
 ENVIRONMENT_FRAME* process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
 {
-    if ( tree == NULL ) return;
+    /**if ( tree == NULL ) return;
     if ( tree->left->type != LEAF ) return;
     if ( tree->right->type != '=' ) return;
 
@@ -115,7 +115,7 @@ ENVIRONMENT_FRAME* process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     new_node->name      = variable_name;
     new_node->next      = previous_node;
   
-    previous_node = new_node;
+    previous_node = new_node;*/
 }
 
 ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tree )
