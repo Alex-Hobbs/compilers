@@ -45,8 +45,6 @@ ENVIRONMENT_FRAME* add_bindings_to_environment( ENVIRONMENT_FRAME* frame, ENVIRO
 {
 	frame->bindings = variables;
 
-	printf( "Environment variables added\n" );
-
 	return frame;
 }
 
@@ -75,6 +73,8 @@ ENVIRONMENT_BINDING* define_variable_with_value(
 	binding->name  = variable_name;
 	binding->value = value;
 	binding->next  = base_binding;
+
+	printf( "Variable %s added with value %d\n", variable_name, value );
 
 	return binding;
 }
