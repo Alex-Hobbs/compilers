@@ -19,6 +19,12 @@ typedef struct env_frame
 	struct env_frame			*next;
 } ENVIRONMENT_FRAME;
 
+typedef struct runtime_values
+{
+	int							value;
+	struct runtime_values		*next;
+} RUNTIME_VALUES;
+
 TOKEN* lookup_variable(ENVIRONMENT_BINDING*, char*);
 ENVIRONMENT_FRAME* extend_environment( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING* );
 ENVIRONMENT_BINDING* define_variable_with_value( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING*, char*, TOKEN* );

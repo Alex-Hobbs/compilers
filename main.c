@@ -120,19 +120,23 @@ ENVIRONMENT_FRAME* setup_new_environment( ENVIRONMENT_FRAME *neighbour )
     return base;
 }
 
-ENVIRONMENT_FRAME* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree )
+RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNTIME_VALUES *valueList )
 {
-    if ( tree == NULL ) return frame;
+    if ( tree == NULL ) return valueList;
 
     if ( tree->type != LEAF )
     {
-        frame = process_apply_params( frame, tree->left );
-        frame = process_apply_params( frame, tree->right );
+        valueList = process_apply_params( frame, tree->left );
+        valueList = process_apply_params( frame, tree->right );
     }
     else
     {
-      int value = get_int_from_leaf( tree->left );
-      printf( "%d\n", value );
+        int value = get_int_from_leaf( tree->left );
+        
+        RUNTIME_VALUES *valuePtr = (RUNTIME_VALUES*)malloc( sizeof( RUNTIME_VALUES ) );
+        valuePtr->next = valueList;
+        valuePtr->value = value;
+        return valuePtr;
     }
 }
 
@@ -145,7 +149,8 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
 
     // Start of the search/replace at beginning of function variables
     NODE *parameters    = tree->right;
-    frame = process_apply_params( frame, parameters );
+    RUNTIME_VALUES *values = process_apply_params( frame, parameters, NULL );
+    printf( "%d\n", values->value );
 }
 
 ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
