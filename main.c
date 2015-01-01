@@ -126,8 +126,8 @@ RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNT
 
     if ( tree->type != LEAF )
     {
-        valueList = process_apply_params( frame, tree->left );
-        valueList = process_apply_params( frame, tree->right );
+        valueList = process_apply_params( frame, tree->left, valueList );
+        valueList = process_apply_params( frame, tree->right, valueList );
     }
     else
     {
