@@ -150,6 +150,9 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             // Found a list of variables
             case '~':
                 return process_variables( current_frame, tree );
+
+            default:
+              printf( "Found nothing, looked for %s\n", tree->type );
         }
     }
 
