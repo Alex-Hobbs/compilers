@@ -144,8 +144,7 @@ ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
           break;
 
         case '+':
-          printf( "%s\n", tree->left->left->type );
-          if( tree->left->left != NULL && strcmp( tree->left->left->type, APPLY ) == 0 )
+          if( tree->left->left != NULL )
           {
                 process_apply( frame, tree->left->left );
                 right_variable_name = get_leaf( tree->left->right->left );
