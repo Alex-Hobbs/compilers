@@ -5,6 +5,7 @@
 #include <string.h>
 #include "environment.h"
 
+ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME*, NODE* );
 ENVIRONMENT_BINDING *previous_node = NULL;
 char* main_method = NULL;
 
@@ -151,6 +152,13 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
     NODE *parameters    = tree->right;
     RUNTIME_VALUES *values = process_apply_params( frame, parameters, NULL );
 
+    // Setup tmp environment
+    ENVIRONMENT_FRAME *tmpEnv = setup_new_environment( NULL );
+    tmpEnv->bindings    = frame->bindings;
+    tmpEnv->declaration = declaration;
+    tmpEnv->body        = body;
+    tmpEnv->name        = function_name; 
+
     ENVIRONMENT_BINDING *bindings = frame->bindings;
 
     while( values != NULL )
@@ -164,8 +172,8 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
     }
 
     // Rewrite our bindings
-    frame->bindings = bindings;
-    frame = (ENVIRONMENT_FRAME*)process_return( frame, body );
+    tmpEnv->bindings = bindings;
+    frame = parse_environment( tmpEnv, body );
 }
 
 ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
