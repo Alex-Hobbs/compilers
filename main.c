@@ -129,9 +129,11 @@ ENVIRONMENT_FRAME* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree )
         frame = process_apply_params( frame, tree->left );
         frame = process_apply_params( frame, tree->right );
     }
-
-    int value = get_int_from_leaf( tree->left );
-    printf( "%d\n", value );
+    else
+    {
+      int value = get_int_from_leaf( tree->left );
+      printf( "%d\n", value );
+    }
 }
 
 ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
