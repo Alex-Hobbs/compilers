@@ -143,7 +143,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             // Entered a new function
             case 'D':
                 new_frame = extend_environment( current_frame, NULL );
-                return parse_environment( new_frame, tree->left );
+                return parse_environment( new_frame, tree->right );
 
             // Found a list of variables
             case '~':
