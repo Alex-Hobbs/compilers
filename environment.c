@@ -4,6 +4,34 @@
 #include "token.h"
 #include "C.tab.h"
 
+NODE* return_body_of_function( ENVIRONMENT_FRAME* frame, char* function_name )
+{
+	if ( frame == NULL )
+		return NULL;
+
+	if ( strcmp( frame->name, function_name ) != 0 )
+		return return_body_of_function( frame->next, function_name );
+
+	return frame->body;
+}
+
+NODE* return_declaration_of_function( ENVIRONMENT_FRAME* frame, char* function_name )
+{
+	if ( frame == NULL )
+		return NULL;
+
+	if ( strcmp( frame->name, function_name ) != 0 )
+		return return_declaration_of_function( frame->next, function_name );
+
+	return frame->declaration;
+}
+
+ENVIRONMENT_FRAME* store_function( ENVIRONMENT_FRAME* frame, NODE* declaration, NODE* body )
+{
+	frame->body = body;
+	frame->declaration = declaration;
+}
+
 /**
 * Lookup variable value for a given environment/frame
 */

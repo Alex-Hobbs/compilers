@@ -13,6 +13,8 @@ typedef struct env_frame
 {
 	char						*name;
 	char						*return_type;
+	NODE						*body;
+	NODE						*declaration;
 	ENVIRONMENT_BINDING			*bindings;
 	struct env_frame			*next;
 } ENVIRONMENT_FRAME;
@@ -23,5 +25,8 @@ ENVIRONMENT_BINDING* define_variable_with_value( ENVIRONMENT_FRAME*, ENVIRONMENT
 ENVIRONMENT_BINDING* update_variable_with_value( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING*, char*, TOKEN* );
 ENVIRONMENT_FRAME* add_bindings_to_environment( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING* );
 ENVIRONMENT_FRAME* update_environment_with_metadata( ENVIRONMENT_FRAME*, char*, char* );
+ENVIRONMENT_FRAME* return_body_of_function( ENVIRONMENT_FRAME*, char* );
+ENVIRONMENT_FRAME* return_declaration_of_function( ENVIRONMENT_FRAME*, char* );
+ENVIRONMENT_FRAME* store_function( ENVIRONMENT_FRAME*, NODE*, NODE* );
 
 #endif

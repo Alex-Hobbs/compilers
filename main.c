@@ -120,6 +120,22 @@ ENVIRONMENT_FRAME* setup_new_environment( ENVIRONMENT_FRAME *neighbour )
     return base;
 }
 
+ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
+{
+    char *function_name = get_leaf( tree->left );
+
+    NODE *declaration   = get_declaration_of_function( frame, function_name );
+    NODE *body          = get_body_of_function( frame, function_name );
+
+    // Start of the search/replace at beginning of function variables
+    NODE *current_node = declaration->right->right;
+
+    while ( current_node != NULL )
+    {
+        print_tree( current_node, 3 );
+    }
+}
+
 ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
 {
     int left_variable_name;
@@ -133,10 +149,18 @@ ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
           break;
 
         case '+':
+          if ( strcmp( tree->left->left->type, APPLY ) )
+          {
+                process_apply( frame, tree->left->left );
+                right_variable_name = get_leaf( tree->left->right->left );
+          }
+          else
+          {
                 left_variable_name = get_leaf( tree->left->left->left );
                 right_variable_name = get_leaf( tree->left->right->left );
                 program_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) +
                                  get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
+          }
 
         case LEAF:
             left_variable_name = get_leaf( tree->left->left );
@@ -268,7 +292,10 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             // Entered a new function
             case 'D':
                 new_frame = extend_environment( current_frame, NULL );
+                new_frame = store_function( new_frame, tree->left, tree->right );
+
                 previous_node = NULL;
+
                 new_frame = parse_environment( new_frame, tree->left );
                 new_frame = parse_environment( new_frame, tree->right );
                 return new_frame;
