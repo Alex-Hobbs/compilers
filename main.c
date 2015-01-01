@@ -214,11 +214,14 @@ ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameter
 
         ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, param_name, value );
         previous_node = new_variable;
+        return frame;
     }
-
-    frame = process_parameters( frame, parameters->left );
-    frame = process_parameters( frame, parameters->right );
-    return frame;
+    else
+    {
+      frame = process_parameters( frame, parameters->left );
+      frame = process_parameters( frame, parameters->right );
+      return frame;
+    }
 }
 
 ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type, NODE *function_parameters )
