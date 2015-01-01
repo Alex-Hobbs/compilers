@@ -5,6 +5,8 @@
 #include <string.h>
 #include "environment.h"
 
+ENVIRONMENT_BINDING *previous_node = NULL;
+
 char *named(int t)
 {
     static char b[100];
@@ -117,7 +119,7 @@ ENVIRONMENT_FRAME* setup_new_environment( ENVIRONMENT_FRAME *neighbour )
     return base;
 }
 
-ENVIRONMENT_FRAME* process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
+void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
 {
     if ( tree == NULL ) return frame;
     if ( tree->left->type != LEAF ) return frame;
@@ -145,10 +147,8 @@ ENVIRONMENT_FRAME* process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
         }
     }
 
-    ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, NULL, variable_name, variable_value );
-    //previous_node = new_variable;
-    frame = add_bindings_to_environment( frame, new_variable );
-    return frame;
+    ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, variable_name, variable_value );
+    previous_node = new_variable;
 }
 
 ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type, NODE *function_parameters )
@@ -197,7 +197,9 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
 
             // Found a list of variables
             case '~':
-                return process_variables( current_frame, tree );
+                process_variables( current_frame, tree );
+                frame = add_bindings_to_environment( frame, previous_node );
+                return frame;
             
             case RETURN:
                 //return process_return()
