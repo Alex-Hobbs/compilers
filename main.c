@@ -138,7 +138,7 @@ ENVIRONMENT_FRAME* process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
                                  get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
     }
 
-    if( strcmp( frame->name, "main" ) )
+    if( strcmp( frame->name, "main" ) == 0 )
     {
         printf( "%d\n", program_value );
         exit(1);
