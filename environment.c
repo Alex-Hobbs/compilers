@@ -38,8 +38,6 @@ ENVIRONMENT_FRAME* extend_environment( ENVIRONMENT_FRAME* base_environment, ENVI
 	frame->bindings = variables;
 	frame->next = base_environment;
 
-	printf( "Environment extended\n" );
-
 	return frame;
 }
 
@@ -48,6 +46,16 @@ ENVIRONMENT_FRAME* add_bindings_to_environment( ENVIRONMENT_FRAME* frame, ENVIRO
 	frame->bindings = variables;
 
 	printf( "Environment variables added\n" );
+
+	return frame;
+}
+
+ENVIRONMENT_FRAME* update_environment_with_metadata( ENVIRONMENT_FRAME* frame, char* function_name, char* return_type )
+{
+	frame->name 		= function_name;
+	frame->return_type 	= return_type;
+
+	printf( "Environment extended with new environment of: %s %s\n", return_type, function_name );
 
 	return frame;
 }

@@ -124,6 +124,22 @@ ENVIRONMENT_FRAME* process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     return frame;
 }
 
+ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type, NODE *function_parameters )
+{
+    char* return_type_as_char = get_leaf( return_type ); // should return 'int' or 'function'
+    char* function_name = get_leaf( function_parameters->left ); // should return function name e.g. main.
+
+    frame = update_environment_with_metadata( frame, function_name, return_type_as_char );
+
+    // Function parameters
+    if ( function_parameters->right != NULL )
+    {
+
+    }
+
+    return frame;
+}
+
 ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tree )
 {
     if (tree==NULL) return current_frame;
@@ -149,9 +165,15 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 new_frame = parse_environment( new_frame, tree->right );
                 return new_frame;
 
+            case 'd':
+                return process_function( current_frame, tree->left, tree->right );
+
             // Found a list of variables
             case '~':
                 return process_variables( current_frame, tree );
+            
+            case DEFAULT:
+
 
             default:
               printf( "Found nothing, looked for %c\n", tree->type );

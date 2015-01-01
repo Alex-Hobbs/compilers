@@ -11,6 +11,8 @@ typedef struct env_binding
 
 typedef struct env_frame
 {
+	char						*name;
+	char						*return_type;
 	ENVIRONMENT_BINDING			*bindings;
 	struct env_frame			*next;
 } ENVIRONMENT_FRAME;
@@ -20,5 +22,6 @@ ENVIRONMENT_FRAME* extend_environment( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING* 
 ENVIRONMENT_BINDING* define_variable_with_value( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING*, char*, TOKEN* );
 ENVIRONMENT_BINDING* update_variable_with_value( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING*, char*, TOKEN* );
 ENVIRONMENT_FRAME* add_bindings_to_environment( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING* );
+ENVIRONMENT_FRAME* update_environment_with_metadata( ENVIRONMENT_FRAME*, char*, char* );
 
 #endif
