@@ -5,6 +5,7 @@
 #include <string.h>
 #include "environment.h"
 
+ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME*, NODE* );
 int process_return( ENVIRONMENT_FRAME*, NODE* );
 ENVIRONMENT_BINDING *previous_node = NULL;
 char* main_method = NULL;
