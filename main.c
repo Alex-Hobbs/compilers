@@ -206,7 +206,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, tree->left->left );
 
-                if ( right_int == 0 )
+                if ( right_int != 0 )
                 {
                     program_value = right_int + frame->return_value;
                 }
@@ -402,11 +402,11 @@ int main(int argc, char** argv)
     NODE* tree;
     if (argc>1 && strcmp(argv[1],"-d")==0) yydebug = 1;
     init_symbtable();
-    printf("--C COMPILER\n");
+    //printf("--C COMPILER\n");
     yyparse();
     tree = ans;
-    printf("parse finished with %p\n", tree);
-    print_tree(tree);
+    //printf("parse finished with %p\n", tree);
+    //print_tree(tree);
 
     ENVIRONMENT_FRAME *base = setup_new_environment( NULL );
     base = parse_environment(base, tree);
