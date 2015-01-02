@@ -447,6 +447,8 @@ int perform_eq_op_comparision( ENVIRONMENT_FRAME* frame, int one, int two, NODE*
 
     if( one == two )
     {
+        print( "success on if");
+        print_tree0( returnInformation, 5 );
         returnValue = process_return( frame, returnInformation );
     }
 
