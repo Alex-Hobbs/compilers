@@ -1,0 +1,6 @@
+int first(){
+	int second(int a, int b, int c){
+		return a;
+	}
+	return second(1, 2, 3)+2;
+}

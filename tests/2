@@ -1,5 +1,6 @@
-int main (int a, int x){
-	int b = 2;
-	int c = 3;
+int main (){
+	int a = 1231241;
+	int b = 51345;
+	int c = a+b;
 	return c+b;
 }

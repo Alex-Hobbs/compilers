@@ -1,0 +1,11 @@
+t main (){
+	int a = 1;
+	int b = 2;
+	int c = 3;
+	return a+b;
+}
+
+int f(){
+	int a = 2;
+	return a;
+}
