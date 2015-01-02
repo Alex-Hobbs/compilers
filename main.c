@@ -192,7 +192,8 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
     switch( tree->left->type )
     {
         case APPLY:
-          // to do;
+          frame = process_apply( frame, tree->left->left );
+          program_value = frame->return_value;
           break;
 
         case '+':
