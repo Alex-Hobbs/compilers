@@ -445,8 +445,8 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
 
     TOKEN* left_var;
     TOKEN* right_var;
-    char left[20];
-    char right[20];
+    char* left[20];
+    char* right[20];
 
     left = get_leaf( conditional->left->left );
     right = get_leaf( conditional->right->left );
