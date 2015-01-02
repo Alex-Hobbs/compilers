@@ -208,6 +208,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
                 right = lookup_variable( frame->bindings, right_variable_name );
                 printf( "left = %d,    token = %d\n", sizeof( left ), sizeof( TOKEN ) );
                 program_value = get_int_from_token( left ) + get_int_from_token( right );
+                printf( "program value = %d\n", program_value );
           }
 
         case LEAF:
