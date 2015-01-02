@@ -183,8 +183,8 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
 
 int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
 {
-    int left_variable_name;
-    int right_variable_name;
+    char* left_variable_name;
+    char* right_variable_name;
     int program_value;
     TOKEN* left;
     TOKEN* right;
@@ -200,8 +200,16 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
           {
                 frame = process_apply( frame, tree->left->left );
                 right_variable_name = get_leaf( tree->left->right->left );
-                right = lookup_variable( frame->bindings, right_variable_name );
-                program_value = get_int_from_token( right ) + frame->return_value;
+
+                if ( isdigit( right_variable_name ) )
+                {
+                    program_value = atoi( right_variable_name ) + frame->return_value;
+                }
+                else
+                {
+                    right = lookup_variable( frame->bindings, right_variable_name );
+                    program_value = get_int_from_token( right ) + frame->return_value;
+                }
           }
           else
           {
