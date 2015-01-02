@@ -159,6 +159,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
     tmpEnv->declaration = declaration;
     tmpEnv->body        = body;
     tmpEnv->name        = function_name; 
+    tmpEnv->next        = frame->next;
 
     ENVIRONMENT_BINDING *bindings = frame->bindings;
     ENVIRONMENT_BINDING *firstBinding = bindings;
@@ -194,6 +195,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
         case APPLY:
             frame = process_apply( frame, tree->left );
             program_value = frame->return_value;
+            frame = frame->next;
             break;
 
         case '+':
