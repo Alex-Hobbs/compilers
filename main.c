@@ -463,7 +463,7 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     if ( right == NULL )
         sprintf( itoa, "%d", righti );
 
-    printf( "%s\n\n\n", itoa);
+    printf( "%d %d %s\n\n\n", lefti, righti, itoa);
 
     // Grab the variables / conditions
     if ( left != NULL )
