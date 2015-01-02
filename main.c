@@ -77,7 +77,8 @@ int get_int_from_token(TOKEN *tree)
 {
     if ( tree == NULL ) return -1;
     if (tree->type == CONSTANT) return tree->value;
-    else if (tree) return 0;
+    else if (tree) return tree->lexeme;
+    else return 0;
 }
 
 void print_leaf(NODE *tree, int level)
@@ -449,7 +450,7 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     left_var  = lookup_variable( frame->bindings, get_leaf( conditional->left->left->left ) );
     right_var = lookup_variable( frame->bindings, get_leaf( conditional->left->right->left ) );
 
-    printf( "left = %s... right = %s\n", left_var, right_var );
+    printf( "left = %s... right = %s\n", left_var->value, get_int_from_token( right_var ) );
 
     switch( operand )
     {
