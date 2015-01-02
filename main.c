@@ -324,6 +324,8 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
 
     frame = update_environment_with_metadata( frame, function_name, return_type_as_char );
 
+    printf( "FRAME NAME = %s\n", frame->name );
+
     // Function parameters
     if ( function_parameters->right != NULL )
     {
@@ -370,7 +372,6 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 return current_frame;
             
             case RETURN:
-                printf( "Frame name = %s\n", current_frame->name );
                 process_return( current_frame, tree );
 
             //default:
