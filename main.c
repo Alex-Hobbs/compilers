@@ -202,7 +202,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
           {
                 left_variable_name = get_leaf( tree->left->left->left );
                 right_variable_name = get_leaf( tree->left->right->left );
-                printf( "Variable = %d\n", lookup_variable( frame->bindings, left_variable_name ) );
+                printf( "Variable = %p\n", lookup_variable( frame->bindings, left_variable_name ) );
                 program_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) +
                                  get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
           }
