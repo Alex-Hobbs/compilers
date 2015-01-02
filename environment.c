@@ -35,15 +35,21 @@ ENVIRONMENT_FRAME* store_function( ENVIRONMENT_FRAME* frame, NODE* declaration, 
 */
 TOKEN* lookup_variable( ENVIRONMENT_BINDING* node, char* variable_name )
 {
+	TOKEN* passed_value = new_token(CONSTANT);
+	passed_value->value = variable_name;
+
 	if( node == NULL )
 		return NULL;
 
-	if ( strcmp( node->name, variable_name ) != 0 )
+	if ( strcmp( node->name, variable_name ) == 0 )
+		return (TOKEN *)node->value;
+
+	if ( node->next != NULL )
 		return lookup_variable( node->next, variable_name );
 
 	//printf( "Variable = %d\n", node->value->value );
 
-	return (TOKEN *)node->value;
+	return passed_value;
 }
 
 /**

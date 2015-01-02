@@ -441,6 +441,32 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
 ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditional, int operand )
 {
     printf( "Operand: %s\n", named( operand ) );
+
+    TOKEN* left_var;
+    TOKEN* right_var;
+
+    // Grab the variables / conditions
+    left_var  = lookup_variable( frame->bindings, conditional->left->left );
+    right_var = lookup_variable( frame->bindings, conditional->right->left );
+
+    printf( "%s  ==   %s\n", left_var->value, right_var->value );
+
+    switch( operand )
+    {
+        case EQ_OP:
+            break;
+        
+        case LE_OP:
+            break;
+
+        case GE_OP:
+            break;
+
+        case NE_OP:
+            break;
+    }
+
+    return frame;
 }
 
 ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tree )
