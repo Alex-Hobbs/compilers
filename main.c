@@ -449,7 +449,7 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     left_var  = lookup_variable( frame->bindings, conditional->left->left );
     right_var = lookup_variable( frame->bindings, conditional->right->left );
 
-    char* left = conditional->left->left;//print_tree0(conditional->left->left, 50);
+    char* left = conditional->left->left->left;//print_tree0(conditional->left->left, 50);
     printf( "%s\n", get_leaf( left ) );
     switch( operand )
     {
