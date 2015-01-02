@@ -336,7 +336,7 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
 
 ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tree )
 {
-    if (tree==NULL) return current_frame->next;
+    if (tree==NULL) return current_frame;
 
     if (tree->type == LEAF)
     {
@@ -360,6 +360,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             
             case RETURN:
                 process_return( current_frame, tree );
+                printf( "Current Frame = %s\n", current_frame->name );
                 break;
 
             case 'd':
@@ -371,7 +372,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             case '~':
                 process_variables( current_frame, tree );
                 current_frame = add_bindings_to_environment( current_frame, previous_node );
-                printf( "Current Frame = %s\n", current_frame->name );
+                //printf( "Current Frame = %s\n", current_frame->name );
                 break;
 
             //default:
