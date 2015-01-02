@@ -203,7 +203,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
           {
                 right_variable_name = get_leaf( tree->left->right->left );
                 frame = process_apply( frame, tree->left->left );
-                printf( "left = %d, right = %s\n", frame->return_value, tree->right );
+                printf( "left = %d, right = %s\n", frame->return_value, tree->left->right );
                 if ( isdigit( right_variable_name ) )
                 {
                     program_value = atoi( right_variable_name ) + frame->return_value;
