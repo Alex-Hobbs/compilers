@@ -445,9 +445,13 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
 
     TOKEN* left_var;
     TOKEN* right_var;
+    char* left;
+    char* right;
+
+    left = get_leaf( conditional->left->left );
 
     // Grab the variables / conditions
-    left_var  = lookup_variable( frame->bindings, get_leaf( conditional->left->left ) );
+    left_var  = lookup_variable( frame->bindings, leaf );
     right_var = lookup_variable( frame->bindings, get_leaf( conditional->right->left ) );
 
     printf( "left = %s... right = %s\n", get_leaf(conditional->left->left), get_int_from_token( right_var ) );
