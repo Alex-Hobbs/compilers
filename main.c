@@ -75,6 +75,7 @@ int get_int_from_leaf(NODE *tree)
 
 int get_int_from_token(TOKEN *tree)
 {
+    if ( tree == NULL ) return -1;
     if (tree->type == CONSTANT) return tree->value;
     else if (tree) return 0;
 }
@@ -175,6 +176,8 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
     // Rewrite our bindings
     tmpEnv->bindings = firstBinding;
     int returnValue = process_return( tmpEnv, body );
+
+    printf( "Return value = %d\n", returnValue );
 }
 
 int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
@@ -182,8 +185,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
     int left_variable_name;
     int right_variable_name;
     int program_value;
-
-    print_tree0( tree, 1 );
 
     switch( tree->left->type )
     {
