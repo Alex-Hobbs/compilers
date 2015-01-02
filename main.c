@@ -193,7 +193,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
     switch( tree->left->type )
     {
         case APPLY:
-            old_frame_name = frame->name;
+            old_frame_name = &frame->name;
             frame = process_apply( frame, tree->left );
             frame->name = old_frame_name;
             program_value = frame->return_value;
