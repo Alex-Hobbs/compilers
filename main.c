@@ -160,7 +160,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
     tmpEnv->name        = function_name; 
 
     ENVIRONMENT_BINDING *bindings = frame->bindings;
-    ENVIRONMENT_BINDING *firstBinding = &bindings;
+    ENVIRONMENT_BINDING *firstBinding = bindings;
 
     while( values != NULL )
     {
@@ -172,7 +172,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
         values = values->next;
     }
 
-    printf( "%s = %d\n", *firstBinding->name );
+    printf( "%s = %d\n", firstBinding->name );
 
     // Rewrite our bindings
     tmpEnv->bindings = firstBinding;
