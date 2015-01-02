@@ -35,13 +35,13 @@ ENVIRONMENT_FRAME* store_function( ENVIRONMENT_FRAME* frame, NODE* declaration, 
 */
 TOKEN* lookup_variable( ENVIRONMENT_BINDING* node, char* variable_name )
 {
+	printf( "Looking for %s, found variable = %s\n", variable_name, node->name );
+
 	if ( strcmp( node->name, variable_name ) == 0 )
 		return (TOKEN *)node->value;
 
 	if ( node->next != NULL )
 		return lookup_variable( node->next, variable_name );
-
-	printf( "Lookint FOR %s, found variable = %s\n", variable_name, node->name );
 
 	TOKEN* passed_value = (TOKEN *)malloc( sizeof( TOKEN ) );
 	passed_value = new_token(260); // String literal
