@@ -371,6 +371,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             case '~':
                 process_variables( current_frame, tree );
                 current_frame = add_bindings_to_environment( current_frame, previous_node );
+                printf( "Current Frame = %s\n", current_frame->name );
                 break;
 
             //default:
