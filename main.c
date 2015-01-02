@@ -206,13 +206,14 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
                 right_variable_name = get_leaf( tree->left->right->left );
                 left = lookup_variable( frame->bindings, left_variable_name );
                 right = lookup_variable( frame->bindings, right_variable_name );
-                
-                return get_int_from_token( left ) + get_int_from_token( right );
+                program_value = get_int_from_token( left ) + get_int_from_token( right );
+                break;
           }
 
         case LEAF:
             left_variable_name = get_leaf( tree->left->left );
             program_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) );
+            break;
     }
 
     if( strcmp( frame->name, main_method ) == 0 )
