@@ -177,8 +177,8 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
 
     // Rewrite our bindings
     tmpEnv->bindings = firstBinding;
-    int returnValue = process_return( tmpEnv, body );
-    frame->return_value = returnValue;
+    frame = parse_environemnt( tmpEnv, body );
+    //frame->return_value = returnValue;
 
     return frame;
 }
@@ -536,7 +536,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 break;
             
             case RETURN:
-                process_return( current_frame, tree );
+                frame->return_value = process_return( current_frame, tree );
                 //printf( "Current Frame = %s\n", current_frame->name );
                 break;
 
