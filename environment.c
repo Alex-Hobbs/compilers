@@ -42,7 +42,6 @@ TOKEN* lookup_variable( ENVIRONMENT_BINDING* node, char* variable_name )
 	if ( strcmp( node->name, variable_name ) != 0 )
 		return lookup_variable( node->next, variable_name );
 
-
 	printf( "value = %d\n", node->value->value );
 
 	return node->value;
