@@ -449,7 +449,7 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     left_var  = lookup_variable( frame->bindings, conditional->left->left );
     right_var = lookup_variable( frame->bindings, conditional->right->left );
 
-    printf( "%s  ==   %s\n", left_var->value, right_var->value );
+    printf( "%s  ==   %s\n", conditional->left->left, conditional->right->right );
 
     switch( operand )
     {
