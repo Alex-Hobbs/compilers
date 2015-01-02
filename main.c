@@ -506,6 +506,8 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
             break;
     }
 
+    frame->return_value = returnValue;
+
     return frame;
 }
 
