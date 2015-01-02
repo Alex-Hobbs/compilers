@@ -356,16 +356,15 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
 
                 previous_node = NULL;
                 current_frame = new_frame;
-    printf( "FRAME NAME = %s\n", current_frame->name );
                 break;
             
             case RETURN:
-                printf( "Current Frame = %s\n", current_frame->name );
                 process_return( current_frame, tree );
                 break;
 
             case 'd':
                 current_frame = process_function( current_frame, tree->left, tree->right );
+                printf( "Current Frame = %s\n", current_frame->name );
                 break;
 
             // Found a list of variables
