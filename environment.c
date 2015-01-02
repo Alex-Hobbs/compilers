@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "environment.h"
-#include "C.tab.h"
 
 NODE* get_body_of_function( ENVIRONMENT_FRAME* frame, char* function_name )
 {
