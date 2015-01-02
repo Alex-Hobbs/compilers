@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <ctype.h>
 #include "nodes.h"
 #include "C.tab.h"
@@ -446,17 +445,17 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
 
     TOKEN* left_var;
     TOKEN* right_var;
-    char* left;
-    char* right;
+    char left[20];
+    char right[20];
 
     left = get_leaf( conditional->left->left );
     right = get_leaf( conditional->right->left );
 
     if ( strcmp( left, "???" ) == 0 )
-        left = itoa( conditional->left->left );
+        sprintf( left, "%d", conditional->left->left );
 
     if ( strcmp( right, "???" ) == 0 )
-        left = itoa( conditional->right->left );
+        sprintf( right, "%d", conditional->right->left );
 
     printf( "%s %s\n\n\n\n\n", left, right );
 
