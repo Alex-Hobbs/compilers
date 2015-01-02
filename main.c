@@ -511,7 +511,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 break;
 
             case IF:
-                current_frame = process_conditional( current_frame, tree->left, tree->left->type );
+                current_frame = process_conditional( current_frame, tree, tree->left->type );
                 break;
 
             //default:
