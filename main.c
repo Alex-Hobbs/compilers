@@ -324,8 +324,15 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
           break;
 
         case LEAF:
-            left_variable_name = get_leaf( tree->left->left );
-            program_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) );
+            if( isdigit( tree->left->left ) )
+            {
+                program_value = atoi( tree->left->left );
+            }
+            else
+            {
+                left_variable_name = get_leaf( tree->left->left );
+                program_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) );
+            }
             break;
     }
 
