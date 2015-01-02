@@ -186,8 +186,8 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
 {
     char* left_variable_name;
     char* right_variable_name;
-    char* right_int;
-    char* left_int;
+    int right_int;
+    int left_int;
     int program_value;
     TOKEN* left;
     TOKEN* right;
