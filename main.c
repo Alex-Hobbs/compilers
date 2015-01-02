@@ -185,18 +185,16 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
 {
     char* left_variable_name;
     char* right_variable_name;
-    char* old_frame_name;
     int program_value;
     TOKEN* left;
     TOKEN* right;
+    ENVIRONMENT_FRAME *tmpFrame;
 
     switch( tree->left->type )
     {
         case APPLY:
-            old_frame_name = &frame->name;
-            frame = process_apply( frame, tree->left );
-            frame->name = old_frame_name;
-            program_value = frame->return_value;
+            tmpFrame = process_apply( frame, tree->left );
+            program_value = tmpFrame->return_value;
             break;
 
         case '+':
