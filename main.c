@@ -146,6 +146,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
 {
     char *function_name = get_leaf( tree->left->left );
 
+    TOKEN *newValue;
     NODE *declaration   = get_declaration_of_function( frame, function_name );
     NODE *body          = get_body_of_function( frame, function_name );
 
@@ -165,7 +166,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
 
     while( values != NULL )
     {
-        TOKEN *newValue = new_token( CONSTANT );
+        newValue = new_token( CONSTANT );
         newValue->value = values->value;
         bindings->value = newValue;
 
