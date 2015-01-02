@@ -41,7 +41,7 @@ TOKEN* lookup_variable( ENVIRONMENT_BINDING* node, char* variable_name )
 	if ( node->next != NULL )
 		return lookup_variable( node->next, variable_name );
 
-	printf( "Variable = %d\n", node->value->value );
+	printf( "Variable = %d\n", variable_name );
 
 	TOKEN* passed_value = (TOKEN *)malloc( sizeof( TOKEN ) );
 	passed_value = new_token(259); // String literal
