@@ -449,7 +449,7 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     char* right;
 
     left = get_leaf( conditional->left->left->left );
-    right = get_leaf( conditional->left->right->left );
+    right = get_leaf( conditional->left->left->right->left );
 
     if ( strcmp( left, "???" ) == 0 )
         left = (char*) conditional->left->left->left;
@@ -457,7 +457,7 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     if ( strcmp( right, "???" ) == 0 )
         right = conditional->left->right->left;
 
-    printf( "%s %s\n\n\n\n\n", left, conditional->left->right->left );
+    printf( "%s %s\n\n\n\n\n", left, conditional->left->right );
 
     // Grab the variables / conditions
     left_var  = lookup_variable( frame->bindings, left );
