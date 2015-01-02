@@ -323,7 +323,7 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
       main_method = function_name;
 
     frame = update_environment_with_metadata( frame, function_name, return_type_as_char );
-
+    printf( "FRAME NAME = %s\n", frame->name );
     // Function parameters
     if ( function_parameters->right != NULL )
     {
