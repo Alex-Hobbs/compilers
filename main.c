@@ -447,6 +447,7 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     TOKEN* right_var;
     char* left;
     char* right;
+    char itoa[20];
 
     int lefti = get_int_from_leaf( conditional->left->left->left );
     int righti = get_int_from_leaf( conditional->left->right->left );
@@ -457,12 +458,30 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     if ( ! righti )
         right = get_leaf( conditional->left->right->left );
 
-    printf( "%s %s\n\n\n\n\n", left, conditional->left->right );
+    if ( left == NULL )
+        sprintf( itoa, "%d", lefti );
+    if ( right == NULL )
+        sprintf( itoa, "%d", righti );
 
     // Grab the variables / conditions
-    left_var  = lookup_variable( frame->bindings, left );
-    right_var = lookup_variable( frame->bindings, right );
+    if ( left != NULL )
+    {
+        left_var  = lookup_variable( frame->bindings, left );
+    }
+    else
+    {
+        left_var  = lookup_variable( frame->bindings, itoa );
+    }
 
+    if( right != NULL )
+    {
+        right_var = lookup_variable( frame->bindings, right );
+    }
+    else
+    {
+        right_var = lookup_variable( frame->bindings, itoa );
+    }
+    
     printf( "left = %s... right = %s\n", left_var->value, get_int_from_token( right_var ) );
 
     switch( operand )
