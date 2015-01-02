@@ -35,7 +35,7 @@ ENVIRONMENT_FRAME* store_function( ENVIRONMENT_FRAME* frame, NODE* declaration, 
 */
 TOKEN* lookup_variable( ENVIRONMENT_BINDING* node, char* variable_name )
 {
-	TOKEN* passed_value = new_token(CONSTANT);
+	TOKEN* passed_value = new_token(260); // String literal
 	passed_value->value = variable_name;
 
 	if( node == NULL )
