@@ -236,7 +236,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
             break;
     }
 
-    printf( "frame name = %s, main = %s\n", frame->name, main_method );
+    //printf( "frame name = %s, main = %s\n", frame->name, main_method );
 
     if( strcmp( frame->name, main_method ) == 0 )
     {
@@ -368,12 +368,12 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             
             case RETURN:
                 process_return( current_frame, tree );
-                printf( "Current Frame = %s\n", current_frame->name );
+                //printf( "Current Frame = %s\n", current_frame->name );
                 break;
 
             case 'd':
                 current_frame = process_function( current_frame, tree->left, tree->right );
-                printf( "Current Frame = %s\n", current_frame->name );
+                //printf( "Current Frame = %s\n", current_frame->name );
                 break;
 
             // Found a list of variables
