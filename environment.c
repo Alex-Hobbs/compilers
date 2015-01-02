@@ -37,12 +37,8 @@ ENVIRONMENT_FRAME* store_function( ENVIRONMENT_FRAME* frame, NODE* declaration, 
 */
 TOKEN* lookup_variable( ENVIRONMENT_BINDING* node, char* variable_name )
 {
-	if( node == NULL )
+	if( node == NULL || variable_name == NULL )
 		return NULL;
-
-	// Do something about scanning through environments?
-	printf( "Looking for %s, found %s\n", variable_name, node->name );
-
 
 	if ( strcmp( node->name, variable_name ) != 0 )
 		return lookup_variable( node->next, variable_name );
