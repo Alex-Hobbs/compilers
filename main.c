@@ -503,7 +503,7 @@ int main(int argc, char** argv)
     yyparse();
     tree = ans;
     //printf("parse finished with %p\n", tree);
-    //print_tree(tree);
+    print_tree(tree);
 
     ENVIRONMENT_FRAME *base = setup_new_environment( NULL );
     base = parse_environment(base, tree);
