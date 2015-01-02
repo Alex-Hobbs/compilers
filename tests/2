@@ -1,6 +1,6 @@
 int main (){
-	int a = 1231241;
-	int b = 51345;
-	int c = a+b;
-	return c+b;
+	int a = 5;
+	int b = 10;
+	int c = b*a;
+	return c;
 }
