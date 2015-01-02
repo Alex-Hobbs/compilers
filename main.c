@@ -445,25 +445,13 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
 
     TOKEN* left_var;
     TOKEN* right_var;
-    char* left;
-    char* right;
-    char itoa[20];
+    char* left  = (char*)malloc(sizeof( char ) * 20);
+    char* right = (char*)malloc(sizeof( char ) * 20);
 
-    int lefti = get_int_from_leaf( conditional->left->left->left );
-    int righti = get_int_from_leaf( conditional->left->right->left );
+    left = get_leaf( conditional->left->left->left );
+    right = get_leaf( conditional->left->right->left );
 
-    if ( ! lefti )
-        left = get_leaf( conditional->left->left->left );
-
-    if ( ! righti )
-        right = get_leaf( conditional->left->right->left );
-
-    if ( left == NULL )
-        sprintf( itoa, "%d", lefti );
-    if ( right == NULL )
-        sprintf( itoa, "%d", righti );
-
-    printf( "%d %d %s\n\n\n", lefti, righti, itoa);
+    printf( "%s %s\n\n\n", left, right );
 
     // Grab the variables / conditions
     if ( left != NULL )
