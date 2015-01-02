@@ -176,8 +176,9 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
     // Rewrite our bindings
     tmpEnv->bindings = firstBinding;
     int returnValue = process_return( tmpEnv, body );
+    frame->return_value = returnValue;
 
-    printf( "Return value = %d\n", returnValue );
+    return frame;
 }
 
 int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
@@ -197,8 +198,10 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
         case '+':
           if( tree->left->left->type == APPLY )
           {
-                process_apply( frame, tree->left->left );
+                frame = process_apply( frame, tree->left->left );
                 right_variable_name = get_leaf( tree->left->right->left );
+                right = lookup_variable( frame->bindings, right_variable_name );
+                program_value = get_int_from_token( right ) + frame->return_value;
           }
           else
           {
@@ -207,8 +210,8 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
                 left = lookup_variable( frame->bindings, left_variable_name );
                 right = lookup_variable( frame->bindings, right_variable_name );
                 program_value = get_int_from_token( left ) + get_int_from_token( right );
-                break;
           }
+          break;
 
         case LEAF:
             left_variable_name = get_leaf( tree->left->left );
