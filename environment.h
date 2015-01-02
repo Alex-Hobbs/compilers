@@ -16,7 +16,7 @@ typedef struct env_frame
 	NODE						*body;
 	NODE						*declaration;
 	ENVIRONMENT_BINDING			*bindings;
-	int							*return_value;
+	int							return_value;
 	struct env_frame			*next;
 } ENVIRONMENT_FRAME;
 
