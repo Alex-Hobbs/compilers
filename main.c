@@ -324,7 +324,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
           break;
 
         case LEAF:
-            if( isdigit( tree->left->left ) )
+            if( get_int_from_leaf( tree->left->left ) != 0 )
             {
                 program_value = atoi( tree->left->left );
             }
