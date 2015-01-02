@@ -449,6 +449,7 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     char* left_fix; char* right_fix;
     char* left  = (char*)malloc(sizeof( char ) * 20);
     char* right = (char*)malloc(sizeof( char ) * 20);
+    int returnValue;
 
     left_fix = get_leaf( conditional->left->left->left );
     right_fix = get_leaf( conditional->left->right->left );
@@ -479,6 +480,11 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     switch( operand )
     {
         case EQ_OP:
+            if ( left_var != right_var )
+            {
+                returnValue = process_return( frame, conditional->right );
+                printf( "returned %d", returnValue );
+            }
             break;
         
         case LE_OP:
