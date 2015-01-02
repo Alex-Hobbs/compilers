@@ -16,6 +16,7 @@ typedef struct env_frame
 	NODE						*body;
 	NODE						*declaration;
 	ENVIRONMENT_BINDING			*bindings;
+	int							*return_value;
 	struct env_frame			*next;
 } ENVIRONMENT_FRAME;
 
@@ -24,6 +25,7 @@ typedef struct runtime_values
 	int							value;
 	struct runtime_values		*next;
 } RUNTIME_VALUES;
+
 
 TOKEN* lookup_variable(ENVIRONMENT_BINDING*, char*);
 ENVIRONMENT_FRAME* extend_environment( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING* );

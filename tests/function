@@ -1,6 +1,6 @@
 int first(){
 	int second(int a, int b, int c){
-		return a+b;
+		return a+c;
 	}
 	return second(5, 4, 2)+2;
 }
