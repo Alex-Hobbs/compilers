@@ -451,6 +451,11 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     left = get_leaf( conditional->left->left->left );
     right = get_leaf( conditional->left->right->left );
 
+    if ( strcmp( left, "???" ) == 0 )
+        sprintf( left, "%d", get_int_from_leaf( conditional->left->left->left ) );
+    if ( strcmp( right, "???" ) == 0 )
+        sprintf( right, "%d", get_int_from_leaf( conditional->left->right->left ) );
+
     printf( "%s %s\n\n\n", left, right );
 
 
