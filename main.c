@@ -450,7 +450,7 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
 
 int perform_eq_op_comparision( ENVIRONMENT_FRAME* frame, int one, int two, NODE* returnInformation )
 {
-    int returnValue;
+    int returnValue = 0;
 
     if( one == two )
     {
