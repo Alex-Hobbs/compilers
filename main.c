@@ -449,7 +449,7 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     left_var  = lookup_variable( frame->bindings, conditional->left->left );
     right_var = lookup_variable( frame->bindings, conditional->right->left );
 
-    print_tree0(conditional, 50);
+    print_tree0(conditional->left->left, 50);
 
     switch( operand )
     {
