@@ -445,16 +445,30 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
 
     TOKEN* left_var;
     TOKEN* right_var;
+    char* left_fix; char* right_fix;
     char* left  = (char*)malloc(sizeof( char ) * 20);
     char* right = (char*)malloc(sizeof( char ) * 20);
 
-    left = get_leaf( conditional->left->left->left );
-    right = get_leaf( conditional->left->right->left );
+    left_fix = get_leaf( conditional->left->left->left );
+    right_fix = get_leaf( conditional->left->right->left );
 
-    if ( strcmp( left, "???" ) == 0 )
+    if ( strcmp( left_fix, "???" ) == 0 )
+    {
         sprintf( left, "%d", get_int_from_leaf( conditional->left->left->left ) );
-    if ( strcmp( right, "???" ) == 0 )
+    }
+    else
+    {
+        left = left_fix;
+    }
+
+    if ( strcmp( right_fix, "???" ) == 0 )
+    {
         sprintf( right, "%d", get_int_from_leaf( conditional->left->right->left ) );
+    }
+    else
+    {
+        right = right_fix;
+    }
 
     printf( "%s %s\n\n\n", left, right );
 
