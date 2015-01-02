@@ -451,6 +451,12 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     left = get_leaf( conditional->left->left );
     right = get_leaf( conditional->right->left );
 
+    if ( strcmp( left, "???" ) == 0 )
+        left = itoa( conditional->left->left );
+
+    if ( strcmp( right, "???" ) == 0 )
+        left = itoa( conditional->right->left );
+
     printf( "%s %s\n\n\n\n\n", left, right );
 
     // Grab the variables / conditions
