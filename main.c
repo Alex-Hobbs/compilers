@@ -403,7 +403,8 @@ ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameter
     {
         char *param_name = get_leaf( parameters->right->left );
 
-        TOKEN* value = new_token( CONSTANT );
+        TOKEN* value = (TOKEN*)malloc( sizeof( TOKEN ) );
+        value = new_token( CONSTANT );
         value->value = 0;
 
         ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, param_name, value );
