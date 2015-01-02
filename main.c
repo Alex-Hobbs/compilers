@@ -451,6 +451,8 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     left = get_leaf( conditional->left->left );
     right = get_leaf( conditional->right->left );
 
+    printf( "%s %s\n\n\n\n\n", left, right );
+
     // Grab the variables / conditions
     left_var  = lookup_variable( frame->bindings, left );
     right_var = lookup_variable( frame->bindings, right );
