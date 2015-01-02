@@ -393,7 +393,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 new_frame = parse_environment_inner( new_frame, tree->left );
                 new_frame = parse_environment_inner( new_frame, tree->right );
                 current_frame = new_frame;
-                break;g
+                break;
             
             case RETURN:
                 process_return( current_frame, tree );
