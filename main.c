@@ -213,6 +213,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
                     right = lookup_variable( frame->bindings, right_variable_name );
                     program_value = get_int_from_token( right ) + frame->return_value;
                 }
+                frame = frame->next;
           }
           else
           {
