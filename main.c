@@ -448,8 +448,8 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     char* left;
     char* right;
 
-    left = conditional->left->left->left;
-    right = get_leaf( conditional->right->left );
+    left = get_leaf( conditional->left->left->left );
+    right = get_leaf( conditional->left->right->left );
 
     if ( strcmp( left, "???" ) == 0 )
         left = (char*) conditional->left->left;
