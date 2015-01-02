@@ -463,6 +463,8 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     if ( right == NULL )
         sprintf( itoa, "%d", righti );
 
+    printf( "%s\n\n\n", itoa);
+
     // Grab the variables / conditions
     if ( left != NULL )
     {
@@ -481,7 +483,7 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     {
         right_var = lookup_variable( frame->bindings, itoa );
     }
-    
+
     printf( "left = %s... right = %s\n", left_var->value, get_int_from_token( right_var ) );
 
     switch( operand )
