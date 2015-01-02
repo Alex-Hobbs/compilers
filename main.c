@@ -231,6 +231,8 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
             break;
     }
 
+    printf( "frame name = %s, main = %s\n", frame->name, main_method );
+
     if( strcmp( frame->name, main_method ) == 0 )
     {
         printf( "%d\n", program_value );
