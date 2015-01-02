@@ -438,6 +438,11 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
     return frame;
 }
 
+ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditional, int operand )
+{
+    printf( "Operand: %s\n", named( operand ) );
+}
+
 ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tree )
 {
     if (tree==NULL) return current_frame;
@@ -477,6 +482,10 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 process_variables( current_frame, tree );
                 current_frame = add_bindings_to_environment( current_frame, previous_node );
                 //printf( "Current Frame = %s\n", current_frame->name );
+                break;
+
+            case IF:
+                current_frame = process_conditional( current_frame, tree->left, tree->left->type );
                 break;
 
             //default:
