@@ -453,26 +453,8 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
 
     printf( "%s %s\n\n\n", left, right );
 
-    // Grab the variables / conditions
-    if ( left != NULL )
-    {
-        left_var  = lookup_variable( frame->bindings, left );
-    }
-    else
-    {
-        left_var  = lookup_variable( frame->bindings, itoa );
-    }
 
-    if( right != NULL )
-    {
-        right_var = lookup_variable( frame->bindings, right );
-    }
-    else
-    {
-        right_var = lookup_variable( frame->bindings, itoa );
-    }
-
-    printf( "left = %s... right = %s\n", left_var->value, get_int_from_token( right_var ) );
+    //printf( "left = %s... right = %s\n", left_var->value, get_int_from_token( right_var ) );
 
     switch( operand )
     {
