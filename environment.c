@@ -73,7 +73,7 @@ ENVIRONMENT_FRAME* update_environment_with_metadata( ENVIRONMENT_FRAME* frame, c
 	frame->name 		= function_name;
 	frame->return_type 	= return_type;
 
-	printf( "Environment extended with new environment of: %s %s\n", return_type, function_name );
+	//printf( "Environment extended with new environment of: %s %s\n", return_type, function_name );
 
 	return frame;
 }
@@ -94,7 +94,7 @@ ENVIRONMENT_BINDING* define_variable_with_value(
 	binding->value = value;
 	binding->next  = base_binding;
 
-	printf( "Variable %s added with value %d\n", variable_name, value->value );
+	//printf( "Variable %s added with value %d\n", variable_name, value->value );
 
 	return binding;
 }
