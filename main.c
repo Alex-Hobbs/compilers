@@ -75,7 +75,6 @@ int get_int_from_leaf(NODE *tree)
 
 int get_int_from_token(TOKEN *tree)
 {
-    if ( tree == NULL ) return -1;
     if (tree->type == CONSTANT) return tree->value;
     else if (tree) return 0;
 }
@@ -202,7 +201,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
           {
                 left_variable_name = get_leaf( tree->left->left->left );
                 right_variable_name = get_leaf( tree->left->right->left );
-                printf( "Left = %s, Right = %s\n", frame->bindings->next->next->name, frame->bindings->next->name );
                 program_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) +
                                  get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
           }
