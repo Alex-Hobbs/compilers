@@ -37,7 +37,10 @@ ENVIRONMENT_FRAME* store_function( ENVIRONMENT_FRAME* frame, NODE* declaration, 
 */
 TOKEN* lookup_variable( ENVIRONMENT_BINDING* node, char* variable_name )
 {
-	if( node == NULL || variable_name == NULL )
+	if( node == NULL )
+		return NULL;
+
+	if( variable_name == NULL )
 		return NULL;
 
 	if ( strcmp( node->name, variable_name ) != 0 )
