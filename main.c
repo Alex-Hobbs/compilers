@@ -480,10 +480,10 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     switch( operand )
     {
         case EQ_OP:
-            if ( left_var != right_var )
+            if ( left_var->value != right_var->value )
             {
                 returnValue = process_return( frame, conditional->right );
-                printf( "returned %d", returnValue );
+                printf( "returned %d\n", returnValue );
             }
             break;
         
