@@ -358,16 +358,17 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
 
                 new_frame = parse_environment( new_frame, tree->left );
                 new_frame = parse_environment( new_frame, tree->right );
-                return current_frame;
+                break;
 
             case 'd':
-                return process_function( current_frame, tree->left, tree->right );
+                current_frame = process_function( current_frame, tree->left, tree->right );
+                break;
 
             // Found a list of variables
             case '~':
                 process_variables( current_frame, tree );
                 current_frame = add_bindings_to_environment( current_frame, previous_node );
-                return current_frame;
+                break;
             
             case RETURN:
                 process_return( current_frame, tree );
