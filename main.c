@@ -198,9 +198,9 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
         case '+':
           if( tree->left->left->type == APPLY )
           {
-                frame = process_apply( frame, tree->left->left );
                 right_variable_name = get_leaf( tree->left->right->left );
-                printf( "left = %d, right = %s\n", frame->return_value, get_leaf( tree->left->right ) );
+                frame = process_apply( frame, tree->left->left );
+                printf( "left = %d, right = %s\n", frame->return_value, right_variable_name );
                 if ( isdigit( right_variable_name ) )
                 {
                     program_value = atoi( right_variable_name ) + frame->return_value;
