@@ -355,9 +355,6 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 new_frame = store_function( new_frame, tree->left, tree->right );
 
                 previous_node = NULL;
-
-                new_frame = parse_environment( new_frame, tree->left );
-                new_frame = parse_environment( new_frame, tree->right );
                 current_frame = new_frame;
     printf( "FRAME NAME = %s\n", current_frame->name );
                 break;
