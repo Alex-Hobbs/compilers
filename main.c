@@ -446,11 +446,11 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     TOKEN* right_var;
 
     // Grab the variables / conditions
-    left_var  = lookup_variable( frame->bindings, conditional->left->left );
-    right_var = lookup_variable( frame->bindings, conditional->right->left );
+    left_var  = lookup_variable( frame->bindings, get_leaf( conditional->left->left ) );
+    right_var = lookup_variable( frame->bindings, get_leaf( conditional->right->left ) );
 
-    char* left = conditional->left->left->left;//print_tree0(conditional->left->left, 50);
-    printf( "%s\n", get_leaf( left ) );
+    printf( "left = %s... right = %s\n", left_var, right_var );
+
     switch( operand )
     {
         case EQ_OP:
@@ -511,7 +511,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 break;
 
             case IF:
-                current_frame = process_conditional( current_frame, tree, tree->left->type );
+                current_frame = process_conditional( current_frame, tree->left, tree->left->type );
                 break;
 
             //default:
