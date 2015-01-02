@@ -336,7 +336,7 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
 
 ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tree )
 {
-    if (tree==NULL) return current_frame;
+    if (tree==NULL) return current_frame->next;
 
     if (tree->type == LEAF)
     {
