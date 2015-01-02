@@ -396,7 +396,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 break;
             
             case RETURN:
-                printf( "Current Frame = %s\n", current_frame );
+                printf( "Current Frame = %s\n", current_frame->name );
                 process_return( current_frame, tree );
 
             //default:
