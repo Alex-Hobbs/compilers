@@ -208,6 +208,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
 
                 if ( right_int != 0 )
                 {
+                    printf( "right integer = %d, left integer = %d\n", right_int, frame->return_value );
                     program_value = right_int + frame->return_value;
                 }
                 else
