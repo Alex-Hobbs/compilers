@@ -144,15 +144,8 @@ RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNT
     }
 }
 
-ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
+ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, NODE *body, char *function_name, NODE *parameters )
 {
-    char *function_name = get_leaf( tree->left->left );
-
-    NODE *declaration   = get_declaration_of_function( frame, function_name );
-    NODE *body          = get_body_of_function( frame, function_name );
-
-    // Start of the search/replace at beginning of function variables
-    NODE *parameters    = tree->right;
     RUNTIME_VALUES *values = process_apply_params( frame, parameters, NULL );
 
     // Setup tmp environment
@@ -202,7 +195,7 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
     return program_value;
 }
 
-int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
+int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, NODE *declaration, NODE *body, NODE *parameters )
 {
     char* left_variable_name;
     char* right_variable_name;
@@ -215,7 +208,15 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
     switch( tree->left->type )
     {
         case APPLY:
-            frame = process_apply( frame, tree->left );
+            if ( function_name == NULL || declaration == NULL || body == NULL || paramaeters == NULL )
+            {
+                function_name = get_leaf( tree->left->left->left );
+                declaration   = get_declaration_of_function( frame, function_name );
+                body          = get_body_of_function( frame, function_name );
+                parameters    = tree->right;
+            }
+
+            frame = process_apply( frame, declaration, body, function_name, parameters );
             program_value = frame->return_value;
             frame = frame->next;
             break;
@@ -556,13 +557,18 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             case RETURN:
                 if ( current_frame->return_value && current_frame->next != NULL )
                 {
-                    printf( "HERE WE ARE" );
-                    print_tree0( current_frame->next->body->right, 5 );
-                    current_frame->next->return_value = process_return( current_frame->next, current_frame->next->body->right );
+                    current_frame->next->return_value = process_return(
+                            current_frame->next,
+                            current_frame->next->body->right,
+                            current_frame->next->declaration,
+                            current_frame->next->body->right,
+                            current_frame->next->body->right->right
+                    );
+
                     return current_frame;
                 }
 
-                current_frame->return_value = process_return( current_frame, tree );
+                current_frame->return_value = process_return( current_frame, tree, NULL, NULL, NULL, NULL );
                 break;
 
             case 'd':
