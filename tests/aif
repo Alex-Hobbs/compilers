@@ -1,0 +1,14 @@
+int main(){
+
+	int inner(int a){
+		if (a == 1){
+			return 100;
+		}
+		return 200;
+	}
+
+	if ( 1 == 1 )
+		return inner(1);
+
+	return 122;
+}

@@ -1,3 +1,8 @@
+int main(){
+	function a = cplus(4);
+	return a(6);
+}
+
 function cplus(int a){
 	int cplusa(int b) { return a+b; }
 	return cplusa;
