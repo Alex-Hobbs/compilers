@@ -540,6 +540,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
     {
         char *function_name = NULL;
         ENVIRONMENT_FRAME *new_frame = NULL;
+        NODE *next_tree = NULL;
 
         switch( tree->type )
         {
@@ -553,9 +554,10 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 break;
             
             case RETURN:
-                if( current_frame->return_value == NULL )
-                    current_frame->return_value = process_return( current_frame, tree );
-                break;
+                current_frame->return_value = process_return( current_frame, tree );
+                next_tree                    = get_body_of_function( current_frame, current_frame->name );
+                current_frame = process_environment( current_frame->next, next_tree );
+                return current_frame;
 
             case 'd':
                 current_frame = process_function( current_frame, tree->left, tree->right );
