@@ -4,6 +4,8 @@
 #include "C.tab.h"
 #include "common.h"
 
+#define MAX_INTEGER 2147483646 // max integer - 1 for a 32-bit system
+
 char *named(int t)
 {
     static char b[100];
@@ -64,16 +66,15 @@ char *get_leaf(NODE *tree)
 int get_int_from_leaf(NODE *tree)
 {
     TOKEN *t = (TOKEN *)tree;
-    if (t->type == CONSTANT) return t->value;
-    else if (t) return 0;
+    return get_int_from_token(t);
 }
 
 int get_int_from_token(TOKEN *tree)
 {
-    if ( tree == NULL ) return -1;
+    if ( tree == NULL ) return MAX_INTEGER;
     if (tree->type == CONSTANT) return tree->value;
     else if (tree) return (int) atoi( tree->lexeme );
-    else return 0;
+    else return MAX_INTEGER;
 }
 
 void print_leaf(NODE *tree, int level)

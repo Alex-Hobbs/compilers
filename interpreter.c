@@ -61,7 +61,6 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
     // to an existing function and are changeable. Should not alter existing function
     // environment, but add a temporary one with the new values.
     ENVIRONMENT_FRAME *tmpEnv = (ENVIRONMENT_FRAME *)setup_new_environment( NULL );
-    tmpEnv->bindings    = frame->bindings;
     tmpEnv->declaration = declaration;
     tmpEnv->body        = body;
     tmpEnv->name        = function_name; 
@@ -71,6 +70,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
     ENVIRONMENT_BINDING *bindings = frame->bindings;
     ENVIRONMENT_BINDING *firstBinding = bindings;
 
+    // Loop whilst we have values to apply to variables
     while( values != NULL )
     {
         TOKEN *newValue = new_token( CONSTANT );
@@ -81,26 +81,37 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
         values = values->next;
     }
 
-    // Rewrite our bindings
+    // Set the variables for this temporary environment
     tmpEnv->bindings = firstBinding;
-    //print_tree0( body, 50 );
+
+    // Now our temporary environment is fully set up we need to rerun the whole parser
     frame = parse_environment( tmpEnv, body );
     
+    // Return completed frame
     return frame;
 }
 
+/**
+ * process_leaf
+ *
+ * If the trigger is of type LEAF (e.g. return 10;) we just need to work out whether
+ * it is a number or a variable, and return the appropriate integer value
+ *
+ * @arg     ENVIRONMENT_FRAME*      current environment we are in
+ * @arg     NODE*                   leaf we are evaluating
+ * @returns int                     evaluated leaf
+ */
 int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
 {
     int program_value;
-    char* leaf_name;
 
-    if( get_int_from_leaf( leaf ) != 0 )
+    if( get_int_from_leaf( leaf ) != MAX_INTEGER )
     {
         program_value = get_int_from_leaf( leaf );
     }
     else
     {
-        leaf_name = get_leaf( leaf );
+        char* leaf_name = get_leaf( leaf );
         program_value = get_int_from_token( lookup_variable( frame->bindings, leaf_name ) );
     }
 
