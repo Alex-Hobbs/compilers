@@ -562,7 +562,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
 
             case IF:
                 current_frame = process_conditional( current_frame, tree, tree->left->type );
-                break;
+                return current_frame;
 
             //default:
               //printf( "Found nothing, looked for %c\n", tree->type );
