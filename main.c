@@ -545,14 +545,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 break;
             
             case RETURN:
-                if( current_frame->return_value == NULL )
-                {
-                    current_frame->return_value = process_return( current_frame, tree );
-                }
-                else
-                {
-                    return current_frame;
-                }//printf( "Current Frame = %s\n", current_frame->name );
+                current_frame->return_value = process_return( current_frame, tree );
                 break;
 
             case 'd':
@@ -575,6 +568,10 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
               //printf( "Found nothing, looked for %c\n", tree->type );
         }
     }
+
+    //  Return clause
+    if( current_frame->return_value )
+        return current_frame;
 
     current_frame = parse_environment( current_frame, tree->left );
     current_frame = parse_environment( current_frame, tree->right );
