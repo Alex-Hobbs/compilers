@@ -225,7 +225,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           if( tree->left->left->type == APPLY )
           {
                 right_int = get_int_from_leaf( tree->left->right->left );
-                frame = process_apply( frame, tree->left->left );
+                frame = process_apply( frame, tree->left->left, NULL, NULL, NULL, NULL );
 
                 if ( right_int != 0 )
                 {
@@ -255,7 +255,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           if( tree->left->left->type == APPLY )
           {
                 right_int = get_int_from_leaf( tree->left->right->left );
-                frame = process_apply( frame, tree->left->left );
+                frame = process_apply( frame, tree->left->left, NULL, NULL, NULL, NULL );
 
                 if ( right_int != 0 )
                 {
@@ -285,7 +285,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           if( tree->left->left->type == APPLY )
           {
                 right_int = get_int_from_leaf( tree->left->right->left );
-                frame = process_apply( frame, tree->left->left );
+                frame = process_apply( frame, tree->left->left, NULL, NULL, NULL, NULL );
 
                 if ( right_int != 0 )
                 {
@@ -315,7 +315,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           if( tree->left->left->type == APPLY )
           {
                 right_int = get_int_from_leaf( tree->left->right->left );
-                frame = process_apply( frame, tree->left->left );
+                frame = process_apply( frame, tree->left->left, NULL, NULL, NULL, NULL );
 
                 if ( right_int != 0 )
                 {
@@ -562,6 +562,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                             current_frame->next->body->right,
                             current_frame->next->declaration,
                             current_frame->next->body->right,
+                            current_frame->next->name,
                             current_frame->next->body->right->right
                     );
 
