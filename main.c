@@ -210,7 +210,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
 
                 if ( right_int != 0 )
                 {
-                    printf( "right integer = %d, left integer = %d\n", right_int, frame->return_value );
+                    //printf( "right integer = %d, left integer = %d\n", right_int, frame->return_value );
                     program_value = right_int + frame->return_value;
                 }
                 else
@@ -240,7 +240,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
 
                 if ( right_int != 0 )
                 {
-                    printf( "right integer = %d, left integer = %d\n", right_int, frame->return_value );
+                    //printf( "right integer = %d, left integer = %d\n", right_int, frame->return_value );
                     program_value = frame->return_value - right_int;
                 }
                 else
@@ -270,7 +270,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
 
                 if ( right_int != 0 )
                 {
-                    printf( "right integer = %d, left integer = %d\n", right_int, frame->return_value );
+                    //printf( "right integer = %d, left integer = %d\n", right_int, frame->return_value );
                     program_value = frame->return_value * right_int;
                 }
                 else
@@ -300,7 +300,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
 
                 if ( right_int != 0 )
                 {
-                    printf( "right integer = %d, left integer = %d\n", right_int, frame->return_value );
+                    //printf( "right integer = %d, left integer = %d\n", right_int, frame->return_value );
                     program_value = frame->return_value / right_int;
                 }
                 else
@@ -333,6 +333,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
                 left_variable_name = get_leaf( tree->left->left );
                 program_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) );
             }
+            printf( "%s\n", tree->left->left );
             break;
     }
 
@@ -455,7 +456,7 @@ int perform_eq_op_comparision( ENVIRONMENT_FRAME* frame, int one, int two, NODE*
     if( one == two )
     {
         returnValue = process_return( frame, returnInformation->left );
-        printf( "returned %d\n", returnValue );
+        //printf( "returned %d\n", returnValue );
     }
 
     return returnValue;
