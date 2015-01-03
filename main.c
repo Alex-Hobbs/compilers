@@ -187,6 +187,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *tree )
 int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
 {
     int program_value;
+    char* leaf_name;
 
     if( get_int_from_leaf( leaf ) != 0 )
     {
@@ -194,8 +195,8 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
     }
     else
     {
-        left_variable_name = get_leaf( leaf );
-        program_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) );
+        leaf_name = get_leaf( leaf );
+        program_value = get_int_from_token( lookup_variable( frame->bindings, leaf_name ) );
     }
 
     return program_value;
@@ -341,7 +342,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
           break;
 
         case LEAF:
-            program_value = process_leaf( frame, tree->left->left );
+            program_value = process_leaf( frame, atree->left->left );
             break;
     }
 
