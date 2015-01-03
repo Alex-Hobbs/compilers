@@ -602,7 +602,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                             current_frame->next->body->right->left->right
                     );
 
-                    return current_frame;
+                    return current_frame->next;
                 }
 
                 current_frame->return_value = process_return( current_frame, tree, NULL, NULL, NULL, NULL );
