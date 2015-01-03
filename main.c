@@ -228,10 +228,10 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           {
                 if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
                 {
-                    function_name = get_leaf( tree->left->left->left );
+                    function_name = get_leaf( tree->left->left->left->left );
                     declaration   = get_declaration_of_function( frame, function_name );
                     body          = get_body_of_function( frame, function_name );
-                    parameters    = tree->left->right;
+                    parameters    = tree->left->left->right;
                 }
 
                 right_int = get_int_from_leaf( tree->left->right->left );
@@ -266,10 +266,10 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           {
                 if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
                 {
-                    function_name = get_leaf( tree->left->left->left );
+                    function_name = get_leaf( tree->left->left->left->left );
                     declaration   = get_declaration_of_function( frame, function_name );
                     body          = get_body_of_function( frame, function_name );
-                    parameters    = tree->left->right;
+                    parameters    = tree->left->left->right;
                 }
 
                 right_int = get_int_from_leaf( tree->left->right->left );
@@ -304,10 +304,10 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           {
                 if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
                 {
-                    function_name = get_leaf( tree->left->left->left );
+                    function_name = get_leaf( tree->left->left->left->left );
                     declaration   = get_declaration_of_function( frame, function_name );
                     body          = get_body_of_function( frame, function_name );
-                    parameters    = tree->left->right;
+                    parameters    = tree->left->left->right;
                 } 
 
                 right_int = get_int_from_leaf( tree->left->right->left );
@@ -342,10 +342,10 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           {
                 if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
                 {
-                    function_name = get_leaf( tree->left->left->left );
+                    function_name = get_leaf( tree->left->left->left->left );
                     declaration   = get_declaration_of_function( frame, function_name );
                     body          = get_body_of_function( frame, function_name );
-                    parameters    = tree->left->right;
+                    parameters    = tree->left->left->right;
                 }
 
                 right_int = get_int_from_leaf( tree->left->right->left );
