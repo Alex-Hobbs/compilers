@@ -161,8 +161,8 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
 
     while( values != NULL )
     {
-        printf( "VALUE = %d\n", values->value );
-        
+        printf( "VALUE = %d\n", frame->name );
+
         TOKEN *newValue = new_token( CONSTANT );
         newValue->value = values->value;
         bindings->value = newValue;
