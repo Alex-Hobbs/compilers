@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "C.tab.h"
+#include "common.h"
 
 char *named(int t)
 {
