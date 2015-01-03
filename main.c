@@ -174,9 +174,9 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
     // Rewrite our bindings
     tmpEnv->bindings = firstBinding;
     printf( "firstBinding value = %d\n", firstBinding->value );
-    print_tree0( body, 10 );
+    //print_tree0( body, 10 );
     frame = parse_environment( tmpEnv, body );
-    print_tree0( body, 10 );
+    //print_tree0( body, 10 );
     //frame->return_value = returnValue;
 
     return frame;
