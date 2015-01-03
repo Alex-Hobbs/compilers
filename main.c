@@ -161,8 +161,6 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
 
     while( values != NULL )
     {
-        printf( "VALUE = %s\n", frame->name );
-
         TOKEN *newValue = new_token( CONSTANT );
         newValue->value = values->value;
         bindings->value = newValue;
@@ -599,7 +597,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                             current_frame->next->body->right,
                             current_frame->next->name,
                             current_frame->next->declaration,
-                            current_frame->next->body->right,
+                            current_frame->body->right,
                             current_frame->next->body->right->left->right
                     );
 
