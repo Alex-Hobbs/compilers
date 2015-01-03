@@ -1,5 +1,5 @@
-OBJS = lex.yy.o C.tab.o symbol_table.o nodes.o main.o environment.o interpreter.o
-SRCS = lex.yy.c C.tab.c symbol_table.c nodes.c main.c environment.c interpreter.c
+OBJS = lex.yy.o C.tab.o symbol_table.o nodes.o common.o environment.o interpreter.o main.o
+SRCS = lex.yy.c C.tab.c symbol_table.c nodes.c common.c environment.c interpreter.c main.c
 CC = gcc
 
 all:	mycc
