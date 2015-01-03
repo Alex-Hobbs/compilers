@@ -593,7 +593,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 {
                     current_frame->next->return_value = process_return(
                             current_frame->next,
-                            current_frame->body->right,
+                            current_frame->next->body->right,
                             current_frame->next->declaration,
                             current_frame->next->body->right,
                             current_frame->next->name,
