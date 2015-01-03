@@ -592,7 +592,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 if ( current_frame->return_value && current_frame->next != NULL )
                 {
                     print_tree0(
-                            current_frame->next->body->right->right, 10 );
+                            current_frame->next->body->right->left->right, 10 );
                     current_frame->next->return_value = process_return(
                             current_frame->next,
                             current_frame->next->body->right,
