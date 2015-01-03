@@ -1,6 +1,6 @@
 
-#ifndef __NODES_H
-#define __NODES_H
+#ifndef __INTERPRETER_H
+#define __INTERPRETER_H
 #include "nodes.h"
 #include "token.h"
 #include "environment.h"
