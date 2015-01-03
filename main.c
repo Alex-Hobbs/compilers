@@ -349,6 +349,8 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
             break;
     }
 
+    printf( "Tree type = %s, value = %s", named( tree->left->type ), tree->left->left );
+
     //printf( "frame name = %s, main = %s\n", frame->name, main_method );
 
     if( strcmp( frame->name, main_method ) == 0 )
