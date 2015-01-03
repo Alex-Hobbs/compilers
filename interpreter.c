@@ -105,12 +105,19 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
 {
     int program_value;
 
+    // This is a bit of a hackish way to work out of a char is a number
+    // or a variable name. Idea discussed and came up with Matt Nicholls (mln24)
+    // get_int_from_leaf will try casting it to an integer, if it cannot it will return
+    // a constant MAX_INTEGER (which we felt would not be used in a program often)
     if( get_int_from_leaf( leaf ) != MAX_INTEGER )
     {
+        // Leaf is a number, so we set program_value to it's value
         program_value = get_int_from_leaf( leaf );
     }
     else
     {
+        // Leaf is infact a letter/word, lets see if it is a variable. if it is return its value
+        // otherwise return MAX_INTEGER (get_int_from_token will return this when NaN)
         char* leaf_name = get_leaf( leaf );
         program_value = get_int_from_token( lookup_variable( frame->bindings, leaf_name ) );
     }
@@ -118,17 +125,12 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
     return program_value;
 }
 
-
-
 int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, NODE *declaration, NODE *body, NODE *parameters )
 {
-    char* left_variable_name;
-    char* right_variable_name;
-    int right_int;
-    int left_int;
+    char* left_variable_name; char* right_variable_name;
+    int left_int; int right_int;
+    TOKEN* left; TOKEN* right;
     int program_value;
-    TOKEN* left;
-    TOKEN* right;
 
     switch( tree->left->type )
     {
@@ -141,14 +143,11 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
                 parameters    = tree->left->right;
             }
 
-           // print_tree0( body, 100 );
-
             frame = process_apply( frame, declaration, body, function_name, parameters );
             program_value = frame->return_value;
-            //printf( "Program value = %d\n", program_value );
+
             frame = frame->next;
             break;
-
 
         case IF:
             if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
@@ -158,8 +157,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
                 body          = get_body_of_function( frame, function_name );
                 parameters    = tree->left->right;
             }
-
-            print_tree0( body, 15 );
 
             frame = process_conditional( frame, body, body>left->type );
             program_value = frame->return_value;
@@ -179,9 +176,8 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
-                if ( right_int != 0 )
+                if ( right_int != MAX_INTEGER )
                 {
-                    //printf( "right integer = %d, left integer = %d\n", right_int, frame->return_value );
                     program_value = right_int + frame->return_value;
                 }
                 else
@@ -217,9 +213,8 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
-                if ( right_int != 0 )
+                if ( right_int != MAX_INTEGER )
                 {
-                    //printf( "right integer = %d, left integer = %d\n", right_int, frame->return_value );
                     program_value = frame->return_value - right_int;
                 }
                 else
@@ -257,7 +252,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
 
                 if ( right_int != 0 )
                 {
-                    //printf( "right integer = %d, left integer = %d\n", right_int, frame->return_value );
                     program_value = frame->return_value * right_int;
                 }
                 else
