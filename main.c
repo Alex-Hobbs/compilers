@@ -555,11 +555,14 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             
             case RETURN:
                 if ( current_frame->return_value )
+                {
+                    printf( "return value for frame '%s' is %d", current_frame->name, current_frame->return_value );
                     return current_frame;
+                }
 
                 current_frame->return_value = process_return( current_frame, tree );
                 break;
-                
+
             case 'd':
                 current_frame = process_function( current_frame, tree->left, tree->right );
                 //printf( "Current Frame = %s\n", current_frame->name );
