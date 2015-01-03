@@ -170,7 +170,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
         bindings = bindings->next;
         values = values->next;
     }
-
+    printf( "test\n\n\n" );
     // Rewrite our bindings
     tmpEnv->bindings = firstBinding;
     printf( "firstBinding value = %d\n", firstBinding->value );
