@@ -555,9 +555,9 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 break;
             
             case RETURN:
-                if ( current_frame->return_value )
+                if ( current_frame->return_value && current_frame->next != NULL )
                 {
-                    printf( "return value for frame '%s' is %d", current_frame->name, current_frame->return_value );
+                    current_frame->next->return_value = process_return( current_frame->next, current_frame->next->body );
                     return current_frame;
                 }
 
