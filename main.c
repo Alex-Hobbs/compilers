@@ -599,7 +599,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                             current_frame->next->declaration,
                             current_frame->next->body->right,
                             current_frame->next->name,
-                            current_frame->next->body->right->right
+                            current_frame->next->body->right->left->right
                     );
 
                     return current_frame;
