@@ -214,7 +214,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
                 function_name = get_leaf( tree->left->left->left );
                 declaration   = get_declaration_of_function( frame, function_name );
                 body          = get_body_of_function( frame, function_name );
-                print_tree0( body , 10);
+                print_tree0( tree->right , 10);
                 printf( "function_name = %s\n", function_name );
                 parameters    = tree->right;
             }
