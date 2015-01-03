@@ -199,6 +199,8 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
         program_value = get_int_from_token( lookup_variable( frame->bindings, leaf_name ) );
     }
 
+    printf( "PROGRAM_VALUE AT RETURN: %s\n", leaf);
+
     return program_value;
 }
 
@@ -473,7 +475,7 @@ int perform_eq_op_comparision( ENVIRONMENT_FRAME* frame, int one, int two, NODE*
 
 ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditional, int operand )
 {
-    printf( "Operand: %s\n", named( operand ) );
+    //printf( "Operand: %s\n", named( operand ) );
 
     TOKEN* left_var;
     TOKEN* right_var;
@@ -506,7 +508,7 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     left_var = lookup_variable( frame->bindings, left );
     right_var = lookup_variable( frame->bindings, right );
 
-    printf( "left = %d... right = %d\n", left_var->value, right_var->value );
+    //printf( "left = %d... right = %d\n", left_var->value, right_var->value );
 
     switch( operand )
     {
