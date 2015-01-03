@@ -3,10 +3,25 @@
 #include "interpreter.h"
 #include "C.tab.h"
 
+/**
+ * process_apply_params
+ *
+ * This function starts off with a blank linked list (valueList) and for each value found 
+ * in the 'apply' part of the Abstract Syntax Tree, it puts it into the linked list. 
+ *
+ * @arg     ENVIRONMENT_FRAME*      current environment we are in
+ * @arg     NODE*                   the relevant piece of abstract syntax tree we are looking at
+ * @arg     RUNTIME_VALUES*         a linked list of pass-at-runtime values for "apply"
+ * @returns RUNTIME_VALUES*         returns a linked list complete with variables
+ */
 RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNTIME_VALUES *valueList )
 {
+    // If there are no more elements in the tree, return the last value
+    // which has references to all other values (a complete linked list)
     if ( tree == NULL ) return valueList;
 
+    // We only care about values that are LEAFs, if they are not leafs then 
+    // proceed to next iteration
     if ( tree->type != LEAF )
     {
         valueList = process_apply_params( frame, tree->left, valueList );
@@ -14,8 +29,10 @@ RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNT
     }
     else
     {
+        // Given a leaf, convert it into an integer and return it to us
         int value = get_int_from_leaf( tree->left );
         
+        // Create a new RUNTIME_VALUE node and set "next" to be the current valueList
         RUNTIME_VALUES *valuePtr = (RUNTIME_VALUES*)malloc( sizeof( RUNTIME_VALUES ) );
         valuePtr->next = valueList;
         valuePtr->value = value;
@@ -23,11 +40,26 @@ RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNT
     }
 }
 
+/**
+ * process_apply
+ *
+ * Trigger function for "APPLY" statements in the Abstract Syntax Tree
+ *
+ * @arg     ENVIRONMENT_FRAME*      current environment we are in
+ * @arg     NODE*                   function header decalaration respresented in AST (e.g. int main( a, b, c ))
+ * @arg     NODE*                   function body represented in AST (e.g. { if( a == 1 ){ return true; } })
+ * @arg     char*                   function name that the apply is being called from
+ * @arg     NODE*                   function parameter values
+ * @returns ENVIRONMENT_FRAME*      updated frame with frame_value set
+ */
 ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, NODE *body, char *function_name, NODE *parameters )
 {
     RUNTIME_VALUES *values = process_apply_params( frame, parameters, NULL );
 
-    // Setup tmp environment
+    // Setup a new temporary environment which is discarded after this apply
+    // The reason I do this is because "APPLY" receives values that are to be applied
+    // to an existing function and are changeable. Should not alter existing function
+    // environment, but add a temporary one with the new values.
     ENVIRONMENT_FRAME *tmpEnv = (ENVIRONMENT_FRAME *)setup_new_environment( NULL );
     tmpEnv->bindings    = frame->bindings;
     tmpEnv->declaration = declaration;
@@ -35,6 +67,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
     tmpEnv->name        = function_name; 
     tmpEnv->next        = frame->next;
 
+    // Get our function variables (bindings), and set a reference to the firstBinding for later use
     ENVIRONMENT_BINDING *bindings = frame->bindings;
     ENVIRONMENT_BINDING *firstBinding = bindings;
 
@@ -67,7 +100,7 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
     }
     else
     {
-        leaf_name = (char*) get_leaf( leaf );
+        leaf_name = get_leaf( leaf );
         program_value = get_int_from_token( lookup_variable( frame->bindings, leaf_name ) );
     }
 
