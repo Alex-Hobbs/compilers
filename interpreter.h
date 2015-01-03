@@ -6,6 +6,7 @@
 #include "common.h"
 #include "environment.h"
 
+char* main_method;
 ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME*, NODE*, int );
 int process_return( ENVIRONMENT_FRAME*, NODE*, char*, NODE*, NODE*, NODE* );
 
