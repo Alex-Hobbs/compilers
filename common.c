@@ -80,7 +80,7 @@ void print_leaf(NODE *tree, int level)
 {
     TOKEN *t = (TOKEN *)tree;
     int i;
-    for (i=0; i<level; i++) putchar('  ');
+    for (i=0; i<level; i++) putchar(' ');
     if (t->type == CONSTANT) printf("%d\n", t->value);
     else if (t->type == STRING_LITERAL) printf("\"%s\"\n", t->lexeme);
     else if (t) puts(t->lexeme);
@@ -94,7 +94,7 @@ void print_tree0(NODE *tree, int level)
       print_leaf(tree->left, level);
     }
     else {
-      for(i=0; i<level; i++) putchar('  ');
+      for(i=0; i<level; i++) putchar(' ');
       printf("%s\n", named(tree->type));
 /*       if (tree->type=='~') { */
 /*         for(i=0; i<level+2; i++) putchar(' '); */
