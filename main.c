@@ -221,7 +221,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
 
             frame = process_apply( frame, declaration, body, function_name, parameters );
             program_value = frame->return_value;
-            printf( "Program value = %d\n", program_value );
+            //printf( "Program value = %d\n", program_value );
             frame = frame->next;
             break;
 
@@ -619,11 +619,8 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                             current_frame->next->body->right->left->right
                     );
 
-                    printf( "RETURNED = %d\n", current_frame->next->return_value );
                     return current_frame;
                 }
-
-                printf( "frame = %s\n", current_frame->name );
 
                 current_frame->return_value = process_return( current_frame, tree, NULL, NULL, NULL, NULL );
                 return current_frame;
@@ -672,7 +669,7 @@ int main(int argc, char** argv)
     yyparse();
     tree = ans;
     //printf("parse finished with %p\n", tree);
-    print_tree(tree);
+    //print_tree(tree);
 
     ENVIRONMENT_FRAME *base = setup_new_environment( NULL );
     base = parse_environment(base, tree);
