@@ -4,8 +4,6 @@
 #include "C.tab.h"
 #include "common.h"
 
-#define MAX_INTEGER 2147483646 // max integer - 1 for a 32-bit system
-
 char *named(int t)
 {
     static char b[100];

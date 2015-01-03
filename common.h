@@ -2,6 +2,7 @@
 #define __COMMON_H
 #include "token.h"
 #include "nodes.h"
+#define MAX_INTEGER 2147483646 // max integer - 1 for a 32-bit system
 
 char* get_leaf(NODE*);
 char* named(int);
