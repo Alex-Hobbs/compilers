@@ -123,3 +123,84 @@ ENVIRONMENT_BINDING* update_variable_with_value(
 	binding->value = value;
 	return binding;
 }
+
+ENVIRONMENT_FRAME* setup_new_environment( ENVIRONMENT_FRAME *neighbour )
+{
+    ENVIRONMENT_FRAME *base = (ENVIRONMENT_FRAME*)malloc( sizeof( ENVIRONMENT_FRAME ) );
+    base->next = neighbour;
+    return base;
+}
+
+ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tree )
+{
+    if (tree==NULL) return current_frame;
+
+    if (tree->type == LEAF)
+    {
+        return current_frame;
+    }
+    else
+    {
+        char *function_name = NULL;
+        ENVIRONMENT_FRAME *new_frame = NULL;
+        NODE *next_tree = NULL;
+
+        switch( tree->type )
+        {
+            // Entered a new function
+            case 'D':
+                new_frame = extend_environment( current_frame, NULL );
+                new_frame = store_function( new_frame, tree->left, tree->right );
+
+                previous_node = NULL;
+                current_frame = new_frame;
+                break;
+            
+            case RETURN:
+                if ( current_frame->return_value && current_frame->next != NULL )
+                {
+                    //print_tree0( current_frame->body->right, 25 );
+                    current_frame->next->return_value = process_return(
+                            current_frame,
+                            current_frame->next->body->right,
+                            current_frame->next->name,
+                            current_frame->next->declaration,
+                            current_frame->body,
+                            current_frame->next->body->right->left->right
+                    );
+
+                    return current_frame;
+                }
+
+                current_frame->return_value = process_return( current_frame, tree, NULL, NULL, NULL, NULL );
+                return current_frame;
+
+            case 'd':
+                current_frame = process_function( current_frame, tree->left, tree->right );
+                //printf( "Current Frame = %s\n", current_frame->name );
+                break;
+
+            // Found a list of variables
+            case '~':
+                process_variables( current_frame, tree );
+                current_frame = add_bindings_to_environment( current_frame, previous_node );
+                //printf( "Current Frame = %s\n", current_frame->name );
+                break;
+
+            case IF:
+                current_frame = process_conditional( current_frame, tree, tree->left->type );
+                return current_frame;
+
+            //default:
+              //printf( "Found nothing, looked for %c\n", tree->type );
+        }
+    }
+
+    //  Return clause
+    if( current_frame->return_value )
+        return current_frame;
+
+    current_frame = parse_environment( current_frame, tree->left );
+    current_frame = parse_environment( current_frame, tree->right );
+    return current_frame;
+}

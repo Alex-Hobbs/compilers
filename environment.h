@@ -36,5 +36,7 @@ ENVIRONMENT_FRAME* update_environment_with_metadata( ENVIRONMENT_FRAME*, char*, 
 NODE* get_body_of_function( ENVIRONMENT_FRAME*, char* );
 NODE* get_declaration_of_function( ENVIRONMENT_FRAME*, char* );
 ENVIRONMENT_FRAME* store_function( ENVIRONMENT_FRAME*, NODE*, NODE* );
+ENVIRONMENT_FRAME* setup_environment( ENVIRONMENT_FRAME* );
+ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME*, NODE* );
 
 #endif
