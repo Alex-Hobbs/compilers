@@ -326,12 +326,12 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
         case LEAF:
             if( get_int_from_leaf( tree->left->left ) != 0 )
             {
+                printf( "var: %s\n", tree->left->left );
                 program_value = atoi( tree->left->left );
             }
             else
             {
                 left_variable_name = get_leaf( tree->left->left );
-                printf( "var: %s\n", left_variable_name );
                 program_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) );
             }
             break;
