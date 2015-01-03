@@ -218,6 +218,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
 
             frame = process_apply( frame, declaration, body, function_name, parameters );
             program_value = frame->return_value;
+            printf( "Program value = %d\n", program_value );
             frame = frame->next;
             break;
 
