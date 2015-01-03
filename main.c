@@ -173,6 +173,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
 
     // Rewrite our bindings
     tmpEnv->bindings = firstBinding;
+    print_tree0( body, 50 );
     frame = parse_environment( tmpEnv, body );
     
     return frame;
@@ -602,7 +603,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                             current_frame->next->body->right->left->right
                     );
 
-                    return current_frame->next;
+                    return current_frame;
                 }
 
                 printf( "frame = %s\n", current_frame->name );
