@@ -344,6 +344,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
           break;
 
         case LEAF:
+            printf( "Leaf = yes = %s\n", tree->left->left );
             program_value = process_leaf( frame, tree->left->left );
             break;
     }
@@ -514,7 +515,7 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     {
         case EQ_OP:
             returnValue = perform_eq_op_comparision( frame, left_var->value, right_var->value, conditional->right );
-            printf( "return value %d\n", returnValue );
+            //printf( "return value %d\n", returnValue );
             break;
 
         case LE_OP:
