@@ -171,7 +171,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
 
     // Rewrite our bindings
     tmpEnv->bindings = firstBinding;
-    print_tree0( body, 50 );
+    //print_tree0( body, 50 );
     frame = parse_environment( tmpEnv, body );
     
     return frame;
@@ -216,12 +216,28 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
                 parameters    = tree->left->right;
             }
 
-            print_tree0( body, 100 );
+           // print_tree0( body, 100 );
 
             frame = process_apply( frame, declaration, body, function_name, parameters );
             program_value = frame->return_value;
             printf( "Program value = %d\n", program_value );
             frame = frame->next;
+            break;
+
+
+        case IF:
+            if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
+            {
+                function_name = get_leaf( tree->left->left->left );
+                declaration   = get_declaration_of_function( frame, function_name );
+                body          = get_body_of_function( frame, function_name );
+                parameters    = tree->left->right;
+            }
+
+            print_tree0( body, 15 );
+
+            frame = process_conditional( frame, body, body>left->type );
+            program_value = frame->return_value;
             break;
 
         case '+':
@@ -592,13 +608,13 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             case RETURN:
                 if ( current_frame->return_value && current_frame->next != NULL )
                 {
-                    print_tree0( current_frame->body->right, 25 );
+                    //print_tree0( current_frame->body->right, 25 );
                     current_frame->next->return_value = process_return(
                             current_frame,
                             current_frame->next->body->right,
                             current_frame->next->name,
                             current_frame->next->declaration,
-                            current_frame->body->right,
+                            current_frame->body,
                             current_frame->next->body->right->left->right
                     );
 
