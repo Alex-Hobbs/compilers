@@ -556,7 +556,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             case RETURN:
                 current_frame->return_value = process_return( current_frame, tree );
                 next_tree                   = get_body_of_function( current_frame, current_frame->name );
-                print_tree0( next_tree );
+                print_tree0( next_tree, 1 );
                 printf( "Function = %s\n", current_frame->next->name );
                 current_frame               = parse_environment( current_frame->next, next_tree );
                 return current_frame;
