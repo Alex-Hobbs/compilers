@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "environment.h"
 #include "C.tab.h"
-#include "nodes.h"
 
 ENVIRONMENT_BINDING *previous_node = NULL;
 char* main_method = NULL;
