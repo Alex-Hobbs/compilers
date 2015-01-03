@@ -597,16 +597,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             case RETURN:
                 if ( current_frame->return_value && current_frame->next != NULL )
                 {
-                    print_tree0( current_frame->body->left, 100 );
-                    
-                    current_frame->next->return_value = process_return(
-                            current_frame,
-                            current_frame->body,
-                            current_frame->next->declaration,
-                            current_frame->next->body->right,
-                            current_frame->next->name,
-                            current_frame->next->body->right->left->right
-                    );
+                    current_frame->next = parse_environment( current_frame->next, current_frame->body->left );
 
                     printf( "RETURN VALUE %d\n", current_frame->next->return_value );
 
