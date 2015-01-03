@@ -608,6 +608,8 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                     return current_frame;
                 }
 
+                printf( "frame = %s\n", current_frame->name );
+
                 current_frame->return_value = process_return( current_frame, tree, NULL, NULL, NULL, NULL );
                 break;
 
