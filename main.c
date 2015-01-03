@@ -556,6 +556,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             case RETURN:
                 if ( current_frame->return_value && current_frame->next != NULL )
                 {
+                    printf( "HERE WE ARE" );
                     print_tree0( current_frame->next->body, 5 );
                     current_frame->next->return_value = process_return( current_frame->next, current_frame->next->body );
                     return current_frame;
