@@ -199,7 +199,7 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
         program_value = get_int_from_token( lookup_variable( frame->bindings, leaf_name ) );
     }
 
-    printf( "PROGRAM_VALUE AT RETURN: %s\n", leaf);
+    //printf( "PROGRAM_VALUE AT RETURN: %s\n", leaf);
 
     return program_value;
 }
@@ -344,12 +344,10 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
           break;
 
         case LEAF:
-            printf( "Leaf = yes = %s\n", tree->left->left );
+            //printf( "Leaf = yes = %s\n", tree->left->left );
             program_value = process_leaf( frame, tree->left->left );
             break;
     }
-
-    printf( "Tree type = %s, value = %s", named( tree->left->type ), tree->left->left );
 
     //printf( "frame name = %s, main = %s\n", frame->name, main_method );
 
