@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "interpreter.h"
+#include "C.tab.h"
 
 RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNTIME_VALUES *valueList )
 {
