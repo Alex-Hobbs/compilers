@@ -3,6 +3,7 @@
 #define __INTERPRETER_H
 #include "nodes.h"
 #include "token.h"
+#include "common.h"
 #include "environment.h"
 
 ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME*, NODE*, int );

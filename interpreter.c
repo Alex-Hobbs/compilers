@@ -28,7 +28,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
     RUNTIME_VALUES *values = process_apply_params( frame, parameters, NULL );
 
     // Setup tmp environment
-    ENVIRONMENT_FRAME *tmpEnv = setup_new_environment( NULL );
+    ENVIRONMENT_FRAME *tmpEnv = (ENVIRONMENT_FRAME *)setup_new_environment( NULL );
     tmpEnv->bindings    = frame->bindings;
     tmpEnv->declaration = declaration;
     tmpEnv->body        = body;
@@ -67,7 +67,7 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
     }
     else
     {
-        leaf_name = get_leaf( leaf );
+        leaf_name = (char*) get_leaf( leaf );
         program_value = get_int_from_token( lookup_variable( frame->bindings, leaf_name ) );
     }
 
