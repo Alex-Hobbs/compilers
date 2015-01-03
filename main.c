@@ -342,7 +342,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
           break;
 
         case LEAF:
-            program_value = process_leaf( frame, atree->left->left );
+            program_value = process_leaf( frame, tree->left->left );
             break;
     }
 
