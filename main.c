@@ -206,9 +206,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     TOKEN* left;
     TOKEN* right;
 
-    print_tree0( tree, 100 );
-    printf( "\n" );
-
     switch( tree->left->type )
     {
         case APPLY:
@@ -219,6 +216,8 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
                 body          = get_body_of_function( frame, function_name );
                 parameters    = tree->left->right;
             }
+
+            print_tree0( body, 100 );
 
             frame = process_apply( frame, declaration, body, function_name, parameters );
             program_value = frame->return_value;
