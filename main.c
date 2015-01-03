@@ -210,6 +210,8 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     TOKEN* left;
     TOKEN* right;
 
+    print_tree0( tree, 100 );
+
     switch( tree->left->type )
     {
         case APPLY:
@@ -595,7 +597,6 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             case RETURN:
                 if ( current_frame->return_value && current_frame->next != NULL )
                 {
-                    print_tree0( current_frame->body, 100 );
                     current_frame->next->return_value = process_return(
                             current_frame,
                             current_frame->body,
