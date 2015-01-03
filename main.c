@@ -608,7 +608,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 printf( "frame = %s\n", current_frame->name );
 
                 current_frame->return_value = process_return( current_frame, tree, NULL, NULL, NULL, NULL );
-                break;
+                return current_frame;
 
             case 'd':
                 current_frame = process_function( current_frame, tree->left, tree->right );
