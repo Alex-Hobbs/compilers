@@ -165,7 +165,9 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
         newValue->value = values->value;
         bindings->value = newValue;
 
-        bindings = bindings->next;
+        if ( bindings->next != NULL )
+            bindings = bindings->next;
+        
         values = values->next;
     }
 
@@ -591,8 +593,6 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             case RETURN:
                 if ( current_frame->return_value && current_frame->next != NULL )
                 {
-                    print_tree0(
-                            current_frame->next->body->right->left->right, 10 );
                     current_frame->next->return_value = process_return(
                             current_frame->next,
                             current_frame->next->body->right,
