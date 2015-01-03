@@ -383,6 +383,7 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     previous_node = new_variable;
 }
 
+NODE *previous_node;
 ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )
 {
     if ( parameters == NULL ) return frame;
