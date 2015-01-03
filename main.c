@@ -601,8 +601,8 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                             current_frame->next->body->right,
                             current_frame->next->body->right->left->right
                     );
-                    printf( "Returned value = %d\n", current_frame->next->return_value );
-                    return current_frame;
+
+                    return current_frame->next;
                 }
 
                 printf( "frame = %s\n", current_frame->name );
