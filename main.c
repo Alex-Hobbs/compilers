@@ -199,7 +199,7 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
         program_value = get_int_from_token( lookup_variable( frame->bindings, leaf_name ) );
     }
 
-    //printf( "PROGRAM_VALUE AT RETURN: %s\n", leaf);
+    printf( "PROGRAM_VALUE AT RETURN: %d\n", get_int_from_leaf( leaf ) );
 
     return program_value;
 }
