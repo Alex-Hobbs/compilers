@@ -553,7 +553,8 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 break;
             
             case RETURN:
-                current_frame->return_value = process_return( current_frame, tree );
+                if( current_frame->return_value == NULL )
+                    current_frame->return_value = process_return( current_frame, tree );
                 break;
 
             case 'd':
