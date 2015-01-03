@@ -594,7 +594,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 if ( current_frame->return_value && current_frame->next != NULL )
                 {
                     current_frame->next->return_value = process_return(
-                            current_frame->next,
+                            current_frame,
                             current_frame->next->body->right,
                             current_frame->next->declaration,
                             current_frame->next->body->right,
