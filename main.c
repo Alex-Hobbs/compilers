@@ -469,7 +469,7 @@ int perform_eq_op_comparision( ENVIRONMENT_FRAME* frame, int one, int two, NODE*
 
     if( one == two )
     {
-        returnValue = process_return( frame, returnInformation->left );
+        returnValue = process_return( frame, returnInformation );
         //printf( "returned %d\n", returnValue );
     }
 
