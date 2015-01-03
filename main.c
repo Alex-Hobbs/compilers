@@ -6,9 +6,6 @@
 #include "environment.h"
 #include "interpreter.h"
 
-ENVIRONMENT_BINDING *previous_node = NULL;
-char* main_method = NULL;
-
 char *named(int t)
 {
     static char b[100];

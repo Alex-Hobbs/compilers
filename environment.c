@@ -3,6 +3,9 @@
 #include "environment.h"
 #include "C.tab.h"
 
+ENVIRONMENT_BINDING *previous_node = NULL;
+char* main_method = NULL;
+
 NODE* get_body_of_function( ENVIRONMENT_FRAME* frame, char* function_name )
 {
 	if ( frame == NULL )
