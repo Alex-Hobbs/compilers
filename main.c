@@ -6,6 +6,7 @@
 #include "environment.h"
 
 ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME*, NODE* );
+ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME*, NODE*, int );
 int process_return( ENVIRONMENT_FRAME*, NODE*, char*, NODE*, NODE*, NODE* );
 ENVIRONMENT_BINDING *previous_node = NULL;
 char* main_method = NULL;
