@@ -464,7 +464,6 @@ int perform_eq_op_comparision( ENVIRONMENT_FRAME* frame, int one, int two, NODE*
     if( one == two )
     {
         returnValue = process_return( frame, returnInformation );
-        printf( "returned %d\n", returnValue );
     }
 
     return returnValue;
@@ -524,7 +523,7 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
             break;
     }
 
-    //frame->return_value = returnValue;
+    frame->return_value = returnValue;
 
     return frame;
 }
