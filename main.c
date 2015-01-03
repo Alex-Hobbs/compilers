@@ -554,6 +554,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                 break;
             
             case RETURN:
+                print_tree0( tree->left, 1 );
                 current_frame->return_value = process_return( current_frame, tree );
                 return current_frame;
 
