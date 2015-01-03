@@ -1,6 +1,9 @@
 
 #ifndef __NODES_H
 #define __NODES_H
+#include "nodes.h"
+#include "C.tab.h"
+#include "environment.h"
 #include "token.h"
 
 ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME*, NODE*, int );
