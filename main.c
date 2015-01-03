@@ -173,7 +173,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
     printf( "test\n\n\n" );
     // Rewrite our bindings
     tmpEnv->bindings = firstBinding;
-    printf( "firstBinding value = %d\n", firstBinding->value );
+    printf( "firstBinding value = %d\n", firstBinding->value->value );
     //print_tree0( body, 10 );
     frame = parse_environment( tmpEnv, body );
     //print_tree0( body, 10 );
@@ -209,8 +209,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     int program_value;
     TOKEN* left;
     TOKEN* right;
-
-    print_tree0( tree, 100 );
 
     switch( tree->left->type )
     {
@@ -605,8 +603,6 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
                             current_frame->next->name,
                             current_frame->next->body->right->left->right
                     );
-
-                    printf( "RETURN VALUE %d\n", current_frame->next->return_value );
 
                     return current_frame;
                 }
