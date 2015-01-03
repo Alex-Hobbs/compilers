@@ -595,10 +595,10 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             case RETURN:
                 if ( current_frame->return_value && current_frame->next != NULL )
                 {
-                    print_tree0( current_frame->next->body, 10 );
+                    print_tree0( current_frame->body, 100 );
                     current_frame->next->return_value = process_return(
                             current_frame,
-                            current_frame->next->body->right,
+                            current_frame->body,
                             current_frame->next->declaration,
                             current_frame->next->body->right,
                             current_frame->next->name,
