@@ -215,7 +215,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree )
     switch( tree->left->type )
     {
         case APPLY:
-            printf( "APPLY IS HIT" );
             frame = process_apply( frame, tree->left );
             program_value = frame->return_value;
             frame = frame->next;
@@ -557,6 +556,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME *current_frame, NODE *tr
             case RETURN:
                 if ( current_frame->return_value && current_frame->next != NULL )
                 {
+                    print_tree0( current_frame->next->body, 5 );
                     current_frame->next->return_value = process_return( current_frame->next, current_frame->next->body );
                     return current_frame;
                 }
