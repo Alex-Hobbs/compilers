@@ -72,7 +72,7 @@ int get_int_from_token(TOKEN *tree)
 {
     if ( tree == NULL ) return -1;
     if (tree->type == CONSTANT) return tree->value;
-    else if (tree) return tree->lexeme;
+    else if (tree) return (int) atoi( tree->lexeme );
     else return 0;
 }
 
