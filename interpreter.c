@@ -147,7 +147,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     int program_value;
 
     // Are we running an apply function?
-    if ( tree->left->type == APPLY || tree->left->left->type == APPLY )
+    if ( tree->left->type == APPLY || ( tree->left->left->type == APPLY && tree->left->type != IF ) )
     {
         NODE* treeCpy = tree;
 
