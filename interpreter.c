@@ -88,7 +88,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
         TOKEN *newValue = new_token( CONSTANT );
         newValue->value = values->value;
         bindings->value = newValue;
-
+printf( "Value = %d %s\n", bindings->value, bindings->name );
         bindings = bindings->next;
         values = values->next;
     }
@@ -241,7 +241,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           {
                 initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
-                printf("right_int %d\n", right_int);
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
                 if ( right_int != MAX_INTEGER )
