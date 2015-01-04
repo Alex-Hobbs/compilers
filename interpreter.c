@@ -3,27 +3,6 @@
 #include "interpreter.h"
 #include "C.tab.h"
 
-
-void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char **function_name, NODE **declaration, NODE **body, NODE **parameters )
-{
-    if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
-    {
-        *function_name = get_leaf( tree->left->left->left );
-        *declaration   = get_declaration_of_function( frame, *function_name );
-        *body          = get_body_of_function( frame, *function_name );
-        *parameters    = tree->left->right;
-    }
-    print_tree0( tree->left->right, 50 );
-};
-
-void reset_apply_variables( char **function_name, NODE **declaration, NODE **body, NODE **parameters )
-{
-    *function_name = NULL;
-    *declaration = NULL;
-    *body = NULL;
-    *parameters = NULL;
-}
-
 /**
  * process_apply_params
  *
@@ -171,11 +150,23 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     TOKEN* left; TOKEN* right;
     int program_value;
 
+    if ( tree->left->type == APPLY || tree->left->left->type == APPLY )
+    {
+        NODE* treeCpy = tree;
+
+        if ( tree->left->left->type == APPLY )
+            treeCpy = tree->left;
+
+        function_name = get_leaf( treeCpy->left->left->left );
+        declaration   = get_declaration_of_function( frame, function_name );
+        body          = get_body_of_function( frame, function_name );
+        parameters    = treeCpy->left->right;
+    }
+
     // Work out what to do based on the trigger type (APPLY,IF,+,-,*,/)
     switch( tree->left->type )
     {
         case APPLY:
-            initialise_apply_variables( frame, tree, &function_name, &declaration, &body, &parameters );
             frame = process_apply( frame, declaration, body, function_name, parameters );
             program_value = frame->return_value;
 
@@ -183,7 +174,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
             break;
 
         case IF:
-            initialise_apply_variables( frame, tree, &function_name, &declaration, &body, &parameters );
             frame = process_conditional( frame, body, body>left->type );
             program_value = frame->return_value;
             break;
@@ -191,7 +181,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         case '+':
           if( tree->left->left->type == APPLY )
           {
-                initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
@@ -221,7 +210,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         case '-':
           if( tree->left->left->type == APPLY )
           {
-                initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
@@ -249,10 +237,8 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           break;
           
         case 42:
-        printf( parameters, 100 );
           if( tree->left->left->type == APPLY )
           {
-                initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
@@ -282,7 +268,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         case '/':
           if( tree->left->left->type == APPLY )
           {
-                initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
