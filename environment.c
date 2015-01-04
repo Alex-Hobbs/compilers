@@ -123,7 +123,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME* current_frame, NODE* tr
                 new_frame = extend_environment( current_frame, NULL );
                 new_frame = store_function( new_frame, tree->left, tree->right );
 
-                previous_node = NULL;
+                previous_binding = NULL;
                 current_frame = new_frame;
                 break;
             
@@ -152,7 +152,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME* current_frame, NODE* tr
             // Found a list of variables
             case TILDA:
                 process_variables( current_frame, tree );
-                current_frame = add_bindings_to_environment( current_frame, previous_node );
+                current_frame = add_bindings_to_environment( current_frame, previous_binding );
                 break;
 
             case IF:

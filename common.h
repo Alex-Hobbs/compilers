@@ -18,7 +18,7 @@
 #define TILDA 126
 
 char*				main_function;
-NODE*				previous_node;
+NODE*				previous_binding;
 
 int is_leaf(NODE*);
 char* get_leaf(NODE*);
