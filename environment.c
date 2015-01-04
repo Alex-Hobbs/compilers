@@ -70,6 +70,8 @@ int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
     // therefore lookup variable value.
     if ( test_value == MAX_INTEGER )
     {
+
+    printf( "test_value = %d   %s\n", test_value, get_leaf( value ) );
         test_value = get_int_from_token( lookup_variable( binding, get_leaf( value ) ) );
 
         // We're still a letter? We cannot apply arithmetic to a number, error out.
