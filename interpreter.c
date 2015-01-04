@@ -6,7 +6,6 @@
 
 void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char **function_name, NODE **declaration, NODE **body, NODE **parameters )
 {
-    print_tree0( tree->left->right, 50 );
     if ( *function_name == NULL || *declaration == NULL || *body == NULL || *parameters == NULL )
     {
         *function_name = get_leaf( tree->left->left->left );
@@ -14,6 +13,7 @@ void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char **fu
         *body          = get_body_of_function( frame, *function_name );
         *parameters    = tree->left->right;
     }
+    print_tree0( parameters, 50 );
 };
 
 void reset_apply_variables( char **function_name, NODE **declaration, NODE **body, NODE **parameters )
@@ -76,7 +76,7 @@ RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNT
 ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, NODE *body, char *function_name, NODE *parameters )
 {
     RUNTIME_VALUES *values = process_apply_params( frame, parameters, NULL );
-    print_tree0( parameters, 50 );
+    //print_tree0( parameters, 50 );
 
     // Setup a new temporary environment which is discarded after this apply
     // The reason I do this is because "APPLY" receives values that are to be applied
