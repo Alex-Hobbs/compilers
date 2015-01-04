@@ -115,27 +115,29 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     char* right = (char*) malloc( sizeof( char ) * 100 );
 
     // Setup the program return value variable
-    int returnValue = 0;
+    int returnValue     = 0;
+    NODE *values        = conditional->left;
+    NODE *expression    = conditional->right;
 
     /**
-     * Idea discussed between myself and Matt Nicholls (mln24) to 
+     * Idea and code discussed between myself and Matt Nicholls (mln24) to 
      * try and find a way to convert a integer into a character
      *
      * This was done in order to not have to write new functions for
      * very small use cases.
      */
-    left_leaf   = get_leaf( conditional->left->left->left );
-    right_leaf  = get_leaf( conditional->left->right->left );
+    left_leaf   = get_leaf( values->left->left );
+    right_leaf  = get_leaf( values->right->left );
 
     // If the left leaf was a pure number (get_leaf will return ??? as it is passed through named),
     // then convert the number into a character of itself. E.g. 1 becomes '1'
     if ( strcmp( left_leaf, "???" ) == 0 )
-        sprintf( left, "%d", get_value_from_tree( frame->bindings, conditional->left->left->left ) );
+        sprintf( left, "%d", get_value_from_tree( frame->bindings, values->left->left ) );
     else // Otherwise use the default value (probably a variable name)
         left = left_leaf;
 
     if ( strcmp( right_leaf, "???" ) == 0 )
-        sprintf( right, "%d", get_value_from_tree( frame->bindings, conditional->left->right->left ) );
+        sprintf( right, "%d", get_value_from_tree( frame->bindings, values->right->left ) );
     else
         right = right_leaf;
 
@@ -149,34 +151,34 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     {
         case EQ_OP:
             if ( left_value->value == right_value->value )
-                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
+                returnValue = process_return( frame, expression, NULL, NULL, NULL, NULL );
             break;
 
         case LE_OP:
             if ( left_value->value <= right_value->value )
-                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
+                returnValue = process_return( frame, expression, NULL, NULL, NULL, NULL );
             break;
 
         // Less than but not equal to
         case L_OP:
             if( left_value->value < right_value->value )
-                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
+                returnValue = process_return( frame, expression, NULL, NULL, NULL, NULL );
             break;
 
         case GE_OP:
             if ( left_value->value >= right_value->value )
-                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
+                returnValue = process_return( frame, expression, NULL, NULL, NULL, NULL );
             break;
 
         // Greater than but not equal to
         case G_OP:
             if( left_value->value > right_value->value )
-                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
+                returnValue = process_return( frame, expression, NULL, NULL, NULL, NULL );
             break;
 
         case NE_OP:
             if ( left_value->value != right_value->value )
-                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
+                returnValue = process_return( frame, expression, NULL, NULL, NULL, NULL );
             break;
     }
 
