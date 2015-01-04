@@ -4,6 +4,7 @@
 #include "nodes.h"
 #include "C.tab.h"
 #include <string.h>
+#include "interpreter.h"
 
 extern int yydebug;
 extern NODE* yyparse(void);
