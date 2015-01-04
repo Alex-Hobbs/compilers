@@ -7,8 +7,6 @@
 int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
 {
     int test_value;
-
-    print_leaf( value, 10 );
   
     test_value = get_int_from_leaf( value );
 
