@@ -154,14 +154,12 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
             treeCpy     = tree->left;
 
         function_name   = get_leaf( treeCpy->left->left->left );
-        printf( "function_name %s\n", function_name );
         declaration     = get_declaration_of_function( frame, function_name );
-        print_tree0(declaration, 10);
         body            = get_body_of_function( frame, function_name );
-        print_tree0(body, 50 );
         parameters      = treeCpy->left->right;
 
         right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
+        print_tree0( tree, 20 );
         frame           = process_apply( frame, declaration, body, function_name, parameters );
         left_int        = frame->return_value;
     }
