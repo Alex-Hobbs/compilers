@@ -154,96 +154,53 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         NODE* treeCpy = tree;
 
         if ( tree->left->left->type == APPLY )
-            treeCpy = tree->left;
+            treeCpy     = tree->left;
 
-        function_name = get_leaf( treeCpy->left->left->left );
-        declaration   = get_declaration_of_function( frame, function_name );
-        body          = get_body_of_function( frame, function_name );
-        parameters    = treeCpy->left->right;
+        function_name   = get_leaf( treeCpy->left->left->left );
+        declaration     = get_declaration_of_function( frame, function_name );
+        body            = get_body_of_function( frame, function_name );
+        parameters      = treeCpy->left->right;
+
+        right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
+        frame           = process_apply( frame, declaration, body, function_name, parameters );
+        left_int        = frame->return_value;
+        frame           = frame->next;
+    }
+    else
+    {
+        left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
     }
 
     // Work out what to do based on the trigger type (APPLY,IF,+,-,*,/)
     switch( tree->left->type )
     {
         case APPLY:
-            frame = process_apply( frame, declaration, body, function_name, parameters );
-            program_value = frame->return_value;
-
-            frame = frame->next;
+            program_value   = frame->return_value;
             break;
 
         case IF:
-            frame = process_conditional( frame, body, body>left->type );
-            program_value = frame->return_value;
+            frame           = process_conditional( frame, body, body>left->type );
+            program_value   = frame->return_value;
             break;
 
         case '+':
-          if( tree->left->left->type == APPLY )
-          {
-                frame           = process_apply( frame, declaration, body, function_name, parameters );
-                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
-                program_value   = frame->return_value + right_int;
-                frame = frame->next;
-          }
-          else
-          {
-                left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
-                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
-                program_value   = left_int + right_int;
-          }
-          break;
+            program_value   = left_int + right_int;
+            break;
 
         case '-':
-          if( tree->left->left->type == APPLY )
-          {
-                frame           = process_apply( frame, declaration, body, function_name, parameters );
-                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
-                program_value   = frame->return_value - right_int;
-                frame           = frame->next;
-          }
-          else
-          {
-                left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
-                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
-                program_value   = left_int - right_int;
-          }
-          break;
+            program_value   = left_int - right_int;
+            break;
           
         case 42:
-          if( tree->left->left->type == APPLY )
-          {
-                frame           = process_apply( frame, declaration, body, function_name, parameters );
-                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
-                program_value   = frame->return_value * right_int;
-                frame           = frame->next;
-          }
-          else
-          {
-                left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
-                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
-                program_value   = left_int * right_int;
-          }
-          break;
+            program_value   = left_int * right_int;
+            break;
           
         case '/':
-          if( tree->left->left->type == APPLY )
-          {
-                frame           = process_apply( frame, declaration, body, function_name, parameters );
-                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
-                program_value   = frame->return_value / right_int;
-                frame           = frame->next;
-          }
-          else
-          {
-                
-                left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
-                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
-                program_value   = left_int / right_int;
-          }
-          break;
+            program_value   = left_int / right_int;
+            break;
 
         case LEAF:
-            program_value       = process_leaf( frame, tree->left->left );
+            program_value   = process_leaf( frame, tree->left->left );
             break;
     }
 
