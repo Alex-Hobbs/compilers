@@ -247,23 +247,28 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
         // Switch based on the operation we are looking at
         switch( tree->right->right->type )
         {
-            case '+':
+            case ADD:
                 variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) +
                                  get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
             
-            case '-':
+            case SUBTRACT:
                 variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) -
                                  get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
             
-            case 42:
+            case MULTIPLY:
                 variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) *
                                  get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
             
-            case '/':
+            case DIVIDE:
                 variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) /
+                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
+                break;
+
+            case MODULUS:
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) %
                                  get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
 
@@ -326,58 +331,77 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
 
 ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditional, int operand )
 {
-    TOKEN* left_var;
-    TOKEN* right_var;
-    char* left_fix; char* right_fix;
-    char* left  = (char*)malloc(sizeof( char ) * 20);
-    char* right = (char*)malloc(sizeof( char ) * 20);
-    int returnValue;
+    TOKEN* left_value; TOKEN* right_value;
+    char* left_leaf; char* right_leaf;
 
-    left_fix = get_leaf( conditional->left->left->left );
-    right_fix = get_leaf( conditional->left->right->left );
+    // Allocate 100 bytes maximum to be used for a variable name
+    // This limitation has to be put in place due to how sprintf
+    // functions.
+    char* left  = (char*) malloc( sizeof( char ) * 100 );
+    char* right = (char*) malloc( sizeof( char ) * 100 );
 
-    if ( strcmp( left_fix, "???" ) == 0 )
-    {
-        sprintf( left, "%d", get_int_from_leaf( conditional->left->left->left ) );
-    }
+    // Setup the program return value variable
+    int returnValue = 0;
+
+    /**
+     * Idea discussed between myself and Matt Nicholls (mln24) to 
+     * try and find a way to convert a integer into a character
+     *
+     * This was done in order to not have to write new functions for
+     * very small use cases.
+     */
+    left_leaf   = get_leaf( conditional->left->left->left );
+    right_leaf  = get_leaf( conditional->left->right->left );
+
+    // If the left leaf was a pure number (get_leaf will return ??? as it is passed through named),
+    // then convert the number into a character of itself. E.g. 1 becomes '1'
+    if ( strcmp( left_leaf, "???" ) == 0 )
+        sprintf( left, "%d", get_value_from_tree( frame->bindings, conditional->left->left->left ) );
+    else // Otherwise use the default value (probably a variable name)
+        left = left_leaf;
+
+    if ( strcmp( right_leaf, "???" ) == 0 )
+        sprintf( right, "%d", get_value_from_tree( frame->bindings, conditional->left->right->left ) );
     else
-    {
-        left = left_fix;
-    }
+        right = right_leaf;
 
-    if ( strcmp( right_fix, "???" ) == 0 )
-    {
-        sprintf( right, "%d", get_int_from_leaf( conditional->left->right->left ) );
-    }
-    else
-    {
-        right = right_fix;
-    }
+    // Lookup these two variables and get their values if they were not already numbers
+    left_value   = lookup_variable( frame->bindings, left );
+    right_value  = lookup_variable( frame->bindings, right );
 
-    left_var = lookup_variable( frame->bindings, left );
-    right_var = lookup_variable( frame->bindings, right );
-
-    //printf( "left = %d... right = %d\n", left_var->value, right_var->value );
-
+    // Work out what to do based on the operand being run.
+    // If statements support ==, <=, <, >=, >, !=
     switch( operand )
     {
         case EQ_OP:
-            if ( left_var->value == right_var->value )
+            if ( left_value->value == right_value->value )
                 returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
             break;
 
         case LE_OP:
-            if ( left_var->value <= right_var->value )
+            if ( left_value->value <= right_value->value )
+                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
+            break;
+
+        // Less than but not equal to
+        case L_OP:
+            if( left_value->value < right_value->value )
                 returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
             break;
 
         case GE_OP:
-            if ( left_var->value >= right_var->value )
+            if ( left_value->value >= right_value->value )
+                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
+            break;
+
+        // Greater than but not equal to
+        case G_OP:
+            if( left_value->value > right_value->value )
                 returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
             break;
 
         case NE_OP:
-            if ( left_var->value != right_var->value )
+            if ( left_value->value != right_value->value )
                 returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
             break;
     }
