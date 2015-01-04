@@ -298,7 +298,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           break;
 
         case LEAF:
-            print( "leaf" );
+            printf( "leaf" );
             program_value = process_leaf( frame, tree->left->left );
             break;
     }
