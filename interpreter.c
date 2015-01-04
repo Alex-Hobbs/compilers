@@ -163,7 +163,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     switch( tree->left->type )
     {
         case APPLY:
-            initialise_apply_variables( frame, tree, &function_name, &declaration, &body, &parameters );
+            //initialise_apply_variables( frame, tree, &function_name, &declaration, &body, &parameters );
             frame = process_apply( frame, declaration, body, function_name, parameters );
             program_value = frame->return_value;
 
