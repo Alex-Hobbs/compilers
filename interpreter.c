@@ -221,6 +221,15 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     return program_value;
 }
 
+/**
+ * process_variables
+ *
+ * Trigger function run when AST contains ~, and handles code such as int x = 1; in the function body
+ *
+ * @arg     ENVIRONMENT_FRAME*      current environment we are in
+ * @arg     NODE*                   abstract syntax tree at the relevant node (~)
+ * @returns void
+ */
 void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
 {
     if ( tree == NULL ) return frame;
@@ -240,10 +249,8 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
         switch( tree->right->right->type )
         {
             case '+':
-                left_variable_name = get_leaf( tree->right->right->left->left );
-                right_variable_name = get_leaf( tree->right->right->right->left );
-                variable_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) +
-                                 get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) +
+                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
             
             case '-':
