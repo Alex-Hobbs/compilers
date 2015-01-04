@@ -6,7 +6,7 @@
 
 void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char **function_name, NODE **declaration, NODE **body, NODE **parameters )
 {
-    print_tree0( tree, 50 );
+    print_tree0( tree->left->right, 50 );
     if ( *function_name == NULL || *declaration == NULL || *body == NULL || *parameters == NULL )
     {
         *function_name = get_leaf( tree->left->left->left );
