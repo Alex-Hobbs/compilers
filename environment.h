@@ -1,6 +1,7 @@
 #ifndef __ENVIRONMENT_H
 #define __ENVIRONMENT_H
 #include "nodes.h"
+#include "common.h"
 
 typedef struct env_binding
 {
@@ -35,6 +36,7 @@ ENVIRONMENT_FRAME* add_bindings_to_environment( ENVIRONMENT_FRAME*, ENVIRONMENT_
 ENVIRONMENT_FRAME* update_environment_with_metadata( ENVIRONMENT_FRAME*, char*, char* );
 NODE* get_body_of_function( ENVIRONMENT_FRAME*, char* );
 NODE* get_declaration_of_function( ENVIRONMENT_FRAME*, char* );
+int get_value_from_tree( ENVIRONMENT_BINDING*, NODE* );
 ENVIRONMENT_FRAME* store_function( ENVIRONMENT_FRAME*, NODE*, NODE* );
 ENVIRONMENT_FRAME* setup_environment( ENVIRONMENT_FRAME* );
 ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME*, NODE* );
