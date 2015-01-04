@@ -77,6 +77,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
         newValue->value = values->value;
         bindings->value = newValue;
 
+        printf( "VALUE = %d\n", newValue->value );
         bindings = bindings->next;
         values = values->next;
     }
