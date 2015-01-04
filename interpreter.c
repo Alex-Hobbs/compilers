@@ -66,6 +66,7 @@ RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNT
  */
 ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, NODE *body, char *function_name, NODE *parameters )
 {
+    print_tree0( parameters,10 );
     RUNTIME_VALUES *values = process_apply_params( frame, parameters, NULL );
 
     // Setup a new temporary environment which is discarded after this apply
