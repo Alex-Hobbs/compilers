@@ -4,26 +4,12 @@
 #include "C.tab.h"
 #include "common.h"
 
-int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
+int is_leaf( NODE *leaf )
 {
-    int test_value;
-  
-    test_value = get_int_from_leaf( value );
-
-    // If the value we get back is MAX_INTEGER, then we are not a number
-    // therefore lookup variable value.
-    if ( test_value == MAX_INTEGER )
-    {
-        test_value = get_int_from_token( lookup_variable( binding, get_leaf( value ) ) );
-
-        // We're still a letter? We cannot apply arithmetic to a number, error out.
-        if ( test_value == MAX_INTEGER )
-        {
-            return NULL;
-        }
-    }
-
-    return (int) test_value;
+    if ( leaf->left == NULL )
+        return TRUE;
+      
+    return FALSE;
 }
 
 char *named(int t)
