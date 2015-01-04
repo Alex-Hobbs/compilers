@@ -16,7 +16,6 @@
  */
 RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNTIME_VALUES *valueList )
 {
-    print_tree0(tree, 10);
     // If there are no more elements in the tree, return the last value
     // which has references to all other values (a complete linked list)
     if ( tree == NULL ) return valueList;
@@ -56,7 +55,6 @@ RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNT
 ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, NODE *body, char *function_name, NODE *parameters )
 {
     RUNTIME_VALUES *values = process_apply_params( frame, parameters, NULL );
-    //print_tree0( parameters, 50 );
 
     // Setup a new temporary environment which is discarded after this apply
     // The reason I do this is because "APPLY" receives values that are to be applied
@@ -156,7 +154,9 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
             treeCpy     = tree->left;
 
         function_name   = get_leaf( treeCpy->left->left->left );
+        printf( "function_name %s\n", function_name );
         declaration     = get_declaration_of_function( frame, function_name );
+        print_tree0(declaration, 10);
         body            = get_body_of_function( frame, function_name );
         parameters      = treeCpy->left->right;
 
@@ -168,8 +168,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     {
         left_int        = get_value_from_tree( frame->bindings, tree->left->left );
     }
-
-    printf( "We hit the switch %s\n", named( tree->left->type ) );
 
     // Work out what to do based on the trigger type (APPLY,IF,+,-,*,/)
     switch( tree->left->type )
