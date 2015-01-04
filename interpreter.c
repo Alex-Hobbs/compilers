@@ -4,7 +4,7 @@
 #include "C.tab.h"
 
 
-void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char **function_name, NODE **declaration, NODE **body, NODE **parameters )
+void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char &function_name, NODE &declaration, NODE &body, NODE &parameters )
 {
     if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
     {
@@ -163,7 +163,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     switch( tree->left->type )
     {
         case APPLY:
-            initialise_apply_variables( frame, tree, &function_name, &declaration, &body, &parameters );
+            initialise_apply_variables( frame, tree, function_name, declaration, body, parameters );
             frame = process_apply( frame, declaration, body, function_name, parameters );
             program_value = frame->return_value;
 
