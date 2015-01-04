@@ -105,6 +105,8 @@ printf( "Value = %d %s\n", bindings->value, bindings->name );
     // Set the variables for this temporary environment
     tmpEnv->bindings = firstBinding;
 
+    reset_apply_variables( &function_name, &declaration, &body, &parameters );
+
     // Now our temporary environment is fully set up we need to rerun the whole parser
     frame = parse_environment( tmpEnv, body );
     
@@ -316,8 +318,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         printf( "%d\n", program_value );
         exit(1);
     }
-
-    reset_apply_variables( &function_name, &declaration, &body, &parameters );
 
     return program_value;
 }
