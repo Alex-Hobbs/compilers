@@ -177,7 +177,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
             break;
 
         case IF:
-            frame           = process_conditional( frame, body, body>left->type );
+            frame           = process_conditional( frame, body, body->left->type );
             program_value   = frame->return_value;
             break;
 
