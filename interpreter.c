@@ -145,8 +145,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     int left_int; int right_int;
     int program_value;
 
-    print_tree0( tree, 100 );
-
     // Are we running an apply function?
     if ( tree->left->type == APPLY || tree->left->left->type == APPLY )
     {
@@ -172,8 +170,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
         right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
     }
-
-    printf( "left_int = %d, right_int = %d\n", left_int, right_int );
 
     // Work out what to do based on the trigger type (APPLY,IF,+,-,*,/)
     switch( tree->left->type )
