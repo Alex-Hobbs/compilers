@@ -10,6 +10,5 @@ int get_int_from_leaf(NODE*);
 int get_int_from_token(TOKEN*);
 void print_leaf(NODE*, int);
 void print_tree(NODE*);
-void initialise_apply_variables( ENVIRONMENT_FRAME*, NODE*, char*, NODE*, NODE*, NODE* )
 
 #endif

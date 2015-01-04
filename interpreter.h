@@ -10,5 +10,6 @@ char* main_method;
 NODE *previous_node;
 ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME*, NODE*, int );
 int process_return( ENVIRONMENT_FRAME*, NODE*, char*, NODE*, NODE*, NODE* );
+void initialise_apply_variables( ENVIRONMENT_FRAME*, NODE*, char*, NODE*, NODE*, NODE* );
 
 #endif
