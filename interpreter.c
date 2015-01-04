@@ -156,7 +156,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
             treeCpy     = tree->left;
             right_int   = get_value_from_tree( frame->bindings, treeCpy->right->left );
         }
-        print_tree0( treeCpy, 100 );
+
         function_name   = get_leaf( treeCpy->left->left->left );
         declaration     = get_declaration_of_function( frame, function_name );
         body            = get_body_of_function( frame, function_name );
@@ -169,6 +169,8 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     {
         left_int        = get_value_from_tree( frame->bindings, tree->left->left );
     }
+
+    printf( "left_int = %d, right_int = %d\n", left_int, right_int );
 
     // Work out what to do based on the trigger type (APPLY,IF,+,-,*,/)
     switch( tree->left->type )
