@@ -84,6 +84,9 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
     // Set the variables for this temporary environment
     tmpEnv->bindings = firstBinding;
 
+    printf( "Binding 1: %s %d", tmpEnv->bindings->name, tempEnv->bindings->value );
+    print_tree0(body, 240 );
+
     // Now our temporary environment is fully set up we need to rerun the whole parser
     frame = parse_environment( tmpEnv, body );
     
