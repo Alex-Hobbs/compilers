@@ -145,7 +145,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME* current_frame, NODE* tr
                 return current_frame;
 
             case DECLARATION:
-                current_frame = (ENVIRONMENT_FRAME*) process_function( current_frame, tree->left, tree->right );
+                current_frame = process_function( current_frame, tree->left, tree->right );
                 break;
 
             // Found a list of variables
@@ -167,6 +167,11 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME* current_frame, NODE* tr
     current_frame = parse_environment( current_frame, tree->left );
     current_frame = parse_environment( current_frame, tree->right );
     return current_frame;
+}
+
+void set_environment_return_value( ENVIRONMENT_FRAME* environment, int value )
+{
+	frame->return_value = value;
 }
 
 ENVIRONMENT_FRAME* setup_new_environment( ENVIRONMENT_FRAME* neighbour )
