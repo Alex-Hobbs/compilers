@@ -169,6 +169,8 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
     }
 
+    printf( "We hit the switch\n" );
+
     // Work out what to do based on the trigger type (APPLY,IF,+,-,*,/)
     switch( tree->left->type )
     {
