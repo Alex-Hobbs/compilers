@@ -20,7 +20,7 @@ int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
         if ( test_value == MAX_INTEGER )
         {
             printf( "Error: Undefined variable %s\n", get_leaf( value ) );
-            exit(1);
+            //exit(1);
         }
     }
 
