@@ -104,8 +104,8 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
     // Set the variables for this temporary environment
     tmpEnv->bindings = firstBinding;
 
-    &function_name = NULL;
-    
+    *function_name = NULL;
+
     // Now our temporary environment is fully set up we need to rerun the whole parser
     frame = parse_environment( tmpEnv, body );
     
