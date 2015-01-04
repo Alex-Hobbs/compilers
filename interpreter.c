@@ -247,10 +247,11 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         case 42:
           if( tree->left->left->type == APPLY )
           {
+                print_tree0( tree, 100 );
                 initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
-                print_tree0(tree, 100 );
+
                 if ( right_int != MAX_INTEGER )
                 {
                     program_value = frame->return_value * right_int;
@@ -277,7 +278,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         case '/':
           if( tree->left->left->type == APPLY )
           {
-                initialise_apply_variables( frame, tree, &function_name, &declaration, &body, &parameters );
+                initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
