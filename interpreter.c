@@ -154,7 +154,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         if ( tree->left->left->type == APPLY )
         {
             treeCpy     = tree->left;
-            right_int   = get_value_from_tree( frame->bindings, treeCpy->right->left );
+            right_int   = get_value_from_tree( frame->bindings, treeCpy->left->right->left );
         }
 
         function_name   = get_leaf( treeCpy->left->left->left );
