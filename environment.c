@@ -70,7 +70,12 @@ int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
     // therefore lookup variable value.
     if ( test_value == MAX_INTEGER )
     {
-        test_value = get_int_from_token( lookup_variable( binding, get_leaf( value ) ) );
+    	TOKEN* lookup_var = lookup_variable( binding, get_leaf( value ) );
+
+    	if ( lookup_var != NULL )
+        {
+        	test_value = get_int_from_token( lookup_var );
+        }
 
         // We're still a letter? We cannot apply arithmetic to a number, error out.
         if ( test_value == MAX_INTEGER )
