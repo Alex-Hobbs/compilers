@@ -13,7 +13,7 @@
 #define ADD 43
 #define SUBTRACT 45
 #define DIVIDE 47
-#define MODULUS 37
+#define MODULO 37
 
 int is_leaf(NODE*);
 char* get_leaf(NODE*);

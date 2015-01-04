@@ -188,20 +188,24 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
             program_value   = frame->return_value;
             break;
 
-        case '+':
+        case ADD:
             program_value   = left_int + ( ( right_int == MAX_INTEGER ) ? 0 : right_int );
             break;
 
-        case '-':
+        case SUBTRACT:
             program_value   = left_int - ( ( right_int == MAX_INTEGER ) ? 0 : right_int );
             break;
           
-        case 42:
+        case MULTIPLY:
             program_value   = left_int * ( ( right_int == MAX_INTEGER ) ? 1 : right_int );
             break;
           
-        case '/':
+        case DIVIDE:
             program_value   = left_int / ( ( right_int == MAX_INTEGER ) ? 1 : right_int );
+            break;
+
+        case MODULO:
+            program_value   = left_int % ( ( right_int == MAX_INTEGER ) ? 1 : right_int );
             break;
 
         case LEAF:
@@ -267,11 +271,10 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
                                  get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
 
-            case MODULUS:
+            case MODULO:
                 variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) %
                                  get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
-
         }
     }
 
