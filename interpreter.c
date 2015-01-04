@@ -397,14 +397,14 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     }
     else
     {
-        NODE *variable_values = tree->right;
+        NODE *variable_values = tree->right->right;
 
         // Switch based on the operation we are looking at
         switch( variable_values->type )
         {
             case ADD:
-                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) +
-                                 get_value_from_tree( frame->bindings, variable_values->right->left );
+                variable_value = get_value_from_tree( frame->bindings, get_leaf( variable_values->left->left ) ) +
+                                 get_value_from_tree( frame->bindings, get_leaf( variable_values->right->left ) );
                 break;
             
             case SUBTRACT:
