@@ -69,7 +69,7 @@ int get_int_from_leaf(NODE *tree)
 
 int get_int_from_token(TOKEN *tree)
 {
-    if ( tree == NULL ) return MAX_INTEGER;
+    if ( tree == NULL || tree->value == NULL ) return MAX_INTEGER;
     if (tree->type == CONSTANT) return tree->value;
     else if (tree) return (int) atoi( tree->lexeme );
     else return MAX_INTEGER;

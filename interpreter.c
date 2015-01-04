@@ -378,7 +378,7 @@ ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameter
 
         TOKEN* value = (TOKEN*)malloc( sizeof( TOKEN ) );
         value = new_token( CONSTANT );
-        value->value = 0;
+        value->value = MAX_INTEGER;
 
         ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, param_name, value );
         previous_node = new_variable;
