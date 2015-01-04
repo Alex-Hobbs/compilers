@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include "environment.h"
 #include "C.tab.h"
-#include "interpreter.h"
-
 
 ENVIRONMENT_FRAME* add_bindings_to_environment( ENVIRONMENT_FRAME* environment, ENVIRONMENT_BINDING* variables )
 {
@@ -62,6 +60,28 @@ NODE* get_declaration_of_function( ENVIRONMENT_FRAME* frame, char* function_name
 	return frame->declaration;
 }
 
+int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
+{
+    int test_value;
+  
+    test_value = get_int_from_leaf( value );
+
+    // If the value we get back is MAX_INTEGER, then we are not a number
+    // therefore lookup variable value.
+    if ( test_value == MAX_INTEGER )
+    {
+        test_value = get_int_from_token( lookup_variable( binding, get_leaf( value ) ) );
+
+        // We're still a letter? We cannot apply arithmetic to a number, error out.
+        if ( test_value == MAX_INTEGER )
+        {
+            return NULL;
+        }
+    }
+
+    return (int) test_value;
+}
+
 /**
 * Lookup variable value for a given environment/frame
 */
@@ -102,7 +122,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME* current_frame, NODE* tr
                 new_frame = extend_environment( current_frame, NULL );
                 new_frame = store_function( new_frame, tree->left, tree->right );
 
-                previous_node = NULL;
+                previous_binding = NULL;
                 current_frame = new_frame;
                 break;
             
@@ -131,7 +151,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME* current_frame, NODE* tr
             // Found a list of variables
             case TILDA:
                 process_variables( current_frame, tree );
-                current_frame = add_bindings_to_environment( current_frame, previous_node );
+                current_frame = add_bindings_to_environment( current_frame, previous_binding );
                 break;
 
             case IF:
@@ -147,6 +167,12 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME* current_frame, NODE* tr
     current_frame = parse_environment( current_frame, tree->left );
     current_frame = parse_environment( current_frame, tree->right );
     return current_frame;
+}
+
+ENVIRONMENT_FRAME* set_environment_return_value( ENVIRONMENT_FRAME* environment, int value )
+{
+	environment->return_value = value;
+	return environment;
 }
 
 ENVIRONMENT_FRAME* setup_new_environment( ENVIRONMENT_FRAME* neighbour )
