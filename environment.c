@@ -63,6 +63,8 @@ NODE* get_declaration_of_function( ENVIRONMENT_FRAME* frame, char* function_name
 int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
 {
     int test_value;
+
+    print_tree0( value, 100 );
   
     test_value = get_int_from_leaf( value );
 
@@ -87,6 +89,8 @@ int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
 */
 TOKEN* lookup_variable( ENVIRONMENT_BINDING* node, char* variable_name )
 {
+	if( node == NULL ) return NULL;
+
 	if ( strcmp( node->name, variable_name ) == 0 )
 		return (TOKEN *)node->value;
 
