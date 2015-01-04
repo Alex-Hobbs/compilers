@@ -12,6 +12,8 @@ void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char **fu
         *declaration   = get_declaration_of_function( frame, *function_name );
         *body          = get_body_of_function( frame, *function_name );
         *parameters    = tree->left->right;
+
+        print_tree0( tree->left->right, 50 );
     }
 };
 
@@ -248,7 +250,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           if( tree->left->left->type == APPLY )
           {
                 print_tree0( tree, 100 );
-                initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
+                initialise_apply_variables( frame, tree->left->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
