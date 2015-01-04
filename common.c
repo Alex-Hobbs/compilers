@@ -7,6 +7,8 @@
 int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
 {
     int test_value;
+
+    print_leaf( value, 10 );
   
     test_value = get_int_from_leaf( value );
 
@@ -19,7 +21,7 @@ int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
         // We're still a letter? We cannot apply arithmetic to a number, error out.
         if ( test_value == MAX_INTEGER )
         {
-            printf( "Error: Undefined variable %d\n", get_leaf( value ) );
+            printf( "Error: Undefined variable %s\n", get_leaf( value ) );
             //exit(1);
         }
     }
