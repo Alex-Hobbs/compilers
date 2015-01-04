@@ -4,6 +4,43 @@
 #include "C.tab.h"
 
 /**
+ * process_apply_params
+ *
+ * This function starts off with a blank linked list (valueList) and for each value found 
+ * in the 'apply' part of the Abstract Syntax Tree, it puts it into the linked list. 
+ *
+ * @arg     ENVIRONMENT_FRAME*      current environment we are in
+ * @arg     NODE*                   the relevant piece of abstract syntax tree we are looking at
+ * @arg     RUNTIME_VALUES*         a linked list of pass-at-runtime values for "apply"
+ * @returns RUNTIME_VALUES*         returns a linked list complete with variables
+ */
+RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNTIME_VALUES *valueList )
+{
+    // If there are no more elements in the tree, return the last value
+    // which has references to all other values (a complete linked list)
+    if ( tree == NULL ) return valueList;
+
+    // We only care about values that are LEAFs, if they are not leafs then 
+    // proceed to next iteration
+    if ( tree->type != LEAF )
+    {
+        valueList = process_apply_params( frame, tree->left, valueList );
+        valueList = process_apply_params( frame, tree->right, valueList );
+    }
+    else
+    {
+        // Given a leaf, convert it into an integer and return it to us
+        int value = get_int_from_leaf( tree->left );
+        
+        // Create a new RUNTIME_VALUE node and set "next" to be the current valueList
+        RUNTIME_VALUES *valuePtr = (RUNTIME_VALUES*)malloc( sizeof( RUNTIME_VALUES ) );
+        valuePtr->next = valueList;
+        valuePtr->value = value;
+        return valuePtr;
+    }
+}
+
+/**
  * process_apply
  *
  * Trigger function for "APPLY" statements in the Abstract Syntax Tree
@@ -55,158 +92,6 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
 }
 
 /**
- * process_apply_params
- *
- * This function starts off with a blank linked list (valueList) and for each value found 
- * in the 'apply' part of the Abstract Syntax Tree, it puts it into the linked list. 
- *
- * @arg     ENVIRONMENT_FRAME*      current environment we are in
- * @arg     NODE*                   the relevant piece of abstract syntax tree we are looking at
- * @arg     RUNTIME_VALUES*         a linked list of pass-at-runtime values for "apply"
- * @returns RUNTIME_VALUES*         returns a linked list complete with variables
- */
-RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNTIME_VALUES *valueList )
-{
-    // If there are no more elements in the tree, return the last value
-    // which has references to all other values (a complete linked list)
-    if ( tree == NULL ) return valueList;
-
-    // We only care about values that are LEAFs, if they are not leafs then 
-    // proceed to next iteration
-    if ( tree->type != LEAF )
-    {
-        valueList = process_apply_params( frame, tree->left, valueList );
-        valueList = process_apply_params( frame, tree->right, valueList );
-    }
-    else
-    {
-        // Given a leaf, convert it into an integer and return it to us
-        int value = get_int_from_leaf( tree->left );
-        
-        // Create a new RUNTIME_VALUE node and set "next" to be the current valueList
-        RUNTIME_VALUES *valuePtr = (RUNTIME_VALUES*)malloc( sizeof( RUNTIME_VALUES ) );
-        valuePtr->next = valueList;
-        valuePtr->value = value;
-        return valuePtr;
-    }
-}
-
-/**
- * process_conditional
- *
- * Trigger function called when a IF statement is found in the abstract syntax tree
- * This function gets the two values either side of the equality operand and evaluates
- * the expression, and if true returns the correct code to evaluate.
- *
- * @arg     ENVIRONMENT_FRAME*      current environment we are in
- * @arg     NODE*                   the conditional expression respresented in the AST
- * @arg     int                     the operand we are running ( ==, !=, <, >, <=, >= )
- * @returns ENVIRONMENT_FRAME*      frame updated with program value
- */
-ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditional, int operand )
-{
-    TOKEN* left_value; TOKEN* right_value;
-    char* left_leaf; char* right_leaf;
-
-    // Allocate 100 bytes maximum to be used for a variable name
-    // This limitation has to be put in place due to how sprintf
-    // functions.
-    char* left  = (char*) malloc( sizeof( char ) * 100 );
-    char* right = (char*) malloc( sizeof( char ) * 100 );
-
-    // Setup the program return value variable
-    int returnValue = 0;
-
-    /**
-     * Idea discussed between myself and Matt Nicholls (mln24) to 
-     * try and find a way to convert a integer into a character
-     *
-     * This was done in order to not have to write new functions for
-     * very small use cases.
-     */
-    left_leaf   = get_leaf( conditional->left->left->left );
-    right_leaf  = get_leaf( conditional->left->right->left );
-
-    // If the left leaf was a pure number (get_leaf will return ??? as it is passed through named),
-    // then convert the number into a character of itself. E.g. 1 becomes '1'
-    if ( strcmp( left_leaf, "???" ) == 0 )
-        sprintf( left, "%d", get_value_from_tree( frame->bindings, conditional->left->left->left ) );
-    else // Otherwise use the default value (probably a variable name)
-        left = left_leaf;
-
-    if ( strcmp( right_leaf, "???" ) == 0 )
-        sprintf( right, "%d", get_value_from_tree( frame->bindings, conditional->left->right->left ) );
-    else
-        right = right_leaf;
-
-    // Lookup these two variables and get their values if they were not already numbers
-    left_value   = lookup_variable( frame->bindings, left );
-    right_value  = lookup_variable( frame->bindings, right );
-
-    // Work out what to do based on the operand being run.
-    // If statements support ==, <=, <, >=, >, !=
-    switch( operand )
-    {
-        case EQ_OP:
-            if ( left_value->value == right_value->value )
-                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
-            break;
-
-        case LE_OP:
-            if ( left_value->value <= right_value->value )
-                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
-            break;
-
-        // Less than but not equal to
-        case L_OP:
-            if( left_value->value < right_value->value )
-                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
-            break;
-
-        case GE_OP:
-            if ( left_value->value >= right_value->value )
-                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
-            break;
-
-        // Greater than but not equal to
-        case G_OP:
-            if( left_value->value > right_value->value )
-                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
-            break;
-
-        case NE_OP:
-            if ( left_value->value != right_value->value )
-                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
-            break;
-    }
-
-    frame->return_value = returnValue;
-
-    return frame;
-}
-
-ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type, NODE *function_parameters )
-{
-    char* return_type_as_char = get_leaf( return_type->left ); // should return 'int' or 'function'
-    char* function_name = get_leaf( function_parameters->left->left ); // should return function name e.g. main.
-
-    // Main method 'hack'
-    if ( main_function == NULL )
-      main_function = function_name;
-
-    frame = update_environment_with_metadata( frame, function_name, return_type_as_char );
-
-    // Function parameters
-    if ( function_parameters->right != NULL )
-    {
-        frame = process_parameters( frame, function_parameters->right );
-        frame = add_bindings_to_environment( frame, previous_node );
-    }
-
-    return frame;
-}
-
-/**
  * process_leaf
  *
  * If the trigger is of type LEAF (e.g. return 10;) we just need to work out whether
@@ -238,42 +123,6 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
     }
 
     return program_value;
-}
-
-
-/**
- * process_parameters
- *
- * Trigger function called when a function that has paramters is found in the AST
- * denoted by ~, similar to the process_variables function but sets up initial values
- * to be 0.
- *
- * @arg     ENVIRONMENT_FRAME*      current environment we are in
- * @arg     NODE*                   function parameters represented in the AST
- * @returns ENVIRONMENT_FRAME*      frame with parameters attached
- */
-ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )
-{
-    if ( parameters == NULL ) return frame;
-
-    if ( parameters->type == '~' )
-    {
-        char *param_name = get_leaf( parameters->right->left );
-
-        TOKEN* value = (TOKEN*)malloc( sizeof( TOKEN ) );
-        value = new_token( CONSTANT );
-        value->value = 0;
-
-        ENVIRONMENT_BINDING *new_variable = define_variable_with_value( previous_node, param_name, value );
-        previous_node = new_variable;
-        return frame;
-    }
-    else
-    {
-        frame = process_parameters( frame, parameters->left );
-        frame = process_parameters( frame, parameters->right );
-        return frame;
-    }
 }
 
 /**
@@ -339,24 +188,20 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
             program_value   = frame->return_value;
             break;
 
-        case ADD:
+        case '+':
             program_value   = left_int + ( ( right_int == MAX_INTEGER ) ? 0 : right_int );
             break;
 
-        case SUBTRACT:
+        case '-':
             program_value   = left_int - ( ( right_int == MAX_INTEGER ) ? 0 : right_int );
             break;
           
-        case MULTIPLY:
+        case 42:
             program_value   = left_int * ( ( right_int == MAX_INTEGER ) ? 1 : right_int );
             break;
           
-        case DIVIDE:
+        case '/':
             program_value   = left_int / ( ( right_int == MAX_INTEGER ) ? 1 : right_int );
-            break;
-
-        case MODULO:
-            program_value   = left_int % ( ( right_int == MAX_INTEGER ) ? 1 : right_int );
             break;
 
         case LEAF:
@@ -367,7 +212,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     if ( tree->left->type == APPLY || tree->left->left->type == APPLY )
         frame           = frame->next;
 
-    if( strcmp( frame->name, main_function ) == 0 )
+    if( strcmp( frame->name, main_method ) == 0 )
     {
         printf( "%d\n", program_value );
         exit(1);
@@ -391,49 +236,166 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     if ( tree->left->type != LEAF ) return frame;
     if ( tree->right->type != '=' ) return frame;
 
+    char *variable_name =  get_leaf( tree->right->left->left );
     int variable_value = 0;
-
-    if ( is_leaf( tree->right->right->left ) == TRUE )
+    if ( tree->right->right->left->left == NULL )
     {
-        variable_value  =  get_value_from_tree( frame->bindings, tree->right->right->left );
+        variable_value  =  get_int_from_leaf( tree->right->right->left );
     }
     else
     {
-        // Switch based on the operation we are looking at
+        char* left_variable_name;
+        char* right_variable_name;
         switch( tree->right->right->type )
         {
-            case ADD:
+            case '+':
                 variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) +
                                  get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
             
-            case SUBTRACT:
-                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) -
-                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
+            case '-':
+                left_variable_name = get_leaf( tree->right->right->left->left );
+                right_variable_name = get_leaf( tree->right->right->right->left );
+                variable_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) -
+                                 get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
                 break;
             
-            case MULTIPLY:
-                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) *
-                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
+            case 42:
+                left_variable_name = get_leaf( tree->right->right->left->left );
+                right_variable_name = get_leaf( tree->right->right->right->left );
+                variable_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) *
+                                 get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
                 break;
             
-            case DIVIDE:
-                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) /
-                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
+            case '/':
+                left_variable_name = get_leaf( tree->right->right->left->left );
+                right_variable_name = get_leaf( tree->right->right->right->left );
+                variable_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) /
+                                 get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
                 break;
 
-            case MODULO:
-                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) %
-                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
-                break;
         }
     }
 
+    TOKEN* value = new_token( CONSTANT );
+    value->value = variable_value;
 
-    char *variable_name = get_leaf( tree->right->left->left );
-    TOKEN* value        = new_token( CONSTANT );
-    value->value        = variable_value;
+    ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, variable_name, value );
+    previous_node = new_variable;
+}
 
-    ENVIRONMENT_BINDING *new_variable = define_variable_with_value( previous_node, variable_name, value );
-    previous_node                     = new_variable;
+ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )
+{
+    if ( parameters == NULL ) return frame;
+
+    if ( parameters->type == '~' )
+    {
+        char *param_name = get_leaf( parameters->right->left );
+
+        TOKEN* value = (TOKEN*)malloc( sizeof( TOKEN ) );
+        value = new_token( CONSTANT );
+        value->value = 0;
+
+        ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, param_name, value );
+        previous_node = new_variable;
+        return frame;
+    }
+    else
+    {
+        frame = process_parameters( frame, parameters->left );
+        frame = process_parameters( frame, parameters->right );
+        return frame;
+    }
+}
+
+ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type, NODE *function_parameters )
+{
+    char* return_type_as_char = get_leaf( return_type->left ); // should return 'int' or 'function'
+    char* function_name = get_leaf( function_parameters->left->left ); // should return function name e.g. main.
+
+    // Main method 'hack'
+    if ( main_method == NULL )
+      main_method = function_name;
+
+    frame = update_environment_with_metadata( frame, function_name, return_type_as_char );
+
+    // Function parameters
+    if ( function_parameters->right != NULL )
+    {
+        frame = process_parameters( frame, function_parameters->right );
+        frame = add_bindings_to_environment( frame, previous_node );
+    }
+
+    return frame;
+}
+
+int perform_eq_op_comparision( ENVIRONMENT_FRAME* frame, int one, int two, NODE* returnInformation )
+{
+    int returnValue = NULL;
+
+    if( one == two )
+    {
+        returnValue = process_return( frame, returnInformation, NULL, NULL, NULL, NULL );
+    }
+
+    return returnValue;
+}
+
+ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditional, int operand )
+{
+    //printf( "Operand: %s\n", named( operand ) );
+
+    TOKEN* left_var;
+    TOKEN* right_var;
+    char* left_fix; char* right_fix;
+    char* left  = (char*)malloc(sizeof( char ) * 20);
+    char* right = (char*)malloc(sizeof( char ) * 20);
+    int returnValue;
+
+    left_fix = get_leaf( conditional->left->left->left );
+    right_fix = get_leaf( conditional->left->right->left );
+
+    if ( strcmp( left_fix, "???" ) == 0 )
+    {
+        sprintf( left, "%d", get_int_from_leaf( conditional->left->left->left ) );
+    }
+    else
+    {
+        left = left_fix;
+    }
+
+    if ( strcmp( right_fix, "???" ) == 0 )
+    {
+        sprintf( right, "%d", get_int_from_leaf( conditional->left->right->left ) );
+    }
+    else
+    {
+        right = right_fix;
+    }
+
+    left_var = lookup_variable( frame->bindings, left );
+    right_var = lookup_variable( frame->bindings, right );
+
+    //printf( "left = %d... right = %d\n", left_var->value, right_var->value );
+
+    switch( operand )
+    {
+        case EQ_OP:
+            returnValue = perform_eq_op_comparision( frame, left_var->value, right_var->value, conditional->right );
+            //printf( "return value %d\n", returnValue );
+            break;
+
+        case LE_OP:
+            break;
+
+        case GE_OP:
+            break;
+
+        case NE_OP:
+            break;
+    }
+
+    frame->return_value = returnValue;
+
+    return frame;
 }
