@@ -196,93 +196,54 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         case '-':
           if( tree->left->left->type == APPLY )
           {
-                right_int = get_int_from_leaf( tree->left->right->left );
-                frame = process_apply( frame, declaration, body, function_name, parameters );
-
-                if ( right_int != MAX_INTEGER )
-                {
-                    program_value = frame->return_value - right_int;
-                }
-                else
-                {
-                    right_variable_name = get_leaf( tree->left->right->left );
-                    right = lookup_variable( frame->bindings, right_variable_name );
-                    program_value = frame->return_value - get_int_from_token( right );
-                }
-
-                frame = frame->next;
+                frame           = process_apply( frame, declaration, body, function_name, parameters );
+                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
+                program_value   = frame->return_value - right_int;
+                frame           = frame->next;
           }
           else
           {
-                left_variable_name = get_leaf( tree->left->left->left );
-                right_variable_name = get_leaf( tree->left->right->left );
-                left = lookup_variable( frame->bindings, left_variable_name );
-                right = lookup_variable( frame->bindings, right_variable_name );
-                program_value = get_int_from_token( left ) - get_int_from_token( right );
+                left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
+                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
+                program_value   = left_int - right_int;
           }
           break;
           
         case 42:
           if( tree->left->left->type == APPLY )
           {
-                right_int = get_int_from_leaf( tree->left->right->left );
-                frame = process_apply( frame, declaration, body, function_name, parameters );
-
-                if ( right_int != MAX_INTEGER )
-                {
-                    program_value = frame->return_value * right_int;
-                }
-                else
-                {
-                    right_variable_name = get_leaf( tree->left->right->left );
-                    right = lookup_variable( frame->bindings, right_variable_name );
-                    program_value = frame->return_value * get_int_from_token( right );
-                }
-
-                frame = frame->next;
+                frame           = process_apply( frame, declaration, body, function_name, parameters );
+                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
+                program_value   = frame->return_value * right_int;
+                frame           = frame->next;
           }
           else
           {
-                left_variable_name = get_leaf( tree->left->left->left );
-                right_variable_name = get_leaf( tree->left->right->left );
-                left = lookup_variable( frame->bindings, left_variable_name );
-                right = lookup_variable( frame->bindings, right_variable_name );
-                program_value = get_int_from_token( left ) * get_int_from_token( right );
+                left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
+                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
+                program_value   = left_int * right_int;
           }
           break;
           
         case '/':
           if( tree->left->left->type == APPLY )
           {
-                right_int = get_int_from_leaf( tree->left->right->left );
-                frame = process_apply( frame, declaration, body, function_name, parameters );
-
-                if ( right_int != MAX_INTEGER )
-                {
-                    //printf( "right integer = %d, left integer = %d\n", right_int, frame->return_value );
-                    program_value = frame->return_value / right_int;
-                }
-                else
-                {
-                    right_variable_name = get_leaf( tree->left->right->left );
-                    right = lookup_variable( frame->bindings, right_variable_name );
-                    program_value = frame->return_value / get_int_from_token( right );
-                }
-
-                frame = frame->next;
+                frame           = process_apply( frame, declaration, body, function_name, parameters );
+                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
+                program_value   = frame->return_value / right_int;
+                frame           = frame->next;
           }
           else
           {
-                left_variable_name = get_leaf( tree->left->left->left );
-                right_variable_name = get_leaf( tree->left->right->left );
-                left = lookup_variable( frame->bindings, left_variable_name );
-                right = lookup_variable( frame->bindings, right_variable_name );
-                program_value = get_int_from_token( left ) / get_int_from_token( right );
+                
+                left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
+                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
+                program_value   = left_int / right_int;
           }
           break;
 
         case LEAF:
-            program_value = process_leaf( frame, tree->left->left );
+            program_value       = process_leaf( frame, tree->left->left );
             break;
     }
 
