@@ -14,6 +14,9 @@
 #define SUBTRACT 45
 #define DIVIDE 47
 #define MODULO 37
+#define ENVIRONMENT 68
+#define FUNCTION 100
+#define TILDA 126
 
 int is_leaf(NODE*);
 char* get_leaf(NODE*);
