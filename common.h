@@ -3,9 +3,12 @@
 #include "token.h"
 #include "nodes.h"
 #include "environment.h"
-#define MAX_INTEGER 2147483646 // max integer - 1 for a 32-bit system
 
-bool is_leaf(NODE*);
+#define MAX_INTEGER 2147483646 // max integer - 1 for a 32-bit system
+#define TRUE 1
+#define FALSE 0
+
+int is_leaf(NODE*);
 char* get_leaf(NODE*);
 char* named(int);
 int get_int_from_leaf(NODE*);

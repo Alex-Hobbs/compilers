@@ -238,7 +238,7 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
 
     int variable_value = 0;
 
-    if ( is_leaf( tree->right->right->left ) == true )
+    if ( is_leaf( tree->right->right->left ) == TRUE )
     {
         variable_value  =  get_value_from_tree( frame->bindings, tree->right->right->left );
     }
@@ -324,22 +324,8 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
     return frame;
 }
 
-int perform_eq_op_comparision( ENVIRONMENT_FRAME* frame, int one, int two, NODE* returnInformation )
-{
-    int returnValue = NULL;
-
-    if( one == two )
-    {
-        returnValue = process_return( frame, returnInformation, NULL, NULL, NULL, NULL );
-    }
-
-    return returnValue;
-}
-
 ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditional, int operand )
 {
-    //printf( "Operand: %s\n", named( operand ) );
-
     TOKEN* left_var;
     TOKEN* right_var;
     char* left_fix; char* right_fix;
@@ -376,17 +362,23 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     switch( operand )
     {
         case EQ_OP:
-            returnValue = perform_eq_op_comparision( frame, left_var->value, right_var->value, conditional->right );
-            //printf( "return value %d\n", returnValue );
+            if ( left_var->value == right_var->value )
+                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
             break;
 
         case LE_OP:
+            if ( left_var->value <= right_var->value )
+                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
             break;
 
         case GE_OP:
+            if ( left_var->value >= right_var->value )
+                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
             break;
 
         case NE_OP:
+            if ( left_var->value != right_var->value )
+                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
             break;
     }
 
