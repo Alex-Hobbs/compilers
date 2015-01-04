@@ -159,7 +159,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         parameters      = treeCpy->left->right;
 
         right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
-        print_tree0( tree, 20 );
         frame           = process_apply( frame, declaration, body, function_name, parameters );
         left_int        = frame->return_value;
     }
