@@ -16,6 +16,7 @@
  */
 RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNTIME_VALUES *valueList )
 {
+    print_tree0(tree, 10);
     // If there are no more elements in the tree, return the last value
     // which has references to all other values (a complete linked list)
     if ( tree == NULL ) return valueList;
