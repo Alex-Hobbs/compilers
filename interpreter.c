@@ -117,7 +117,7 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
 {
     int program_value;
 
-    printf( "leaf %d\n", get_int_from_leaf( leaf ) );
+    printf( "leaf %d\n", (TOKEN*)leaf->value );
 
     // This is a bit of a hackish way to work out of a char is a number
     // or a variable name. Idea discussed and came up with Matt Nicholls (mln24)
