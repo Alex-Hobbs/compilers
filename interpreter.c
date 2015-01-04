@@ -162,7 +162,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
         frame           = process_apply( frame, declaration, body, function_name, parameters );
         left_int        = frame->return_value;
-        frame           = frame->next;
     }
     else
     {
@@ -203,6 +202,9 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
             program_value   = process_leaf( frame, tree->left->left );
             break;
     }
+
+    if ( tree->left->type == APPLY || tree->left->left->type == APPLY )
+        frame           = frame->next;
 
     if( strcmp( frame->name, main_method ) == 0 )
     {
