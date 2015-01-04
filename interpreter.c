@@ -242,6 +242,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
                 initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
+                    printf( "right_variable_name=%s, %d\n", tree->left->right->left, right_int );
 
                 if ( right_int != MAX_INTEGER )
                 {
@@ -251,7 +252,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
                 {
                     right_variable_name = get_leaf( tree->left->right->left );
                     right = lookup_variable( frame->bindings, right_variable_name );
-                    printf( "right_variable_name=%s, %d\n", right_variable_name, (int) right->value );
                     program_value = frame->return_value * get_int_from_token( right );
                 }
 
