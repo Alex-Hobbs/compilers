@@ -3,8 +3,6 @@
 #include "environment.h"
 #include "C.tab.h"
 
-ENVIRONMENT_BINDING *previous_binding;
-
 ENVIRONMENT_FRAME* add_bindings_to_environment( ENVIRONMENT_FRAME* environment, ENVIRONMENT_BINDING* variables )
 {
 	environment->bindings = variables;
@@ -65,6 +63,8 @@ NODE* get_declaration_of_function( ENVIRONMENT_FRAME* frame, char* function_name
 int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
 {
     int test_value;
+
+    print_tree0( value, 100 );
   
     test_value = get_int_from_leaf( value );
 
@@ -72,12 +72,7 @@ int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
     // therefore lookup variable value.
     if ( test_value == MAX_INTEGER )
     {
-    	TOKEN* lookup_var = lookup_variable( binding, get_leaf( value ) );
-
-    	if ( lookup_var != NULL )
-        {
-        	test_value = get_int_from_token( lookup_var );
-        }
+        test_value = get_int_from_token( lookup_variable( binding, get_leaf( value ) ) );
 
         // We're still a letter? We cannot apply arithmetic to a number, error out.
         if ( test_value == MAX_INTEGER )

@@ -3,8 +3,6 @@
 #include "interpreter.h"
 #include "C.tab.h"
 
-NODE *previous_node;
-
 /**
  * process_apply
  *
@@ -399,7 +397,7 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     }
     else
     {
-        NODE *variable_values = tree->right->right;
+        NODE *variable_values = tree->right;
 
         // Switch based on the operation we are looking at
         switch( variable_values->type )
