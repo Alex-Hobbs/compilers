@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "environment.h"
 #include "C.tab.h"
-#include "interpreter.h"
 
 
 ENVIRONMENT_FRAME* add_bindings_to_environment( ENVIRONMENT_FRAME* environment, ENVIRONMENT_BINDING* variables )

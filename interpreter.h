@@ -6,9 +6,6 @@
 #include "common.h"
 #include "environment.h"
 
-char*				main_function;
-NODE*				previous_node;
-
 ENVIRONMENT_FRAME* 	process_apply( ENVIRONMENT_FRAME*, NODE*, NODE*, char*, NODE* );
 RUNTIME_VALUES* 	process_apply_params( ENVIRONMENT_FRAME*, NODE*, RUNTIME_VALUES* );
 ENVIRONMENT_FRAME* 	process_conditional( ENVIRONMENT_FRAME*, NODE*, int );
