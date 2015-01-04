@@ -403,28 +403,28 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
         switch( variable_values->type )
         {
             case ADD:
-                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) +
-                                 get_value_from_tree( frame->bindings, variable_values->right->left );
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) +
+                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
             
             case SUBTRACT:
-                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) -
-                                 get_value_from_tree( frame->bindings, variable_values->right->left );
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) -
+                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
             
             case MULTIPLY:
-                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) *
-                                 get_value_from_tree( frame->bindings, variable_values->right->left );
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) *
+                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
             
             case DIVIDE:
-                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) /
-                                 get_value_from_tree( frame->bindings, variable_values->right->left );
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) /
+                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
 
             case MODULO:
-                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) %
-                                 get_value_from_tree( frame->bindings, variable_values->right->left );
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) %
+                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
         }
     }
