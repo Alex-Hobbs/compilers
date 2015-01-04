@@ -198,7 +198,7 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
     if ( function_parameters->right != NULL )
     {
         frame = process_parameters( frame, function_parameters->right );
-        frame = add_bindings_to_environment( frame, previous_node );
+        frame = add_bindings_to_environment( frame, previous_binding );
     }
 
     return frame;
@@ -262,8 +262,8 @@ ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameter
         value = new_token( CONSTANT );
         value->value = 0;
 
-        ENVIRONMENT_BINDING *new_variable = define_variable_with_value( previous_node, param_name, value );
-        previous_node = new_variable;
+        ENVIRONMENT_BINDING *new_variable = define_variable_with_value( previous_binding, param_name, value );
+        previous_binding = new_variable;
         return frame;
     }
     else
@@ -434,6 +434,6 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     TOKEN* value        = new_token( CONSTANT );
     value->value        = variable_value;
 
-    ENVIRONMENT_BINDING *new_variable = define_variable_with_value( previous_node, variable_name, value );
-    previous_node                     = new_variable;
+    ENVIRONMENT_BINDING *new_variable = define_variable_with_value( previous_binding, variable_name, value );
+    previous_binding                     = new_variable;
 }
