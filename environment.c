@@ -39,7 +39,7 @@ ENVIRONMENT_FRAME* store_function( ENVIRONMENT_FRAME* frame, NODE* declaration, 
 */
 TOKEN* lookup_variable( ENVIRONMENT_BINDING* node, char* variable_name )
 {
-	//printf( "Looking for %s, found variable = %s\n", variable_name, node->name );
+	printf( "Looking for %s, found variable = %s\n", variable_name, node->name );
 
 	if ( strcmp( node->name, variable_name ) == 0 )
 		return (TOKEN *)node->value;
