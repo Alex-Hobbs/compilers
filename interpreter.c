@@ -74,7 +74,6 @@ RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNT
  */
 ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, NODE *body, char *function_name, NODE *parameters )
 {
-    printf( "FUNCTION_NAME = %s\n", function_name );
     RUNTIME_VALUES *values = process_apply_params( frame, parameters, NULL );
 
     // Setup a new temporary environment which is discarded after this apply
@@ -105,6 +104,8 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
     // Set the variables for this temporary environment
     tmpEnv->bindings = firstBinding;
 
+    &function_name = NULL;
+    
     // Now our temporary environment is fully set up we need to rerun the whole parser
     frame = parse_environment( tmpEnv, body );
     
@@ -248,7 +249,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         case 42:
           if( tree->left->left->type == APPLY )
           {
-                print_tree0( tree, 100 );
                 initialise_apply_variables( frame, tree->left->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
