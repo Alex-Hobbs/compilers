@@ -251,6 +251,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
                 {
                     right_variable_name = get_leaf( tree->left->right->left );
                     right = lookup_variable( frame->bindings, right_variable_name );
+                    printf( "right_variable_name=%s, %d\n", right_variable_name, (int) right->value );
                     program_value = frame->return_value * get_int_from_token( right );
                 }
 
