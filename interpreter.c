@@ -85,8 +85,6 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
     // Set the variables for this temporary environment
     tmpEnv->bindings = firstBinding;
 
-    *function_name = NULL;
-
     // Now our temporary environment is fully set up we need to rerun the whole parser
     frame = parse_environment( tmpEnv, body );
     
@@ -150,6 +148,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     TOKEN* left; TOKEN* right;
     int program_value;
 
+    // Are we running an apply function?
     if ( tree->left->type == APPLY || tree->left->left->type == APPLY )
     {
         NODE* treeCpy = tree;
@@ -181,29 +180,16 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         case '+':
           if( tree->left->left->type == APPLY )
           {
-                right_int = get_int_from_leaf( tree->left->right->left );
-                frame = process_apply( frame, declaration, body, function_name, parameters );
-
-                if ( right_int != MAX_INTEGER )
-                {
-                    program_value = right_int + frame->return_value;
-                }
-                else
-                {
-                    right_variable_name = get_leaf( tree->left->right->left );
-                    right = lookup_variable( frame->bindings, right_variable_name );
-                    program_value = get_int_from_token( right ) + frame->return_value;
-                }
-
+                frame           = process_apply( frame, declaration, body, function_name, parameters );
+                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
+                program_value   = frame->return_value + right_int;
                 frame = frame->next;
           }
           else
           {
-                left_variable_name = get_leaf( tree->left->left->left );
-                right_variable_name = get_leaf( tree->left->right->left );
-                left = lookup_variable( frame->bindings, left_variable_name );
-                right = lookup_variable( frame->bindings, right_variable_name );
-                program_value = get_int_from_token( left ) + get_int_from_token( right );
+                left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
+                right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
+                program_value   = left + right;
           }
           break;
 
