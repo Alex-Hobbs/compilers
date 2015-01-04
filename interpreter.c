@@ -117,8 +117,6 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
 {
     int program_value;
 
-    printf( "leaf %d\n", ((TOKEN*)leaf)->value );
-
     // This is a bit of a hackish way to work out of a char is a number
     // or a variable name. Idea discussed and came up with Matt Nicholls (mln24)
     // get_int_from_leaf will try casting it to an integer, if it cannot it will return
@@ -300,6 +298,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           break;
 
         case LEAF:
+            print_tree0(tree,1);
             program_value = process_leaf( frame, tree->left->left );
             break;
     }
