@@ -237,9 +237,10 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           break;
           
         case 42:
-          printf( "Multiplication\n");
           if( tree->left->left->type == APPLY )
           {
+            
+          printf( "Multiplication\n");
                 initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
