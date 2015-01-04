@@ -189,7 +189,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           {
                 left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
                 right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
-                program_value   = left + right;
+                program_value   = left_int + right_int;
           }
           break;
 
