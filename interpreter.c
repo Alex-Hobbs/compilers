@@ -403,8 +403,8 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
         switch( variable_values->type )
         {
             case ADD:
-                variable_value = get_value_from_tree( frame->bindings, get_leaf( variable_values->left->left ) ) +
-                                 get_value_from_tree( frame->bindings, get_leaf( variable_values->right->left ) );
+                variable_value = get_value_from_tree( frame->bindings, variable_values->left ) +
+                                 get_value_from_tree( frame->bindings, variable_values->right );
                 break;
             
             case SUBTRACT:

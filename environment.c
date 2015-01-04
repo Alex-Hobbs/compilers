@@ -66,8 +66,6 @@ int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
   
     test_value = get_int_from_leaf( value );
 
-    printf( "test_value = %d   %s\n", test_value, value );
-
     // If the value we get back is MAX_INTEGER, then we are not a number
     // therefore lookup variable value.
     if ( test_value == MAX_INTEGER )
