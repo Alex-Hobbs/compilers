@@ -4,7 +4,7 @@
 #include "C.tab.h"
 
 
-void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char *function_name, NODE *declaration, NODE *body, NODE *parameters )
+void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char **function_name, NODE **declaration, NODE **body, NODE **parameters )
 {
     if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
     {
