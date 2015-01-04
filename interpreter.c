@@ -6,7 +6,6 @@
 
 void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char **function_name, NODE **declaration, NODE **body, NODE **parameters )
 {
-    printf( "f_name = %s", *function_name );
     if ( *function_name == NULL || *declaration == NULL || *body == NULL || *parameters == NULL )
     {
         *function_name = get_leaf( tree->left->left->left );
@@ -15,6 +14,14 @@ void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char **fu
         *parameters    = tree->left->right;
     }
 };
+
+void reset_apply_variables( char **function_name, NODE **declaration, NODE **body, NODE **parameters )
+{
+    *function_name = NULL;
+    *declaration = NULL;
+    *body = NULL;
+    *parameters = NULL;
+}
 
 /**
  * process_apply_params
@@ -309,6 +316,8 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         printf( "%d\n", program_value );
         exit(1);
     }
+
+    reset_apply_variables( &function_name, &declaration, &body, &parameters );
 
     return program_value;
 }
