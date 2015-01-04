@@ -264,7 +264,7 @@ ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameter
         value = new_token( CONSTANT );
         value->value = 0;
 
-        ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, param_name, value );
+        ENVIRONMENT_BINDING *new_variable = define_variable_with_value( previous_node, param_name, value );
         previous_node = new_variable;
         return frame;
     }
@@ -434,6 +434,6 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     TOKEN* value        = new_token( CONSTANT );
     value->value        = variable_value;
 
-    ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, variable_name, value );
+    ENVIRONMENT_BINDING *new_variable = define_variable_with_value( previous_node, variable_name, value );
     previous_node                     = new_variable;
 }
