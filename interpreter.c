@@ -249,6 +249,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           break;
           
         case 42:
+        printf( parameters, 100 );
           if( tree->left->left->type == APPLY )
           {
                 initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
