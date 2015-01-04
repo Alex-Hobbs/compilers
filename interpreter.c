@@ -165,7 +165,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         frame           = process_apply( frame, declaration, body, function_name, parameters );
         left_int        = frame->return_value;
     }
-    else
+    else if ( tree->left->type != LEAF )
     {
         if ( tree->left->left->left != NULL )
             left_int    = get_value_from_tree( frame->bindings, tree->left->left->left );
