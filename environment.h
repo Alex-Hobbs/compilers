@@ -30,7 +30,7 @@ typedef struct runtime_values
 
 TOKEN* lookup_variable(ENVIRONMENT_BINDING*, char*);
 ENVIRONMENT_FRAME* extend_environment( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING* );
-ENVIRONMENT_BINDING* define_variable_with_value( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING*, char*, TOKEN* );
+ENVIRONMENT_BINDING* define_variable_with_value( ENVIRONMENT_BINDING*, char*, TOKEN* );
 ENVIRONMENT_BINDING* update_variable_with_value( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING*, char*, TOKEN* );
 ENVIRONMENT_FRAME* add_bindings_to_environment( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING* );
 ENVIRONMENT_FRAME* update_environment_with_metadata( ENVIRONMENT_FRAME*, char*, char* );
