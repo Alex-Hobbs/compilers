@@ -236,16 +236,15 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     if ( tree->left->type != LEAF ) return frame;
     if ( tree->right->type != '=' ) return frame;
 
-    char *variable_name =  get_leaf( tree->right->left->left );
     int variable_value = 0;
-    if ( tree->right->right->left->left == NULL )
+
+    if ( is_leaf( tree->right->right->left ) == true )
     {
-        variable_value  =  get_int_from_leaf( tree->right->right->left );
+        variable_value  =  get_value_from_tree( frame->bindings, tree->right->right->left );
     }
     else
     {
-        char* left_variable_name;
-        char* right_variable_name;
+        // Switch based on the operation we are looking at
         switch( tree->right->right->type )
         {
             case '+':
@@ -254,34 +253,30 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
                 break;
             
             case '-':
-                left_variable_name = get_leaf( tree->right->right->left->left );
-                right_variable_name = get_leaf( tree->right->right->right->left );
-                variable_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) -
-                                 get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) -
+                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
             
             case 42:
-                left_variable_name = get_leaf( tree->right->right->left->left );
-                right_variable_name = get_leaf( tree->right->right->right->left );
-                variable_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) *
-                                 get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) *
+                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
             
             case '/':
-                left_variable_name = get_leaf( tree->right->right->left->left );
-                right_variable_name = get_leaf( tree->right->right->right->left );
-                variable_value = get_int_from_token( lookup_variable( frame->bindings, left_variable_name ) ) /
-                                 get_int_from_token( lookup_variable( frame->bindings, right_variable_name ) );
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) /
+                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
 
         }
     }
 
-    TOKEN* value = new_token( CONSTANT );
-    value->value = variable_value;
+
+    char *variable_name = get_leaf( tree->right->left->left );
+    TOKEN* value        = new_token( CONSTANT );
+    value->value        = variable_value;
 
     ENVIRONMENT_BINDING *new_variable = define_variable_with_value( frame, previous_node, variable_name, value );
-    previous_node = new_variable;
+    previous_node                     = new_variable;
 }
 
 ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )

@@ -26,6 +26,14 @@ int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
     return (int) test_value;
 }
 
+bool is_leaf( NODE *leaf )
+{
+    if ( leaf->left == NULL )
+        return true;
+      
+    return false;
+}
+
 char *named(int t)
 {
     static char b[100];
