@@ -123,7 +123,7 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME* current_frame, NODE* tr
                 current_frame->return_value = process_return( current_frame, tree, NULL, NULL, NULL, NULL );
                 return current_frame;
 
-            case FUNCTION:
+            case DECLARATION:
                 current_frame = process_function( current_frame, tree->left, tree->right );
                 break;
 
