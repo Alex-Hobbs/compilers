@@ -92,7 +92,16 @@ RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNT
 }
 
 /**
+ * process_conditional
  *
+ * Trigger function called when a IF statement is found in the abstract syntax tree
+ * This function gets the two values either side of the equality operand and evaluates
+ * the expression, and if true returns the correct code to evaluate.
+ *
+ * @arg     ENVIRONMENT_FRAME*      current environment we are in
+ * @arg     NODE*                   the conditional expression respresented in the AST
+ * @arg     int                     the operand we are running ( ==, !=, <, >, <=, >= )
+ * @returns ENVIRONMENT_FRAME*      frame updated with program value
  */
 ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditional, int operand )
 {
@@ -231,6 +240,18 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
     return program_value;
 }
 
+
+/**
+ * process_parameters
+ *
+ * Trigger function called when a function that has paramters is found in the AST
+ * denoted by ~, similar to the process_variables function but sets up initial values
+ * to be 0.
+ *
+ * @arg     ENVIRONMENT_FRAME*      current environment we are in
+ * @arg     NODE*                   function parameters represented in the AST
+ * @returns ENVIRONMENT_FRAME*      frame with parameters attached
+ */
 ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameters )
 {
     if ( parameters == NULL ) return frame;
