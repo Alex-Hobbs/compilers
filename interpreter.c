@@ -12,8 +12,6 @@ void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char **fu
         *declaration   = get_declaration_of_function( frame, *function_name );
         *body          = get_body_of_function( frame, *function_name );
         *parameters    = tree->left->right;
-
-        print_tree0( tree->left->right, 50 );
     }
 };
 
@@ -76,6 +74,7 @@ RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNT
  */
 ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, NODE *body, char *function_name, NODE *parameters )
 {
+    printf( "FUNCTION_NAME = %s\n", function_name );
     RUNTIME_VALUES *values = process_apply_params( frame, parameters, NULL );
 
     // Setup a new temporary environment which is discarded after this apply
