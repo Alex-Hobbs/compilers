@@ -17,7 +17,7 @@ int main(int argc, char** argv)
     NODE* tree;
     if (argc>1 && strcmp(argv[1],"-d")==0) yydebug = 1;
     init_symbtable();
-    printf("--C COMPILER\n");
+    printf("--C COMPILER by Alex Hobbs (ajh68) 2015\n");
     yyparse();
     tree = ans;
 
