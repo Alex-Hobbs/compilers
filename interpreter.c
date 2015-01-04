@@ -171,7 +171,8 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     }
     else
     {
-        left_int        = get_value_from_tree( frame->bindings, tree->left->left );
+        left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
+        right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
     }
 
     printf( "left_int = %d, right_int = %d\n", left_int, right_int );
