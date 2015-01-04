@@ -171,7 +171,8 @@ ENVIRONMENT_FRAME* parse_environment( ENVIRONMENT_FRAME* current_frame, NODE* tr
 
 void set_environment_return_value( ENVIRONMENT_FRAME* environment, int value )
 {
-	frame->return_value = value;
+	environment->return_value = value;
+	return environment;
 }
 
 ENVIRONMENT_FRAME* setup_new_environment( ENVIRONMENT_FRAME* neighbour )
