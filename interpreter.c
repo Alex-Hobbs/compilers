@@ -77,16 +77,12 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
         newValue->value = values->value;
         bindings->value = newValue;
 
-        printf( "VALUE = %d\n", newValue->value );
         bindings = bindings->next;
         values = values->next;
     }
 
     // Set the variables for this temporary environment
     tmpEnv->bindings = firstBinding;
-
-    printf( "Binding 1: %s %d", tmpEnv->bindings->name, tmpEnv->bindings->value->value );
-    print_tree0(body, 240 );
 
     // Now our temporary environment is fully set up we need to rerun the whole parser
     frame = parse_environment( tmpEnv, body );
@@ -171,6 +167,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     }
     else
     {
+        print_tree0( tree->left, 100 );
         left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
         right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
     }
