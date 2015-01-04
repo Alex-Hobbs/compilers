@@ -75,7 +75,6 @@ RUNTIME_VALUES* process_apply_params( ENVIRONMENT_FRAME* frame, NODE* tree, RUNT
 ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, NODE *body, char *function_name, NODE *parameters )
 {
     RUNTIME_VALUES *values = process_apply_params( frame, parameters, NULL );
-    print_tree0(parameters, 100);
 
     // Setup a new temporary environment which is discarded after this apply
     // The reason I do this is because "APPLY" receives values that are to be applied
@@ -250,7 +249,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         case 42:
           if( tree->left->left->type == APPLY )
           {
-                initialise_apply_variables( frame, tree->left->left, &function_name, &declaration, &body, &parameters );
+                initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
