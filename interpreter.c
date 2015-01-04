@@ -23,7 +23,7 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
     // The reason I do this is because "APPLY" receives values that are to be applied
     // to an existing function and are changeable. Should not alter existing function
     // environment, but add a temporary one with the new values.
-    ENVIRONMENT_FRAME *tmpEnv = (ENVIRONMENT_FRAME *) setup_new_environment( NULL );
+    ENVIRONMENT_FRAME *tmpEnv = (ENVIRONMENT_FRAME *)setup_new_environment( NULL );
     tmpEnv->declaration = declaration;
     tmpEnv->body        = body;
     tmpEnv->name        = function_name; 
@@ -114,27 +114,28 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
     char* left  = (char*) malloc( sizeof( char ) * 100 );
     char* right = (char*) malloc( sizeof( char ) * 100 );
 
+    // Setup the program return value variable
+    int returnValue = 0;
+
     /**
-     * Idea and code discussed between myself and Matt Nicholls (mln24) to 
+     * Idea discussed between myself and Matt Nicholls (mln24) to 
      * try and find a way to convert a integer into a character
      *
      * This was done in order to not have to write new functions for
      * very small use cases.
      */
-    NODE* values        = conditional->left;
-    NODE* expression    = conditional->right;
-    left_leaf           = get_leaf( values->left->left );
-    right_leaf          = get_leaf( values->right->left );
+    left_leaf   = get_leaf( conditional->left->left->left );
+    right_leaf  = get_leaf( conditional->left->right->left );
 
     // If the left leaf was a pure number (get_leaf will return ??? as it is passed through named),
     // then convert the number into a character of itself. E.g. 1 becomes '1'
     if ( strcmp( left_leaf, "???" ) == 0 )
-        sprintf( left, "%d", get_value_from_tree( frame->bindings, values->left->left ) );
+        sprintf( left, "%d", get_value_from_tree( frame->bindings, conditional->left->left->left ) );
     else // Otherwise use the default value (probably a variable name)
         left = left_leaf;
 
     if ( strcmp( right_leaf, "???" ) == 0 )
-        sprintf( right, "%d", get_value_from_tree( frame->bindings, values->right->left ) );
+        sprintf( right, "%d", get_value_from_tree( frame->bindings, conditional->left->right->left ) );
     else
         right = right_leaf;
 
@@ -144,43 +145,43 @@ ENVIRONMENT_FRAME* process_conditional( ENVIRONMENT_FRAME *frame, NODE *conditio
 
     // Work out what to do based on the operand being run.
     // If statements support ==, <=, <, >=, >, !=
-    int evaluation = 0;
     switch( operand )
     {
         case EQ_OP:
             if ( left_value->value == right_value->value )
-                evaluation = process_return( frame, expression, NULL, NULL, NULL, NULL );
+                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
             break;
 
         case LE_OP:
             if ( left_value->value <= right_value->value )
-                evaluation = process_return( frame, expression, NULL, NULL, NULL, NULL );
+                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
             break;
 
         // Less than but not equal to
         case L_OP:
             if( left_value->value < right_value->value )
-                evaluation = process_return( frame, expression, NULL, NULL, NULL, NULL );
+                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
             break;
 
         case GE_OP:
             if ( left_value->value >= right_value->value )
-                evaluation = process_return( frame, expression, NULL, NULL, NULL, NULL );
+                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
             break;
 
         // Greater than but not equal to
         case G_OP:
             if( left_value->value > right_value->value )
-                evaluation = process_return( frame, expression, NULL, NULL, NULL, NULL );
+                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
             break;
 
         case NE_OP:
             if ( left_value->value != right_value->value )
-                evaluation = process_return( frame, expression, NULL, NULL, NULL, NULL );
+                returnValue = process_return( frame, conditional->right, NULL, NULL, NULL, NULL );
             break;
     }
 
-    frame = set_environment_return_value( frame, evaluation );
+    frame->return_value = returnValue;
+
     return frame;
 }
 
@@ -189,8 +190,9 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
     char* return_type_as_char = get_leaf( return_type->left ); // should return 'int' or 'function'
     char* function_name = get_leaf( function_parameters->left->left ); // should return function name e.g. main.
 
-    // Main method 'hack', allows the system to know what the first runnable function in the program was
-    if ( main_function == NULL ) main_function = function_name;
+    // Main method 'hack'
+    if ( main_function == NULL )
+      main_function = function_name;
 
     frame = update_environment_with_metadata( frame, function_name, return_type_as_char );
 
@@ -254,7 +256,7 @@ ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameter
 {
     if ( parameters == NULL ) return frame;
 
-    if ( parameters->type == TILDA )
+    if ( parameters->type == '~' )
     {
         char *param_name = get_leaf( parameters->right->left );
 
@@ -397,33 +399,31 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     }
     else
     {
-        NODE *variable_values = tree->right;
-
         // Switch based on the operation we are looking at
-        switch( variable_values->type )
+        switch( tree->right->right->type )
         {
             case ADD:
-                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) +
-                                 get_value_from_tree( frame->bindings, variable_values->right->left );
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) +
+                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
             
             case SUBTRACT:
-                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) -
-                                 get_value_from_tree( frame->bindings, variable_values->right->left );
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) -
+                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
             
             case MULTIPLY:
-                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) *
-                                 get_value_from_tree( frame->bindings, variable_values->right->left );
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) *
+                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
             
             case DIVIDE:
-                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) /
-                                 get_value_from_tree( frame->bindings, variable_values->right->left );
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) /
+                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
 
             case MODULO:
-                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) %
+                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) %
                                  get_value_from_tree( frame->bindings, tree->right->right->right->left );
                 break;
         }
