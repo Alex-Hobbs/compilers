@@ -13,7 +13,7 @@ void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char **fu
         *body          = get_body_of_function( frame, *function_name );
         *parameters    = tree->left->right;
     }
-    print_tree0( *parameters, 50 );
+    print_tree0( tree->left->right, 50 );
 };
 
 void reset_apply_variables( char **function_name, NODE **declaration, NODE **body, NODE **parameters )
