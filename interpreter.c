@@ -148,18 +148,20 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     // Are we running an apply function?
     if ( tree->left->type == APPLY || tree->left->left->type == APPLY )
     {
-        NODE* treeCpy = tree;
+        NODE* treeCpy   = tree;
+        right_int       = MAX_INTEGER;
 
         if ( tree->left->left->type == APPLY )
+        {
             treeCpy     = tree->left;
+            right_int   = get_value_from_tree( frame->bindings, treeCpy->right->left );
+        }
 
         function_name   = get_leaf( treeCpy->left->left->left );
         declaration     = get_declaration_of_function( frame, function_name );
         body            = get_body_of_function( frame, function_name );
         parameters      = treeCpy->left->right;
 
-        print_tree0(treeCpy, 100);
-        right_int       = get_value_from_tree( frame->bindings, treeCpy->left->right->left );
         frame           = process_apply( frame, declaration, body, function_name, parameters );
         left_int        = frame->return_value;
     }
@@ -181,19 +183,19 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
             break;
 
         case '+':
-            program_value   = left_int + right_int;
+            program_value   = left_int + ( ( right_int == MAX_INTEGER ) ? 0 : right_int );
             break;
 
         case '-':
-            program_value   = left_int - right_int;
+            program_value   = left_int - ( ( right_int == MAX_INTEGER ) ? 0 : right_int );
             break;
           
         case 42:
-            program_value   = left_int * right_int;
+            program_value   = left_int * ( ( right_int == MAX_INTEGER ) ? 1 : right_int );
             break;
           
         case '/':
-            program_value   = left_int / right_int;
+            program_value   = left_int / ( ( right_int == MAX_INTEGER ) ? 1 : right_int );
             break;
 
         case LEAF:
