@@ -8,6 +8,7 @@ void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char **fu
 {
     if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
     {
+        printf( "we hit nulls\n" );
         *function_name = get_leaf( tree->left->left->left );
         *declaration   = get_declaration_of_function( frame, *function_name );
         *body          = get_body_of_function( frame, *function_name );
