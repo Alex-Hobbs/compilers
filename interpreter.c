@@ -168,9 +168,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     TOKEN* left; TOKEN* right;
     int program_value;
 
-    if ( function_name == NULL )
-        print_tree0( tree, 10 );
-
     // Work out what to do based on the trigger type (APPLY,IF,+,-,*,/)
     switch( tree->left->type )
     {
@@ -254,7 +251,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
                 initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
-
+                print_tree0(tree, 100 );
                 if ( right_int != MAX_INTEGER )
                 {
                     program_value = frame->return_value * right_int;
