@@ -3,6 +3,8 @@
 #include "environment.h"
 #include "C.tab.h"
 
+ENVIRONMENT_BINDING *previous_binding;
+
 ENVIRONMENT_FRAME* add_bindings_to_environment( ENVIRONMENT_FRAME* environment, ENVIRONMENT_BINDING* variables )
 {
 	environment->bindings = variables;
