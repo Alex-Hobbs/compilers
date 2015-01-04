@@ -125,6 +125,21 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
     return program_value;
 }
 
+/**
+ * process_return
+ *
+ * Trigger for "RETURN" keyword in the Abstract Syntax Tree. Will evaluate the return, and return the results.
+ * Return supports evaluating variables (e.g. return a;), evaluating numbers (return 100;), arithimetic of variables
+ * (return x*2; return a+1;), and calling additional functions (return function(1,2,3);).
+ *
+ * @arg     ENVIRONMENT_FRAME*      current environment we are in
+ * @arg     NODE*                   the relevant AST block (return and all its child leafs)
+ * @arg     char*                   for "APPLY" scenarios we need to know what function we are already in
+ * @arg     NODE*                   for "APPLY" scenarios we need to know the function decalaration (int main( int a, int b, int c ) )
+ * @arg     NODE*                   for "APPLY" scenarios we need to know the function body itself (the code the function runs)
+ * @arg     NODE*                   for "APPLY" scenarios we need to know the passed in parameters at runtime
+ * @returns int                     evaluated return statement as an integer
+ */
 int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, NODE *declaration, NODE *body, NODE *parameters )
 {
     char* left_variable_name; char* right_variable_name;
@@ -132,17 +147,11 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     TOKEN* left; TOKEN* right;
     int program_value;
 
+    // Work out what to do based on the trigger type (APPLY,IF,+,-,*,/)
     switch( tree->left->type )
     {
         case APPLY:
-            if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
-            {
-                function_name = get_leaf( tree->left->left->left );
-                declaration   = get_declaration_of_function( frame, function_name );
-                body          = get_body_of_function( frame, function_name );
-                parameters    = tree->left->right;
-            }
-
+            initialise_apply_variables( frame, tree, &function_name, &declaration, &body, &parameters );
             frame = process_apply( frame, declaration, body, function_name, parameters );
             program_value = frame->return_value;
 
@@ -301,7 +310,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
 
                 frame = frame->next;
           }
-
           else
           {
                 left_variable_name = get_leaf( tree->left->left->left );
