@@ -167,11 +167,13 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     }
     else
     {
-        print_tree0( tree, 100 );
-        left_int        = get_value_from_tree( frame->bindings, tree->left->left->left );
+        if ( tree->left->left != NULL )
+            left_int    = get_value_from_tree( frame->bindings, tree->left->left->left );
+        else
+            left_int    = get_value_from_tree( frame->bindings, tree->left->left );
 
         if ( tree->left->right != NULL )
-            right_int       = get_value_from_tree( frame->bindings, tree->left->right->left );
+            right_int   = get_value_from_tree( frame->bindings, tree->left->right->left );
     }
 
     // Work out what to do based on the trigger type (APPLY,IF,+,-,*,/)
