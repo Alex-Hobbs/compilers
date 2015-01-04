@@ -397,7 +397,7 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     }
     else
     {
-        NODE *variable_values = tree->right;
+        NODE *variable_values = tree->right->right;
 
         // Switch based on the operation we are looking at
         switch( variable_values->type )
