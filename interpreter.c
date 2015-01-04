@@ -4,14 +4,14 @@
 #include "C.tab.h"
 
 
-void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char &function_name, NODE &declaration, NODE &body, NODE &parameters )
+void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char *function_name, NODE *declaration, NODE *body, NODE *parameters )
 {
     if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
     {
-        function_name = get_leaf( tree->left->left->left );
-        declaration   = get_declaration_of_function( frame, function_name );
-        body          = get_body_of_function( frame, function_name );
-        parameters    = tree->left->right;
+        *function_name = get_leaf( tree->left->left->left );
+        *declaration   = get_declaration_of_function( frame, *function_name );
+        *body          = get_body_of_function( frame, *function_name );
+        *parameters    = tree->left->right;
     }
 };
 
