@@ -12,13 +12,13 @@ typedef struct env_binding
 
 typedef struct env_frame
 {
-	char						*name;
-	char						*return_type;
 	NODE						*body;
-	NODE						*declaration;
 	ENVIRONMENT_BINDING			*bindings;
-	int							return_value;
+	NODE						*declaration;
+	char						*name;
 	struct env_frame			*next;
+	char						*return_type;
+	int							return_value;
 } ENVIRONMENT_FRAME;
 
 typedef struct runtime_values
