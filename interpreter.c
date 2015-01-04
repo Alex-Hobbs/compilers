@@ -143,9 +143,7 @@ int process_leaf( ENVIRONMENT_FRAME *frame, NODE *leaf )
  */
 int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, NODE *declaration, NODE *body, NODE *parameters )
 {
-    char* left_variable_name; char* right_variable_name;
     int left_int; int right_int;
-    TOKEN* left; TOKEN* right;
     int program_value;
 
     // Are we running an apply function?
