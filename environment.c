@@ -75,7 +75,7 @@ int get_value_from_tree( ENVIRONMENT_BINDING *binding, NODE *value )
         // We're still a letter? We cannot apply arithmetic to a number, error out.
         if ( test_value == MAX_INTEGER )
         {
-            return NULL;
+            return 0;
         }
     }
 

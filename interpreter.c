@@ -189,9 +189,8 @@ ENVIRONMENT_FRAME* process_function( ENVIRONMENT_FRAME *frame, NODE *return_type
     char* return_type_as_char = get_leaf( return_type->left ); // should return 'int' or 'function'
     char* function_name = get_leaf( function_parameters->left->left ); // should return function name e.g. main.
 
-    // Main method 'hack'
-    if ( main_function == NULL )
-      main_function = function_name;
+    // Main method 'hack', allows the system to know what the first runnable function in the program was
+    if ( main_function == NULL ) main_function = function_name;
 
     frame = update_environment_with_metadata( frame, function_name, return_type_as_char );
 
@@ -255,7 +254,7 @@ ENVIRONMENT_FRAME* process_parameters( ENVIRONMENT_FRAME *frame, NODE *parameter
 {
     if ( parameters == NULL ) return frame;
 
-    if ( parameters->type == '~' )
+    if ( parameters->type == TILDA )
     {
         char *param_name = get_leaf( parameters->right->left );
 
@@ -398,32 +397,34 @@ void process_variables( ENVIRONMENT_FRAME *frame, NODE *tree )
     }
     else
     {
+        NODE *variable_values = tree->right->right;
+        
         // Switch based on the operation we are looking at
-        switch( tree->right->right->type )
+        switch( variable_values->type )
         {
             case ADD:
-                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) +
-                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
+                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) +
+                                 get_value_from_tree( frame->bindings, variable_values->right->left );
                 break;
             
             case SUBTRACT:
-                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) -
-                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
+                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) -
+                                 get_value_from_tree( frame->bindings, variable_values->right->left );
                 break;
             
             case MULTIPLY:
-                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) *
-                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
+                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) *
+                                 get_value_from_tree( frame->bindings, variable_values->right->left );
                 break;
             
             case DIVIDE:
-                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) /
-                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
+                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) /
+                                 get_value_from_tree( frame->bindings, variable_values->right->left );
                 break;
 
             case MODULO:
-                variable_value = get_value_from_tree( frame->bindings, tree->right->right->left->left ) %
-                                 get_value_from_tree( frame->bindings, tree->right->right->right->left );
+                variable_value = get_value_from_tree( frame->bindings, variable_values->left->left ) %
+                                 get_value_from_tree( frame->bindings, variable_values->right->left );
                 break;
         }
     }
