@@ -27,8 +27,7 @@ typedef struct runtime_values
 	struct runtime_values		*next;
 } RUNTIME_VALUES;
 
-ENVIRONMENT_BINDING* previous_binding;
-
+ENVIRONMENT_BINDING* previous_binding = NULL;
 
 TOKEN* 					lookup_variable(ENVIRONMENT_BINDING*, char*);
 ENVIRONMENT_FRAME* 		extend_environment( ENVIRONMENT_FRAME*, ENVIRONMENT_BINDING* );
