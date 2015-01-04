@@ -97,15 +97,13 @@ ENVIRONMENT_FRAME* process_apply( ENVIRONMENT_FRAME* frame, NODE *declaration, N
         TOKEN *newValue = new_token( CONSTANT );
         newValue->value = values->value;
         bindings->value = newValue;
-printf( "Value = %d %s\n", bindings->value, bindings->name );
+
         bindings = bindings->next;
         values = values->next;
     }
 
     // Set the variables for this temporary environment
     tmpEnv->bindings = firstBinding;
-
-    reset_apply_variables( &function_name, &declaration, &body, &parameters );
 
     // Now our temporary environment is fully set up we need to rerun the whole parser
     frame = parse_environment( tmpEnv, body );
@@ -169,6 +167,9 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     int left_int; int right_int;
     TOKEN* left; TOKEN* right;
     int program_value;
+
+    if ( function_name == NULL )
+        print_tree0( tree, 10 );
 
     // Work out what to do based on the trigger type (APPLY,IF,+,-,*,/)
     switch( tree->left->type )
