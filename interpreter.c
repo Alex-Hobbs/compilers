@@ -243,7 +243,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
-                if ( right_int != 0 )
+                if ( right_int != MAX_INTEGER )
                 {
                     program_value = frame->return_value * right_int;
                 }
@@ -273,7 +273,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
-                if ( right_int != 0 )
+                if ( right_int != MAX_INTEGER )
                 {
                     //printf( "right integer = %d, left integer = %d\n", right_int, frame->return_value );
                     program_value = frame->return_value / right_int;
