@@ -8,7 +8,6 @@ void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char **fu
 {
     if ( *function_name == NULL || *declaration == NULL || *body == NULL || *parameters == NULL )
     {
-        printf( "we hit nulls\n" );
         *function_name = get_leaf( tree->left->left->left );
         *declaration   = get_declaration_of_function( frame, *function_name );
         *body          = get_body_of_function( frame, *function_name );
@@ -165,7 +164,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
     {
         case APPLY:
             initialise_apply_variables( frame, tree, &function_name, &declaration, &body, &parameters );
-            printf( "function_name=%s\n", function_name );
             frame = process_apply( frame, declaration, body, function_name, parameters );
             program_value = frame->return_value;
 
@@ -173,14 +171,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
             break;
 
         case IF:
-            if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
-            {
-                function_name = get_leaf( tree->left->left->left );
-                declaration   = get_declaration_of_function( frame, function_name );
-                body          = get_body_of_function( frame, function_name );
-                parameters    = tree->left->right;
-            }
-
+            initialise_apply_variables( frame, tree, &function_name, &declaration, &body, &parameters );
             frame = process_conditional( frame, body, body>left->type );
             program_value = frame->return_value;
             break;
@@ -188,14 +179,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         case '+':
           if( tree->left->left->type == APPLY )
           {
-                if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
-                {
-                    function_name = get_leaf( tree->left->left->left->left );
-                    declaration   = get_declaration_of_function( frame, function_name );
-                    body          = get_body_of_function( frame, function_name );
-                    parameters    = tree->left->left->right;
-                }
-
+                initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
@@ -225,14 +209,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         case '-':
           if( tree->left->left->type == APPLY )
           {
-                if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
-                {
-                    function_name = get_leaf( tree->left->left->left->left );
-                    declaration   = get_declaration_of_function( frame, function_name );
-                    body          = get_body_of_function( frame, function_name );
-                    parameters    = tree->left->left->right;
-                }
-
+                initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
@@ -262,14 +239,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         case 42:
           if( tree->left->left->type == APPLY )
           {
-                if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
-                {
-                    function_name = get_leaf( tree->left->left->left->left );
-                    declaration   = get_declaration_of_function( frame, function_name );
-                    body          = get_body_of_function( frame, function_name );
-                    parameters    = tree->left->left->right;
-                } 
-
+                initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
@@ -299,14 +269,7 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
         case '/':
           if( tree->left->left->type == APPLY )
           {
-                if ( function_name == NULL || declaration == NULL || body == NULL || parameters == NULL )
-                {
-                    function_name = get_leaf( tree->left->left->left->left );
-                    declaration   = get_declaration_of_function( frame, function_name );
-                    body          = get_body_of_function( frame, function_name );
-                    parameters    = tree->left->left->right;
-                }
-
+                initialise_apply_variables( frame, tree->left, &function_name, &declaration, &body, &parameters );
                 right_int = get_int_from_leaf( tree->left->right->left );
                 frame = process_apply( frame, declaration, body, function_name, parameters );
 
@@ -335,7 +298,6 @@ int process_return( ENVIRONMENT_FRAME *frame, NODE *tree, char *function_name, N
           break;
 
         case LEAF:
-            //printf( "Leaf = yes = %s\n", tree->left->left );
             program_value = process_leaf( frame, tree->left->left );
             break;
     }
