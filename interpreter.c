@@ -12,6 +12,8 @@ void initialise_apply_variables( ENVIRONMENT_FRAME* frame, NODE* tree, char **fu
         *declaration   = get_declaration_of_function( frame, *function_name );
         *body          = get_body_of_function( frame, *function_name );
         *parameters    = tree->left->right;
+
+        print_tree0( tree, 20 );
     }
 };
 
